@@ -5,7 +5,8 @@ Devloped by NIH OPA.
 
 ### Timeline
 
-+ [ ] Import modules from pipeline_word2vec
++ [x] Import modules from pipeline_word2vec
++ [ ] Document which functions exists in README
 + [ ] Write unit tests for individual functions
 + [ ] Write unit tests for pipelines
 + [ ] Write docstrings for all functions
