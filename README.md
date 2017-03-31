@@ -12,3 +12,27 @@ Devloped by NIH OPA.
 + [ ] Write docstrings for all functions
 + [ ] Format as proper python package
 + [ ] Upload to pypy
+
+
+### What's included?
+
+**dedash**
+
+**decaps**
+`Hello world` -> `hello world`
+`hellO world` -> `hello world`
+`HELLo world` -> `HELLo world`
+
+**pos_tokenizer**
+
+**remove_parenthesis**
+
+**replace_from_dict**
+
+**replace_phrases**
+
+**titlecaps**
+
+**token_replacement**
+
+

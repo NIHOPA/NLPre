@@ -3,3 +3,7 @@
 
 # Python temp
 *.pyc
+
+# Local information
+.tox
+nlpre.egg*
