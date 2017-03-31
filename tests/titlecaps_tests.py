@@ -1,6 +1,7 @@
 from nose.tools import *
 from nlpre import titlecaps
 
+
 class Titlecaps_Test():
     def __init__(self):
         self.titlecaps = titlecaps()
@@ -18,7 +19,6 @@ class Titlecaps_Test():
         doc_new = self.titlecaps(doc)
 
         assert_equal(doc_new, doc_right)
-
 
     def multiple_sentance_test(self):
         doc = 'HELLO WORLD. All good'

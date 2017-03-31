@@ -27,7 +27,6 @@ class Remove_Parenthesis_Tests():
 
         assert_equals(doc_right, doc_new)
 
-
     def multiple_brackets_pair_test(self):
         doc = 'hello [[world] world] world'
         doc_right = 'hello world'
@@ -48,7 +47,6 @@ class Remove_Parenthesis_Tests():
         doc_new = self.remove(doc)
 
         assert_equals(doc_right, doc_new)
-
 
     def single_parenthesis_test(self):
         doc = 'hello (world world'
@@ -78,24 +76,23 @@ class Remove_Parenthesis_Tests():
 
         assert_equals(doc_right, doc_new)
 
-
-    # Code doesn't account for multiple sentances within a parenthesis
+    # Code doesn't account for multiple sentences within a parenthesis
     # I'm not sure when this case will be encountered, unless we're parsing DFW novels
-    def multisentance_paranthesis_test(self):
+    def multisentence_paranthesis_test(self):
         doc = 'hello (world. Goodnight moon) world'
         doc_right = 'hello world'
         doc_new = self.remove(doc)
 
         assert_equals(doc_right, doc_new)
 
-    def multisentance_bracket_test(self):
+    def multisentence_bracket_test(self):
         doc = 'hello [world. Goodnight moon] world'
         doc_right = 'hello world'
         doc_new = self.remove(doc)
 
         assert_equals(doc_right, doc_new)
 
-    def multisentance_curly_test(self):
+    def multisentence_curly_test(self):
         doc = 'hello {world. Goodnight moon} world'
         doc_right = 'hello world'
         doc_new = self.remove(doc)

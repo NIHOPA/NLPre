@@ -1,5 +1,5 @@
 from nose.tools import *
-from word2vec_pipeline.preprocessing.pos_tokenizer import pos_tokenizer
+from nlpre import pos_tokenizer
 
 class POS_Tokenizer_Test:
     def __init__(self):
@@ -14,6 +14,7 @@ class POS_Tokenizer_Test:
                      "w_word",))
 
         self.tokenizer = pos_tokenizer(POS_Blacklist)
+
 
     def keep_nouns_test1(self):
         doc = "The boy threw the ball into the yard"
@@ -36,25 +37,43 @@ class POS_Tokenizer_Test:
 
         assert_equal(doc_right, doc_new.text)
 
-    # Buendia gets singularized to "Buendium", for some reason
     def keep_nouns_test4(self):
-        doc = ("Many years later, as he faced the firing squad, was to remember that distant"
+        doc = ("Many years later, as he faced the firing squad, he was to remember that distant"
                " afternoon when his father took him to discover ice")
         doc_right = "Many year fire squad distant afternoon father ice"
         doc_new = self.tokenizer(doc)
 
         assert_equal(doc_right, doc_new.text)
 
-
-
-
-    def keep_mesh_test(self):
-        doc = "The boy threw the ball into the yard"
-        doc_right = "boy ball yard"
+    def keep_nouns_test5(self):
+        doc = "The sky above the port was the color of television, tuned to a dead channel"
+        doc_right = "sky port color television dead channel"
         doc_new = self.tokenizer(doc)
 
         assert_equal(doc_right, doc_new.text)
 
+    #younger is not stemmed to young
+    def keep_nouns_test6(self):
+        doc = ("In my younger and more vulnerable years my father gave me some advice that I've been "
+               "turning over in my mind ever since")
+        doc_right = "younger vulnerable year father advice mind"
+        doc_new = self.tokenizer(doc)
+
+        assert_equal(doc_right, doc_new.text)
+
+    def keep_mesh_test(self):
+        doc = "The boy MeSH_Threw the ball into the yard"
+        doc_right = "boy MeSH_Threw ball yard"
+        doc_new = self.tokenizer(doc)
+
+        assert_equal(doc_right, doc_new.text)
+
+    def keep_phrase_test(self):
+        doc = "The boy PHRASE_Threw the ball into the yard"
+        doc_right = "boy PHRASE_Threw ball yard"
+        doc_new = self.tokenizer(doc)
+
+        assert_equal(doc_right, doc_new.text)
 
     #This passes, when it shouldn't. not sure if there's any way around it
     def ambiguous_verbs_test(self):
@@ -63,3 +82,4 @@ class POS_Tokenizer_Test:
         doc_new = self.tokenizer(doc)
 
         assert_equal(doc_right, doc_new.text)
+

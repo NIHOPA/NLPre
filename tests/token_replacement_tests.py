@@ -87,7 +87,7 @@ class Token_Test:
         doc_right = "press the   key"
         assert_equal(doc_new, doc_right)
 
-    #I think the code on this one is wrong. it only replaces 's if it's surrounded by spaces
+    # I think the code on this one is wrong. it only replaces 's if it's surrounded by spaces
     def possesivesplit_test(self):
         doc = "what 's up doc?"
         doc_new = self.token_replacer(doc)
