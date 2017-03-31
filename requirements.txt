@@ -1,0 +1,8 @@
+# Standard numerical libraries
+pandas
+
+# NLP core libraries
+unidecode
+pyparsing
+pattern
+
