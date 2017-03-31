@@ -7,3 +7,4 @@
 # Local information
 .tox
 nlpre.egg*
+.idea
