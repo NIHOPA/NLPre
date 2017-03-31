@@ -1,5 +1,5 @@
 from nose.tools import *
-from word2vec_pipeline.preprocessing.titlecaps import titlecaps
+from nlpre import titlecaps
 
 class Titlecaps_Test():
     def __init__(self):

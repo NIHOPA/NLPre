@@ -1,6 +1,5 @@
 from nose.tools import *
-from word2vec_pipeline.preprocessing.decaps_text import decaps_text
-
+from nlpre import decaps_text
 
 class Decaps_Text_Test:
     def __init__(self):

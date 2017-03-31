@@ -1,5 +1,5 @@
 from nose.tools import *
-from word2vec_pipeline.preprocessing.remove_parenthesis import remove_parenthesis
+from nlpre import remove_parenthesis
 
 
 class Remove_Parenthesis_Tests():

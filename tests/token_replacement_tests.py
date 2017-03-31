@@ -1,8 +1,8 @@
-from word2vec_pipeline.preprocessing.token_replacement import token_replacement
 from nose.tools import *
+from nlpre import token_replacement
 
-# I'm not sure how ampersand's are typically used in the literature, but the replacement adds spaces to it
-
+# I'm not sure how ampersand's are typically used in the literature,
+# but the replacement adds spaces to it
 
 
 class Token_Test:
