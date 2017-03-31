@@ -1,8 +1,9 @@
 # Natural Language Preprocessing (NLPre)
 
-Ultimately a python package produced by NIH OPA to preprocess text.
+Ultimately, this will be a python package to preprocess text.
+Devloped by NIH OPA.
 
-Timeline
+### Timeline
 
 + [ ] Import modules from pipeline_word2vec
 + [ ] Write unit tests for individual functions
