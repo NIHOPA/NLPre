@@ -1,10 +1,13 @@
 import pyparsing as pypar
 import pattern.en
+from past.builtins import basestring
 
-# There's another python named pypar. I'd not renaming pyparsing under an alias
-
-# this class removes all words that are found within a parenthesis, regardless of how nested they are.
-# If an unbalanced amount of parens are found, the parens are simply removed
+'''
+There's another python named pypar. I'd not renaming pyparsing under an alias
+this class removes all words that are found within a parenthesis,
+regardless of how nested they are. If an unbalanced amount of parens are
+found, the parens are simply removed.
+'''
 
 
 class remove_parenthesis(object):
@@ -21,15 +24,16 @@ class remove_parenthesis(object):
         letters = ''.join([x for x in pypar.printables
                            if x not in parens])
         word = pypar.Word(letters)
-                          # An allowable word is a sequence of any non
-                          # parenthesis character
+        # An allowable word is a sequence of any non
+        # parenthesis character
 
         g = pypar.OneOrMore(word | nest_grammar)
         self.grammar = g
 
         # self.parse = lambda x:pattern.en.parse(x,chunks=False,tags=False)
         self.parse = lambda x: pattern.en.tokenize(
-            x)  # ,chunks=False,tags=False)                 #Tags each word of a sentence with part of speech
+            x)  # ,chunks=False,tags=False)
+        # Tags each word of a sentence with part of speech
 
     # is text different than doc, used in other pre-processing modules?
     def __call__(self, text):
@@ -60,8 +64,8 @@ class remove_parenthesis(object):
 
             if not FLAG_valid:
                 # On fail simply remove all parens
-                # Should instead probably remove all parens in outermost parens, while still removing words in
-                # completed inner parens
+                # Should instead probably remove all parens in outermost
+                # parens, while still removing words in completed inner parens
                 sent = sent.replace('(', '')
                 sent = sent.replace(')', '')
                 sent = sent.replace('[', '')
@@ -71,7 +75,7 @@ class remove_parenthesis(object):
                 tokens = sent.split()
 
             # Remove nested parens
-            tokens = [x for x in tokens if type(x) in [str, unicode]]
+            tokens = [x for x in tokens if isinstance(x, basestring)]
             text = ' '.join(tokens)
 
             doc_out.append(text)

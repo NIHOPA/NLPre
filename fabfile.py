@@ -2,7 +2,7 @@ from fabric.api import local
 
 def test():
     local("flake8 nlpre")
-    local("nosetests -v")
+    local("nosetests")
     #local("flake8 tests")
     local("aspell check README.md")
     #local("detox")

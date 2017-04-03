@@ -5,7 +5,7 @@ def split_tokenizer(func):
     ''' Splits a string from input as tokens, allows the function
     to act over the tokens and return a string '''
     def wrapper(text):
-        tokens = text.split()
+        # tokens = text.split()
         return ' '.join(func(text))
     return wrapper
 
@@ -49,4 +49,6 @@ class meta_text(object):
         self.meta = kwargs
 
     def __unicode__(self):
-        return unicode(self.text)
+        # Remove reference to unicode for now, need a python 2/3 way to do it
+        # return unicode(self.text)
+        return self.text

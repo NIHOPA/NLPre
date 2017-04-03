@@ -4,7 +4,7 @@ from nlpre import titlecaps
 
 class Titlecaps_Test():
     def __init__(self):
-        self.titlecaps = titlecaps()
+        self.titlecaps = titlecaps(min_length=1)
 
     def allcaps_test(self):
         doc = 'HELLO WORLD'

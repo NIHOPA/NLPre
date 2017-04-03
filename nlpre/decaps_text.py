@@ -11,11 +11,15 @@ class decaps_text(object):
         return len([a for a, b in zip(s1, s2) if a != b])
 
     def __init__(self):
+        '''
+        Converts a word to lowercase if only one letter in the word is
+        capitalized. We could make this a lot less complicated if we just
+        check if the first word is capitalized. When else would a word
+        have only 1 capital letter? pH. Biology has a bunch.
+        '''
+
         pass
 
-    # Converts a word to lowercase if only one letter in the word is capitalized.
-    # We could make this a lot less complicated if we just check if the first word is capitalized. When
-    # else would a word have only 1 capital letter? pH. Biology has a bunch
     def modify_word(self, org):
 
         lower = org.lower()

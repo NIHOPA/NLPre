@@ -16,13 +16,13 @@ def is_any_lowercase(tokens):
     else:
         return True
 
-# if any sentance is only capitalized, it changes every letter to lowercase
+# If any sentence is only capitalized, it changes every letter to lowercase
 
 
 class titlecaps(object):
 
-    def __init__(self):
-        pass
+    def __init__(self, min_length=4):
+        self.min_length = min_length
 
     def __call__(self, doc):
 
@@ -32,11 +32,9 @@ class titlecaps(object):
         for sent in sents:
             if not is_any_lowercase(sent):
 
-                if len(sent) > 4:
+                if len(sent) > self.min_length:
                     print("DECAPING: '{}'".format(' '.join(sent)))
-
-                sent = map(unicode.lower, sent)
-                           # is this meant to fall under the if statement?
+                    sent = [x.lower() for x in sent]
 
             doc2.append(' '.join(sent))
 
