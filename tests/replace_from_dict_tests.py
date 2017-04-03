@@ -43,39 +43,85 @@ class Replace_From_Dict_Test:
 
     #    assert_equal(doc_right, doc_new)
 
-    #This fails because the tokenize in for sent in tokenize splits on paranthesis
-    #def dimethylethyl_test(self):
-    #    doc = '(11-Dimethylethyl)-4-methoxyphenol is great'
-    #    doc_right = 'MeSH_Butylated_Hydroxyanisole is great'
-    #    doc_new = self.replace_MeSH(doc)
+    # This fails because the tokenize in for sent in tokenize splits on paranthesis
+    def dimethylethyl_test(self):
+        doc = '(11-Dimethylethyl)-4-methoxyphenol is great'
+        doc_right = 'MeSH_Butylated_Hydroxyanisole is great'
+        doc_new = self.replace_MeSH(doc)
 
-    #    assert_equal(doc_right, doc_new)
+        assert_equal(doc_right, doc_new)
+
+    def dimethylethyl_test(self):
+        doc = '(11-Dimethylethyl)-4-methoxyphenol.'
+        doc_right = 'MeSH_Butylated_Hydroxyanisole .'
+        doc_new = self.replace_MeSH(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def dimethylethyl_parens_test(self):
+        doc = '((11-Dimethylethyl)-4-methoxyphenol).'
+        doc_right = '( MeSH_Butylated_Hydroxyanisole ) .'
+        doc_new = self.replace_MeSH(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def multiple_paranthesis_test(self):
+        doc = '((2-Hexahydro-1(2H)-azocinyl)ethyl)guanidine is tasty'
+        doc_right = 'MeSH_Guanethidine is tasty'
+        doc_new = self.replace_MeSH(doc)
+
+        assert_equal(doc_right, doc_new)
+
+
+    def extra_paranthesis_test(self):
+        doc = '(((2-Hexahydro-1(2H)-azocinyl)ethyl)guanidine) is tasty'
+        doc_right = '( MeSH_Guanethidine ) is tasty'
+        doc_new = self.replace_MeSH(doc)
+
+        assert_equal(doc_right, doc_new)
 
     # This fails because the tokenize in for sent in tokenize splits on parenthesis
-    #def methyl_test(self):
-    #    doc = '3-Methyl-2-Oxobutanoate Dehydrogenase (Lipoamide) is tasty'
-    #    doc_right = 'MeSH_3-Methyl-2-Oxobutanoate_Dehydrogenase_(Lipoamide) is tasty'
-    #    doc_new = self.replace_MeSH(doc)
+    def methyl_test(self):
+        doc = '3-Methyl-2-Oxobutanoate Dehydrogenase (Lipoamide) is tasty'
+        doc_right = 'MeSH_3-Methyl-2-Oxobutanoate_Dehydrogenase_(Lipoamide) is tasty'
+        doc_new = self.replace_MeSH(doc)
 
-    #    assert_equal(doc_right, doc_new)
+        assert_equal(doc_right, doc_new)
 
-    #def apostrophe_test(self):
-    #    doc = "3' 5' Exonuclease is tasty"
-    #    doc_right = 'MeSH_Exonucleases is tasty'
-    #    doc_new = self.replace_MeSH(doc)
+    def mesh_middle_sentence(self):
+        doc = 'I think that 3-Methyl-2-Oxobutanoate Dehydrogenase (Lipoamide) is tasty'
+        doc_right = 'I think that MeSH_3-Methyl-2-Oxobutanoate_Dehydrogenase_(Lipoamide) is tasty'
+        doc_new = self.replace_MeSH(doc)
 
-    #    assert_equal(doc_right, doc_new)
+        assert_equal(doc_right, doc_new)
 
-    #def plus_test(self):
-    #    doc = "Abscisic Acid (+-)-Isomer is tasty"
-    #    doc_right = 'MeSH_Abscisic_Acid is tasty'
-    #    doc_new = self.replace_MeSH(doc)
+    def punctuation_after_mesh(self):
+        doc = 'I think that 3-Methyl-2-Oxobutanoate Dehydrogenase (Lipoamide), a chemical, is tasty'
+        doc_right = 'I think that MeSH_3-Methyl-2-Oxobutanoate_Dehydrogenase_(Lipoamide), a chemical, is tasty'
+        doc_new = self.replace_MeSH(doc)
 
-    #    assert_equal(doc_right, doc_new)
+        assert_equal(doc_right, doc_new)
 
-    #def colon_test(self):
-    #    doc = "Acetylcholine Sulfate (1:1) is tasty"
-    #    doc_right = 'MeSH_Acetylcholine is tasty'
-    #    doc_new = self.replace_MeSH(doc)
+    #breaks because of tokenize the quote appears at the end of the token
+    # if a puncuation appears at the beginning or end of a token it adds a space between them
+    # This still fails become the ' is converting to \\'
+    def apostrophe_test(self):
+        doc = "3' 5' Exonuclease is tasty"
+        doc_right = 'MeSH_Exonucleases is tasty'
+        doc_new = self.replace_MeSH(doc)
 
-    #    assert_equal(doc_right, doc_new)
+        assert_equal(doc_right, doc_new)
+
+    def plus_test(self):
+        doc = "Abscisic Acid (+-)-Isomer is tasty"
+        doc_right = 'MeSH_Abscisic_Acid is tasty'
+        doc_new = self.replace_MeSH(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def colon_test(self):
+        doc = "Acetylcholine Sulfate (1:1) is tasty"
+        doc_right = 'MeSH_Acetylcholine is tasty'
+        doc_new = self.replace_MeSH(doc)
+
+        assert_equal(doc_right, doc_new)
