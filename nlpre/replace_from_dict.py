@@ -97,12 +97,7 @@ class replace_from_dictionary(object):
                 new_word = self.X[word]
                 word_tokens = word.split()
                 sent = self.recombine(sent, keywords)
-                # Check if the substring tokens match
-                # this is problematic because of the lowercasing? check after
-                # lunch
                 tokens = sent.lower().split()
-                # tokens = self.recombine(tokens, keywords)    # tokens should
-                # be done before for iteration
 
                 mask = contains_sublist(tokens, word_tokens)
                 while any(mask):

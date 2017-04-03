@@ -11,10 +11,6 @@ class Replace_From_Dict_Test:
 
         self.replace_MeSH = replace_from_dictionary('MeSH_two_word_lexicon.csv', path_to_meshdict)
 
-
-        #self.replace_MeSH = replace_from_dictionary('MeSH_two_word_lexicon.csv',
-        #                                        '/home/harry/OPA/lexical/NLPre/nlpre/dictionaries')
-
     def hydroxyethylrutoside_test1(self):
         doc = '0-beta-Hydroxyethylrutoside is great'
         doc_right = 'MeSH_Hydroxyethylrutoside is great'
@@ -44,7 +40,6 @@ class Replace_From_Dict_Test:
 
     #    assert_equal(doc_right, doc_new)
 
-    # This fails because the tokenize in for sent in tokenize splits on paranthesis
     def dimethylethyl_test(self):
         doc = '(11-Dimethylethyl)-4-methoxyphenol is great'
         doc_right = 'MeSH_Butylated_Hydroxyanisole is great'
@@ -73,7 +68,6 @@ class Replace_From_Dict_Test:
 
         assert_equal(doc_right, doc_new)
 
-
     def extra_paranthesis_test(self):
         doc = '(((2-Hexahydro-1(2H)-azocinyl)ethyl)guanidine) is tasty'
         doc_right = '( MeSH_Guanethidine ) is tasty'
@@ -81,7 +75,6 @@ class Replace_From_Dict_Test:
 
         assert_equal(doc_right, doc_new)
 
-    # This fails because the tokenize in for sent in tokenize splits on parenthesis
     def methyl_test(self):
         doc = '3-Methyl-2-Oxobutanoate Dehydrogenase (Lipoamide) is tasty'
         doc_right = 'MeSH_3-Methyl-2-Oxobutanoate_Dehydrogenase_(Lipoamide) is tasty'
@@ -103,9 +96,6 @@ class Replace_From_Dict_Test:
 
         assert_equal(doc_right, doc_new)
 
-    #breaks because of tokenize the quote appears at the end of the token
-    # if a puncuation appears at the beginning or end of a token it adds a space between them
-    # This still fails become the ' is converting to \\'
     def apostrophe_test(self):
         doc = "3' 5' Exonuclease is tasty"
         doc_right = 'MeSH_Exonucleases is tasty'

@@ -52,7 +52,6 @@ class POS_Tokenizer_Test:
 
         assert_equal(doc_right, doc_new.text)
 
-    #younger is not stemmed to young
     def keep_nouns_test6(self):
         doc = ("In my younger and more vulnerable years my father gave me some advice that I've been "
                "turning over in my mind ever since")
@@ -76,10 +75,10 @@ class POS_Tokenizer_Test:
         assert_equal(doc_right, doc_new.text)
 
     #This passes, when it shouldn't. not sure if there's any way around it
-    def ambiguous_verbs_test(self):
-        doc = "The boy wanted to research the ball"
-        doc_right = "boy research ball"
-        doc_new = self.tokenizer(doc)
+    #def ambiguous_verbs_test(self):
+    #    doc = "The boy wanted to research the ball"
+    #    doc_right = "boy research ball"
+    #    doc_new = self.tokenizer(doc)
 
-        assert_equal(doc_right, doc_new.text)
+    #    assert_equal(doc_right, doc_new.text)
 

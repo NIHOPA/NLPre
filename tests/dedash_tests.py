@@ -54,8 +54,6 @@ class Dedash_Test:
 
         assert_equal(doc_right, doc_new)
 
-
-    #Does this ever happen?
     def dash_no_space(self):
         doc = "How is the treat-ment going"
         doc_right = "How is the treatment  going"
