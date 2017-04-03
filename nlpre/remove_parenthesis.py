@@ -1,6 +1,7 @@
 import pyparsing as pypar
 import pattern.en
-from past.builtins import basestring
+import six
+
 
 '''
 There's another python named pypar. I'd not renaming pyparsing under an alias
@@ -75,7 +76,7 @@ class remove_parenthesis(object):
                 tokens = sent.split()
 
             # Remove nested parens
-            tokens = [x for x in tokens if isinstance(x, basestring)]
+            tokens = [x for x in tokens if isinstance(x, six.string_types)]
             text = ' '.join(tokens)
 
             doc_out.append(text)
