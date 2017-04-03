@@ -37,6 +37,7 @@ class remove_parenthesis(object):
         # Tags each word of a sentence with part of speech
 
     # is text different than doc, used in other pre-processing modules?
+
     def __call__(self, text):
 
         sentences = self.parse(text)
@@ -82,3 +83,62 @@ class remove_parenthesis(object):
             doc_out.append(text)
 
         return '\n'.join(doc_out)
+
+
+'''
+    def __call__(self, text):
+
+        sentences = self.parse(text)
+
+        doc_out = []
+        for sent in sentences:
+
+            # Count the number of left and right parens
+            LP_Paran = sum(1 for a in sent if a == '(')
+            RP_Paran = sum(1 for a in sent if a == ')')
+
+            LP_Bracket = sum(1 for a in sent if a == '[')
+            RP_Bracket = sum(1 for a in sent if a == ']')
+
+            LP_Curl = sum(1 for a in sent if a == '{')
+            RP_Curl = sum(1 for a in sent if a == '}')
+
+            # If the count of the left paren doesn't match the right ignore
+            FLAG_valid = (LP_Paran == RP_Paran) and (
+                LP_Bracket == RP_Bracket) and (LP_Curl == RP_Curl)
+
+            try:
+                tokens = self.grammar.parseString(sent)
+            except (pypar.ParseException, RuntimeError):
+                FLAG_valid = False
+
+            if not FLAG_valid:
+                # On fail simply remove all parens
+                # Should instead probably remove all parens in outermost
+                # parens, while still removing words in completed inner parens
+                sent = sent.replace('(', '')
+                sent = sent.replace(')', '')
+                sent = sent.replace('[', '')
+                sent = sent.replace(']', '')
+                sent = sent.replace('{', '')
+                sent = sent.replace('}', '')
+                tokens = sent.split()
+
+            # Remove nested parens
+
+            self.paren_pop(tokens)
+
+            text = ' '.join(tokens)
+
+            doc_out.append(text)
+
+        return '\n'.join(doc_out)
+
+    def paren_pop(self, tokens):
+        tokenWords = [x for x in tokens if isinstance(x, six.string_types)]
+
+        if len(tokenWords) == len(tokens):
+            return tokenWords
+        else:
+            tokenParens = [x for x in tokens if isinstance(x, list)]
+'''
