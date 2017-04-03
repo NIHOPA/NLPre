@@ -1,8 +1,12 @@
 from tokenizers import sentence_tokenizer
 
-# Given a document, this class will convert all words that have only one capitalized letter to lowercase
+# Given a document, this class will convert all words that have only one
+# capitalized letter to lowercase
+
+
 class decaps_text(object):
     # Returns the number of different characters between two strings
+
     def diffn(self, s1, s2):
         return len([a for a, b in zip(s1, s2) if a != b])
 

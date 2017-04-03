@@ -5,6 +5,8 @@ import pattern.en
 
 # this class removes all words that are found within a parenthesis, regardless of how nested they are.
 # If an unbalanced amount of parens are found, the parens are simply removed
+
+
 class remove_parenthesis(object):
 
     def __init__(self):
@@ -18,7 +20,9 @@ class remove_parenthesis(object):
         parens = "(){}[]"
         letters = ''.join([x for x in pypar.printables
                            if x not in parens])
-        word = pypar.Word(letters)  # An allowable word is a sequence of any non parenthesis character
+        word = pypar.Word(letters)
+                          # An allowable word is a sequence of any non
+                          # parenthesis character
 
         g = pypar.OneOrMore(word | nest_grammar)
         self.grammar = g
@@ -46,7 +50,8 @@ class remove_parenthesis(object):
             RP_Curl = sum(1 for a in sent if a == '}')
 
             # If the count of the left paren doesn't match the right ignore
-            FLAG_valid = (LP_Paran == RP_Paran) and (LP_Bracket == RP_Bracket) and (LP_Curl == RP_Curl)
+            FLAG_valid = (LP_Paran == RP_Paran) and (
+                LP_Bracket == RP_Bracket) and (LP_Curl == RP_Curl)
 
             try:
                 tokens = self.grammar.parseString(sent)

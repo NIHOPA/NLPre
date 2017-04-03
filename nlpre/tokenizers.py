@@ -1,5 +1,6 @@
 import pattern.en
 
+
 def split_tokenizer(func):
     ''' Splits a string from input as tokens, allows the function
     to act over the tokens and return a string '''
@@ -7,6 +8,7 @@ def split_tokenizer(func):
         tokens = text.split()
         return ' '.join(func(text))
     return wrapper
+
 
 def sentence_tokenizer(raw):
     '''

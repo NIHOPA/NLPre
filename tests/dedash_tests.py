@@ -1,5 +1,5 @@
 from nose.tools import *
-from word2vec_pipeline.preprocessing.dedash import dedash
+from nlpre.dedash import dedash
 
 class Dedash_Test:
     def __init__(self):
