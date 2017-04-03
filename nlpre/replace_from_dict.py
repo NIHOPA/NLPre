@@ -1,4 +1,5 @@
 import os
+import six
 import pandas as pd
 from pattern.en import tokenize
 
@@ -36,7 +37,7 @@ class replace_from_dictionary(object):
     def recombine(self, sent, keywords):
         sentence = sent
         stringFlag = False
-        if isinstance(sent, basestring):
+        if isinstance(sent, six.string_types):
             sentence = sentence.split()
             stringFlag = True
 
