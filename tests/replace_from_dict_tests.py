@@ -23,6 +23,10 @@ class Replace_From_Dict_Test:
         doc_right = 'MeSH_Hydroxyethylrutoside is great'
         doc_new = self.replace_MeSH(doc)
 
+        print
+        print doc_right
+        print doc_new
+
         assert_equal(doc_right, doc_new)
 
     def pandemic_test(self):
@@ -56,7 +60,7 @@ class Replace_From_Dict_Test:
 
     def dimethylethyl_parens_test(self):
         doc = '((11-Dimethylethyl)-4-methoxyphenol).'
-        doc_right = '( MeSH_Butylated_Hydroxyanisole ) .'
+        doc_right = '( MeSH_Butylated_Hydroxyanisole ).'
         doc_new = self.replace_MeSH(doc)
 
         assert_equal(doc_right, doc_new)
