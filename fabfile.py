@@ -1,7 +1,7 @@
 from fabric.api import local
 
 def test():
-    local("flake8 nlpre")
+    local("flake8 nlpre --ignore=E501")
     local("nosetests")
     #local("flake8 tests")
     local("aspell check README.md")

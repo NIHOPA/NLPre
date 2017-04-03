@@ -83,7 +83,7 @@ class pos_tokenizer(object):
 
                 try:
                     pos = self.POS_map[tag]
-                except:
+                except BaseException:
                     print("UNKNOWN POS *{}*".format(tag))
                     pos = "unknown"
 

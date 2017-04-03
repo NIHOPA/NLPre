@@ -28,9 +28,11 @@ class replace_from_dictionary(object):
         items = df["SYNONYM"].str.lower(), df["replace_token"]
         self.X = dict(zip(*items))
 
-    # tokenize splits sentences based on punctuation. This is a problem for phrases that are to be converted to
+    """
+    tokenize splits sentences based on punctuation. This is a problem for phrases that are to be converted to
     # MeSH terms. recombine iterates through tokens of a sentence to check if if split punctuation belongs to a
-    # MeSH phrase. It can take both a string or a list of tokens.
+    # MeSH phrase. It can take both a string or a list of tokens. """
+
     def recombine(self, sent, keywords):
         sentence = sent
         stringFlag = False
@@ -43,8 +45,6 @@ class replace_from_dictionary(object):
             split = words.split()
             splitKeywords.extend(split)
 
-
-
         pos = 0
         while pos < len(sentence) - 1:
             n = 1
@@ -52,9 +52,11 @@ class replace_from_dictionary(object):
 
             replace = True
 
-            # loop until the merged tokens fit a keyword exactly, or are no longer substrings of a keyword
+            # loop until the merged tokens fit a keyword exactly, or are no
+            # longer substrings of a keyword
             while merge_token.lower() not in splitKeywords:
-                if any(merge_token.lower() in string for string in keywords):  #merged tokens appear as substring
+                if any(merge_token.lower(
+                ) in string for string in keywords):  # merged tokens appear as substring
                     n += 1
                     merge_token += sentence[pos + n]
                     replace = True
@@ -66,7 +68,7 @@ class replace_from_dictionary(object):
                 sentence[pos] = merge_token
                 del sentence[pos + 1:pos + 1 + n]
             pos += 1
-            
+
         if stringFlag:
             sentence = ' '.join(sentence)
         return sentence
@@ -96,8 +98,11 @@ class replace_from_dictionary(object):
                 word_tokens = word.split()
                 sent = self.recombine(sent, keywords)
                 # Check if the substring tokens match
-                tokens = sent.lower().split()       #this is problematic because of the lowercasing? check after lunch
-                #tokens = self.recombine(tokens, keywords)    # tokens should be done before for iteration
+                # this is problematic because of the lowercasing? check after
+                # lunch
+                tokens = sent.lower().split()
+                # tokens = self.recombine(tokens, keywords)    # tokens should
+                # be done before for iteration
 
                 mask = contains_sublist(tokens, word_tokens)
                 while any(mask):

@@ -2,6 +2,7 @@ from nose.tools import *
 from nlpre import replace_from_dictionary
 import os
 
+
 class Replace_From_Dict_Test:
     def __init__(self):
         mesh_dict = "dictionaries/"
