@@ -63,7 +63,7 @@ class Remove_Parenthesis_Tests():
         assert_equals(doc_right, doc_new)
 
     def single_parenthesis_test(self):
-        doc = 'hello world1 world2 one) two'
+        doc = 'hello (world1 (world2) one two'
         doc_right = 'hello world1 world2 one two'
         doc_new = self.remove(doc)
 
