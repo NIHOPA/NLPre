@@ -35,6 +35,144 @@ class remove_parenthesis(object):
             x)  # ,chunks=False,tags=False)
         # Tags each word of a sentence with part of speech
 
+    def __call__(self, text):
+
+
+        tokens = self.grammar.parseString(text)
+        tokens_no_parens = [x for x in tokens if isinstance(x, six.string_types)]
+
+        tokens_list = tokens.asList()
+        token_parens = [x for x in tokens_list if isinstance(x, list)]
+        parenthetical_content = self.paren_pop(token_parens)
+
+        content_list = []
+        for content in parenthetical_content:
+            split = self.parse(content)
+            for item in split:
+                content_list.append(item)
+
+
+        sentences = self.parse(' '.join(tokens_no_parens))
+        doc_out = []
+        # Should this be included in recursion?
+        for sent in sentences:
+
+            # Count the number of left and right parens
+            LP_Paran = sum(1 for a in sent if a == '(')
+            RP_Paran = sum(1 for a in sent if a == ')')
+
+            LP_Bracket = sum(1 for a in sent if a == '[')
+            RP_Bracket = sum(1 for a in sent if a == ']')
+
+            LP_Curl = sum(1 for a in sent if a == '{')
+            RP_Curl = sum(1 for a in sent if a == '}')
+
+            # If the count of the left paren doesn't match the right, then
+            # ignore all parenthesis
+            FLAG_valid = (LP_Paran == RP_Paran) and (
+                LP_Bracket == RP_Bracket) and (LP_Curl == RP_Curl)
+
+            try:
+                tokens = self.grammar.parseString(sent)
+            except (pypar.ParseException, RuntimeError):
+                FLAG_valid = False
+
+            if not FLAG_valid:
+                # On fail simply remove all parenthesis
+                sent = sent.replace('(', '')
+                sent = sent.replace(')', '')
+                sent = sent.replace('[', '')
+                sent = sent.replace(']', '')
+                sent = sent.replace('{', '')
+                sent = sent.replace('}', '')
+                tokens = sent.split()
+
+                text = ' '.join(tokens)
+                doc_out.append(text)
+            else:
+                # Append parenthetical sentences to end of sentence
+                #text = self.paren_pop(tokens)
+                doc_out.append(sent)
+
+
+
+        doc_out.extend(content_list)
+        return '\n'.join(doc_out)
+
+    def paren_pop(self, parsed_tokens):
+        # must convert the ParseResult to a list, otherwise adding it to a list causes weird results.
+        if isinstance(parsed_tokens, pypar.ParseResults):
+            tokens = parsed_tokens.asList()
+        else:
+            tokens = parsed_tokens
+        content = []
+        for parenthetical in parsed_tokens:
+            x = self.paren_pop_helper(parenthetical)
+            content.extend(x)
+        return content
+
+    def paren_pop_helper(self, tokens):
+        new_tokins = []
+        token_words = [x for x in tokens if isinstance(x, six.string_types)]
+
+        # If tokens don't include parenthetical content, return as string
+        if len(token_words) == len(tokens):
+            return [' '.join(token_words)]
+        else:
+            token_parens = [x for x in tokens if isinstance(x, list)]
+            reorged_tokens = []
+
+            # Iterate through all parenthetical content, recursing on them
+            # This allows content in nested parenthesis to be captured
+            for tokes in token_parens:
+                sents = self.paren_pop_helper(tokes)
+                reorged_tokens.extend(sents)
+
+            # Bundles outer sentence with inner parenthetical content
+            new_tokins.append(' '.join(token_words))
+            new_tokins.extend(reorged_tokens)
+
+            # New tokins returns a list of strings
+            return new_tokins
+
+
+
+
+    def paren_pop1(self, parsed_tokens):
+        # must convert the ParseResult to a list, otherwise adding it to a list causes weird results.
+        if isinstance(parsed_tokens, pypar.ParseResults):
+            tokens = parsed_tokens.asList()
+        else:
+            tokens=parsed_tokens
+        return self.paren_pop_helper(tokens)
+
+    def paren_pop_helper1(self, tokens):
+        new_tokins = []
+        token_words = [x for x in tokens if isinstance(x, six.string_types)]
+
+        # If tokens don't include parenthetical content, return as string
+        if len(token_words) == len(tokens):
+            return [' '.join(token_words)]
+        else:
+            token_parens = [x for x in tokens if isinstance(x, list)]
+            reorged_tokens = []
+
+            # Iterate through all parenthetical content, recursing on them
+            # This allows content in nested parenthesis to be captured
+            for tokes in token_parens:
+                sents = self.paren_pop_helper(tokes)
+                reorged_tokens.extend(sents)
+
+            # Bundles outer sentence with inner parenthetical content
+            new_tokins.append(' '.join(token_words))
+            new_tokins.extend(reorged_tokens)
+
+            # New tokins returns a list of strings
+            return new_tokins
+
+
+"""
+    
     # is text different than doc, used in other pre-processing modules?
     def __call__(self, text):
 
@@ -111,3 +249,4 @@ class remove_parenthesis(object):
 
             # New tokins returns a list of strings
             return new_tokins
+"""
