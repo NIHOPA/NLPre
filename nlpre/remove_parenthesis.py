@@ -37,9 +37,9 @@ class remove_parenthesis(object):
 
     def __call__(self, text):
 
-
         tokens = self.grammar.parseString(text)
-        tokens_no_parens = [x for x in tokens if isinstance(x, six.string_types)]
+        tokens_no_parens = [
+            x for x in tokens if isinstance(x, six.string_types)]
 
         tokens_list = tokens.asList()
         token_parens = [x for x in tokens_list if isinstance(x, list)]
@@ -50,7 +50,6 @@ class remove_parenthesis(object):
             split = self.parse(content)
             for item in split:
                 content_list.append(item)
-
 
         sentences = self.parse(' '.join(tokens_no_parens))
         doc_out = []
@@ -91,20 +90,18 @@ class remove_parenthesis(object):
                 doc_out.append(text)
             else:
                 # Append parenthetical sentences to end of sentence
-                #text = self.paren_pop(tokens)
+                # text = self.paren_pop(tokens)
                 doc_out.append(sent)
-
-
 
         doc_out.extend(content_list)
         return '\n'.join(doc_out)
 
     def paren_pop(self, parsed_tokens):
-        # must convert the ParseResult to a list, otherwise adding it to a list causes weird results.
+        # must convert the ParseResult to a list, otherwise adding it to a list
+        # causes weird results.
         if isinstance(parsed_tokens, pypar.ParseResults):
-            tokens = parsed_tokens.asList()
-        else:
-            tokens = parsed_tokens
+            parsed_tokens = parsed_tokens.asList()
+
         content = []
         for parenthetical in parsed_tokens:
             x = self.paren_pop_helper(parenthetical)
@@ -135,15 +132,13 @@ class remove_parenthesis(object):
             # New tokins returns a list of strings
             return new_tokins
 
-
-
-
     def paren_pop1(self, parsed_tokens):
-        # must convert the ParseResult to a list, otherwise adding it to a list causes weird results.
+        # must convert the ParseResult to a list, otherwise adding it to a list
+        # causes weird results.
         if isinstance(parsed_tokens, pypar.ParseResults):
             tokens = parsed_tokens.asList()
         else:
-            tokens=parsed_tokens
+            tokens = parsed_tokens
         return self.paren_pop_helper(tokens)
 
     def paren_pop_helper1(self, tokens):
@@ -172,7 +167,7 @@ class remove_parenthesis(object):
 
 
 """
-    
+
     # is text different than doc, used in other pre-processing modules?
     def __call__(self, text):
 
