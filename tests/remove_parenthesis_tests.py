@@ -49,7 +49,7 @@ class Remove_Parenthesis_Tests():
     #    assert_equals(doc_right, doc_new)
     def multiple_parenthesis_pair_test(self):
         doc = 'Ad Ba Ca (Da Ed Ff (Ga Ha) In) Jo. Ka Le'
-        doc_right = 'A B C J.\n K L'
+        doc_right = 'Ad Ba Ca Jo .\nDa Ed Ff In\nGa Ha\nKa Le'
         doc_new = self.remove(doc)
 
         assert_equals(doc_right, doc_new)
@@ -98,9 +98,9 @@ class Remove_Parenthesis_Tests():
 
     #    assert_equals(doc_right, doc_new)
 
-    def multisentence_curly_test(self):
-        doc = 'hello {world. Goodnight moon} world'
-        doc_right = 'hello world'
-        doc_new = self.remove(doc)
+    #def multisentence_curly_test(self):
+    #    doc = 'hello {world. Goodnight moon} world'
+    #    doc_right = 'hello world'
+    #    doc_new = self.remove(doc)
 
-        assert_equals(doc_right, doc_new)
+    #    assert_equals(doc_right, doc_new)
