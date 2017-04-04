@@ -77,13 +77,14 @@ class remove_parenthesis(object):
                 sent = sent.replace('}', '')
                 tokens = sent.split()
 
-            # Remove nested parens
+                text = ' '.join(tokens)
+                doc_out.append(text)
 
-            text = self.paren_pop(tokens)
+            else:
+                # Remove nested parens
 
-            #text = ' '.join(tokens)
-
-            doc_out.extend(text)
+                text = self.paren_pop(tokens)
+                doc_out.extend(text)
 
         return '\n'.join(doc_out)
 
@@ -100,12 +101,43 @@ class remove_parenthesis(object):
             # must convert the ParseResult to a list, otherwise adding it to a list causes weird results.
             tokenParens = [x for x in tokens if isinstance(x, list)]
             #if there's only a single list in outer list, use it
+
+            reorgedTokens = []
+            for tokes in tokenParens:
+                sents = self.paren_pop(tokes)
+                reorgedTokens.extend(sents)
+
+            new_tokins.append(' '.join(tokenWords))
+            #new_tokins.extend(self.paren_pop(tokenParens))
+            new_tokins.extend(reorgedTokens)
+
+
+            #New tokins returns a list of strings
+            return new_tokins
+
+
+
+
+
+    def paren_pop_old(self, tokens):
+        if isinstance(tokens, pypar.ParseResults):
+            tokens = tokens.asList()
+
+        new_tokins = []
+        tokenWords = [x for x in tokens if isinstance(x, six.string_types)]
+
+        if len(tokenWords) == len(tokens):
+            return [' '.join(tokenWords)]
+        else:
+            # must convert the ParseResult to a list, otherwise adding it to a list causes weird results.
+            tokenParens = [x for x in tokens if isinstance(x, list)]
+            #if there's only a single list in outer list, use it
             if len(tokenParens) == 1:
                 tokenParens = tokenParens[0]
+
             new_tokins.append(' '.join(tokenWords))
             new_tokins.extend(self.paren_pop(tokenParens))
             return new_tokins
-
 
 
 """
