@@ -1,7 +1,8 @@
 import os
-import six
+import itertools
+import collections
+import re
 import pandas as pd
-from pattern.en import tokenize
 
 
 def contains_sublist(lst, sublst):
@@ -29,100 +30,40 @@ class replace_from_dictionary(object):
         items = df["SYNONYM"].str.lower(), df["replace_token"]
         self.X = dict(zip(*items))
 
-    """
-    tokenize splits sentences based on punctuation. This is a problem for phrases that are to be converted to
-    # MeSH terms. recombine iterates through tokens of a sentence to check if if split punctuation belongs to a
-    # MeSH phrase. It can take both a string or a list of tokens. """
-
-    def recombine(self, sent, keywords):
-        sentence = sent
-        stringFlag = False
-        if isinstance(sent, six.string_types):
-            sentence = sentence.split()
-            stringFlag = True
-
-        splitKeywords = []
-        for words in keywords:
-            split = words.split()
-            splitKeywords.extend(split)
-
-        pos = 0
-        while pos < len(sentence) - 1:
-            n = 1
-            merge_token = sentence[pos] + sentence[pos + n]
-
-            replace = True
-
-            # loop until the merged tokens fit a keyword exactly, or are no
-            # longer substrings of a keyword
-            while merge_token.lower() not in splitKeywords:
-                if any(merge_token.lower(
-                ) in string for string in keywords):  # merged tokens appear as substring
-                    n += 1
-                    merge_token += sentence[pos + n]
-                    replace = True
-                    continue
-                else:  # the re-merged substrings will not appear in keywords
-                    replace = False
-                    break
-            if replace:
-                sentence[pos] = merge_token
-                del sentence[pos + 1:pos + 1 + n]
-            pos += 1
-
-        if stringFlag:
-            sentence = ' '.join(sentence)
-        return sentence
-
     def __call__(self, org_doc):
 
         doc = org_doc
+        ldoc = doc.lower()
 
-        tokens = doc.lower().split()
-        ldoc = ' '.join([x for x in tokens if "_" not in x])
+        # Identify which phrases were used and possible replacements
+        R = collections.defaultdict(list)
+        for key, val in self.X.iteritems():
+            if key in ldoc:
+                R[val].append(key)
 
-        # Identify which phrases were used
-        keywords = [key for key in self.X if key in ldoc]
-        punctuation = ".,;:!?()[]{}`''\"@#$^&*+-|=~"
+        # Remove replacements that are substrings of another
+        # "5' exonuclease", vs "3' 5' exonuclease"
+        all_replacements = [x for v in R.values() for x in v]
+        ignore_tokens = set()
+        for k1, k2 in itertools.combinations(all_replacements, r=2):
+            if len(k1) < len(k2) and k1 in k2:
+                ignore_tokens.add(k1)
 
-        # Loop over the keywords and replace them one-by-one.
-        # This is inefficient, but less error prone.
+        # For each term, make replacements based off size order
+        for term, replacements in R.iteritems():
+            replacements = sorted(replacements, key=lambda x: -len(x))
+            for rval in replacements:
+                if rval in ignore_tokens:
+                    continue
+                pattern = re.compile(re.escape(rval), re.IGNORECASE)
+                doc = pattern.sub(' {} '.format(term), doc)
 
-        parsed_sent = []
-
-        for sent in tokenize(doc, punctuation=punctuation):
-
-            for word in keywords:
-                word_n_tokens = len(word.split())
-
-                new_word = self.X[word]
-                word_tokens = word.split()
-                sent = self.recombine(sent, keywords)
-                tokens = sent.lower().split()
-
-                mask = contains_sublist(tokens, word_tokens)
-                while any(mask):
-                    idx = mask.index(True)
-                    sent = sent.split()
-                    args = sent[:idx] + [new_word, ] + sent[
-                        idx + word_n_tokens:]
-                    sent = ' '.join(args)
-                    tokens = sent.lower().split()
-                    mask = contains_sublist(tokens, word_tokens)
-
-            parsed_sent.append(sent)
-
-        doc = ' '.join(parsed_sent)
-
-        """
-        # Change the punctuation to a more readable format for debugging
-        punc_compress = ''').,?!':'''
-        for punc in punc_compress:
-            doc = doc.replace(' '+punc,punc)
-
-        punc_compress = '''('''
-        for punc in punc_compress:
-            doc = doc.replace(punc+' ',punc)
-        """
-
+        doc = ' '.join([x for x in doc.split(' ') if x])
         return doc
+
+
+if __name__ == "__main__":
+    P = replace_from_dictionary('MeSH_two_word_lexicon.csv',
+                                'nlpre/dictionaries')
+    text = '((11-Dimethylethyl)-4-methoxyphenol).'
+    print(P(text))

@@ -12,6 +12,7 @@ def lint():
     #local("autopep8 tests/*.py --in-place")
 
 def push():
+    local("git pull")
     test()
     local("git commit -a")
     local("git push")
