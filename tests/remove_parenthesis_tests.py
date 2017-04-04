@@ -55,7 +55,6 @@ class Remove_Parenthesis_Tests():
 
         assert_equals(doc_right, doc_new)
 
-
     def multiple_parenthesis_multiple_inner_pair_test(self):
         doc = 'Ad Ba Ca (Da (Ed Xa) Ff (Ga Ha) In) Jo. Ka Le'
         doc_right = 'Ad Ba Ca Jo .\nDa Ff In\nEd Xa\nGa Ha\nKa Le'
