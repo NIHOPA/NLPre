@@ -11,6 +11,10 @@ def lint():
     local("autopep8 nlpre/*.py -aaa --in-place")
     #local("autopep8 tests/*.py --in-place")
 
+def cover():
+    local("nosetests --with-coverage --cover-package nlpre --cover-html")
+    local("xdg-open cover/index.html")
+
 def push():
     local("git pull")
     test()

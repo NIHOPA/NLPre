@@ -11,3 +11,4 @@
 nlpre.egg*
 .idea
 .coverage
+cover/
