@@ -12,6 +12,10 @@ for a pipeline.
 
 setuptools.setup(
     name='nlpre',
+    packages=['nlpre'],
+
+    # Include package data...
+    include_package_data=True,
 
     # Versions should comply with PEP440. 
     version='0.1.0',
@@ -60,19 +64,6 @@ setuptools.setup(
 
     # What does your project relate to?
     keywords="NLP",
-
-    # You can just specify the packages manually here if your project is
-    # simple. Or you can use find_packages().
-    packages=['nlpre'],
-
-    # Include package data...
-    include_package_data=True,
-
-    # entry_points={
-    #    'console_scripts': [
-    #        'miniprez=miniprez.__main__:main',
-    #    ]
-    #},
 
     test_suite="tests",
 
