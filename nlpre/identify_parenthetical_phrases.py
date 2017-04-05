@@ -78,8 +78,8 @@ class identify_parenthetical_phrases(object):
         # filler words.
         if subtoken_let != caps:
             tokens_to_remove = ['and', 'of', 'with', '&', 'or', 'for', 'the', 'to']
-            subtokens=[]
-            x = k-1
+            subtokens = []
+            x = k - 1
             while subtoken_let != caps:
                 if x < 0:
                     return False
