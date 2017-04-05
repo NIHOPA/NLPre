@@ -10,3 +10,5 @@
 .tox
 nlpre.egg*
 .idea
+.coverage
+cover/
