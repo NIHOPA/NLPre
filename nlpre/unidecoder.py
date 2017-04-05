@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 import unidecode
 
+
 class unidecoder(object):
 
     def __init__(self):
         '''
-        Converts a unicode representation to a reasonable ASCII equivalent.
+        Converts a Unicode representation to a reasonable ASCII equivalent.
         '''
         pass
 
@@ -14,5 +15,5 @@ class unidecoder(object):
 
 if __name__ == "__main__":
     text = u"α-Helix β-sheet Αα Νν Ββ Ξξ Γγ Οο"
-    parser = unidecoder()    
+    parser = unidecoder()
     print(parser(text))

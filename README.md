@@ -57,5 +57,7 @@ Simple token replacement (% -> `percent`)
 
 Parts of speech are filtered out by using a white-list. 
 
+**unidecoder**
 
+Converts Unicode phrases into ASCII equivalent, (`β-sheet` -> `b-sheet`).
 
