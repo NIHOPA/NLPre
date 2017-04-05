@@ -1,5 +1,7 @@
 # Natural Language Preprocessing (NLPre)
 
+[![Build Status](https://travis-ci.org/NIHOPA/NLPre.svg?branch=master)](https://travis-ci.org/NIHOPA/NLPre)
+
 Ultimately, this will be a python package to preprocess text.
 Developed by NIH OPA.
 
