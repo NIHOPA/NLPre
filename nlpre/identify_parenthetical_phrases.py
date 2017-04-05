@@ -99,6 +99,6 @@ if __name__ == "__main__":
 
     # Right now, two of of three of these phrases are correctly found.
     P = identify_parenthetical_phrases()
-    text = ("The Enviromental Protection Agency (EPA) is not a goverment "
+    text = ("The Environmental Protection Agency (EPA) is not a government "
             "organization (GO) of Health and Human Services (HHS).")
     print(P(text))
