@@ -17,4 +17,5 @@ __all__ = [
     'dedash',
     'titlecaps',
     'replace_from_dictionary',
+    'identify_parenthetical_phrases'
 ]
