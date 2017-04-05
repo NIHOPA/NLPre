@@ -1,4 +1,4 @@
-from nose.tools import *
+from nose.tools import assert_equal
 from nlpre import identify_parenthetical_phrases
 
 class Parenthetical_Phrases_Tests():
@@ -18,6 +18,36 @@ class Parenthetical_Phrases_Tests():
         counter_epa = counter[(('Environmental', 'Protection', 'Agency'), 'EPA')]
         assert_equal(counter_epa, 2)
 
+    def EPA_nestedParans_test(self):
+        doc = "The Environmental Protection Agency ((EPA)) was created by Nixon"
+        counter = self.phrases(doc)
+        counter_epa = counter[(('Environmental', 'Protection', 'Agency'), 'EPA')]
+        assert_equal(counter_epa, 0)
+
+    def EPA_curly_test(self):
+        doc = "The Environmental Protection Agency {EPA} was created by Nixon"
+        counter = self.phrases(doc)
+        counter_epa = counter[(('Environmental', 'Protection', 'Agency'), 'EPA')]
+        assert_equal(counter_epa, 1)
+
+    def EPA_bracket_test(self):
+        doc = "The Environmental Protection Agency [EPA] was created by Nixon"
+        counter = self.phrases(doc)
+        counter_epa = counter[(('Environmental', 'Protection', 'Agency'), 'EPA')]
+        assert_equal(counter_epa, 1)
+
+    def EPA_lowercase_test(self):
+        doc = "The Environmental Protection Agency (epa) was created by Nixon"
+        counter = self.phrases(doc)
+        counter_epa = counter[(('Environmental', 'Protection', 'Agency'), 'epa')]
+        assert_equal(counter_epa, 0)
+
+    def single_letter_test(self):
+        doc = "The Environment (E) is beautiful"
+        counter = self.phrases(doc)
+        counter_epa = counter[(('Environment'), 'E')]
+        assert_equal(counter_epa, 0)
+
     def HHS_and_not_included_test(self):
         doc = 'Health and Human Services (HHS) is important'
         counter = self.phrases(doc)
@@ -29,6 +59,24 @@ class Parenthetical_Phrases_Tests():
         counter = self.phrases(doc)
         counter_bia = counter[(('Bureau', 'of', 'Indian', 'Affairs'), 'BIA')]
         assert_equal(counter_bia, 1)
+
+    def ADA_with_not_included_test(self):
+        doc = 'I love the Americans with Disabilities Act (ADA)'
+        counter = self.phrases(doc)
+        counter_ada = counter[(('Americans', 'with', 'Disabilities', 'Act'), 'ADA')]
+        assert_equal(counter_ada, 1)
+
+    def CADE_for_not_included_test(self):
+        doc = 'I love the Center for Acute Disease Epidemiology'
+        counter = self.phrases(doc)
+        counter_cade = counter[(('Center', 'for', 'Acute', 'Disease', 'Epidemiology'), 'CADE')]
+        assert_equal(counter_cade, 1)
+
+    def CDC_for_and_not_included_test(self):
+        doc = 'I love the Centers for Disease Control and Prevention (CDC)'
+        counter = self.phrases(doc)
+        counter_cdc = counter[(('Centers', 'for', 'Disease', 'Control', 'and', 'Prevention'), 'CDC')]
+        assert_equal(counter_cdc, 1)
 
     def POC_of_included_test(self):
         doc = 'We must focus on the point of care (POC)'
@@ -63,8 +111,8 @@ class Parenthetical_Phrases_Tests():
     def GERD_word_has_multiple_letters_in_abbreviation_test(self):
         doc = 'I hate gastroesophageal reflux disease (GERD)'
         counter = self.phrases(doc)
-        counter_GERD = counter[(('gastroesophageal', 'reflux', 'disease'), 'GERD')]
-        assert_equal(counter_GERD, 1)
+        counter_gerd = counter[(('gastroesophageal', 'reflux', 'disease'), 'GERD')]
+        assert_equal(counter_gerd, 1)
 
     def SOCE_plus_sign_test(self):
         doc = 'I want a store operated Ca2+ entry (SOCE)'
@@ -88,11 +136,11 @@ class Parenthetical_Phrases_Tests():
     def CMS_and_words_not_in_abr_test(self):
         doc = "The Centers for Medicare and Medicaid Services is great"
         counter = self.phrases(doc)
-        counter_CMS = counter[(('Centers', 'for', 'Medicare', 'and', 'Medicaid', 'Services'), 'CMS')]
-        assert_equals(counter_CMS, 1)
+        counter_cms = counter[(('Centers', 'for', 'Medicare', 'and', 'Medicaid', 'Services'), 'CMS')]
+        assert_equal(counter_cms, 1)
 
     def CMS_ampersand_words_not_in_abr_test(self):
         doc = "The Centers for Medicare & Medicaid Services is great"
         counter = self.phrases(doc)
-        counter_CMS = counter[(('Centers', 'for', 'Medicare', '&', 'Medicaid', 'Services'), 'CMS')]
-        assert_equals(counter_CMS, 1)
+        counter_cms = counter[(('Centers', 'for', 'Medicare', '&', 'Medicaid', 'Services'), 'CMS')]
+        assert_equal(counter_cms, 1)
