@@ -6,6 +6,7 @@ from .decaps_text import decaps_text
 from .pos_tokenizer import pos_tokenizer
 from .dedash import dedash
 from .titlecaps import titlecaps
+from .identify_parenthetical_phrases import identify_parenthetical_phrases
 
 __all__ = [
     'replace_phrases',
