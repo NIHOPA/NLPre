@@ -6,7 +6,8 @@ python:
 #  - pip install coveralls
 #  - coverage run --source hyperop setup.py test
 
-script: nosetests
+script:
+   - nosetests
 
 #after_success:
 #  - coveralls
