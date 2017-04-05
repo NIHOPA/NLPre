@@ -61,3 +61,7 @@ Parts of speech are filtered out by using a white-list.
 
 Converts Unicode phrases into ASCII equivalent, (`β-sheet` -> `b-sheet`).
 
+**identify_parenthetical_phrases**
+
+`What is Health and Human Services (HHS)?` gets tokenized as `counter[(('Health', 'and', 'Human', 'Services'), 'HHS')]`
+
