@@ -79,7 +79,15 @@ class identify_parenthetical_phrases(object):
         # we iterate backwards from the abbreviation, trying to reconstruct the abbreviation by ignoring
         # filler words.
         if subtoken_let != caps:
-            tokens_to_remove = ['and', 'of', 'with', '&', 'or', 'for', 'the', 'to']
+            tokens_to_remove = [
+                'and',
+                'of',
+                'with',
+                '&',
+                'or',
+                'for',
+                'the',
+                'to']
             subtokens = []
             x = k - 1
             while subtoken_let != caps:
@@ -87,7 +95,8 @@ class identify_parenthetical_phrases(object):
                     return False
                 token = tokens[x]
                 subtokens.insert(0, token)
-                subtoken_let = [let.upper()[0] for let in subtokens if let not in tokens_to_remove]
+                subtoken_let = [let.upper()[0]
+                                for let in subtokens if let not in tokens_to_remove]
                 x -= 1
 
         return tuple(subtokens)

@@ -1,5 +1,4 @@
 from .replace_from_dict import replace_from_dictionary
-from .replace_phrases import replace_phrases
 from .remove_parenthesis import remove_parenthesis
 from .token_replacement import token_replacement
 from .decaps_text import decaps_text
@@ -10,7 +9,6 @@ from .titlecaps import titlecaps
 from .identify_parenthetical_phrases import identify_parenthetical_phrases
 
 __all__ = [
-    'replace_phrases',
     'remove_parenthesis',
     'token_replacement',
     'decaps_text',

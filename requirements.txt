@@ -1,7 +1,7 @@
-# Standard numerical libraries
-pandas
-
 # NLP core libraries
 unidecode
 pyparsing
 pattern
+
+# For Python 2/3 compatibility
+six

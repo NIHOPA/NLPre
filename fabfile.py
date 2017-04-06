@@ -20,3 +20,9 @@ def push():
     test()
     local("git commit -a")
     local("git push")
+
+def clean():
+    local('rm -rvf .coverage cover/ .tox nlpre.egg-info/')
+    for tag in ["*.pyc", "*~",]:
+        local("find . -name '%s' | xargs -I {} rm -v {}"%(tag))
+
