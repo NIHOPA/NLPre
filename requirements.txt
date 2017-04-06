@@ -2,3 +2,6 @@
 unidecode
 pyparsing
 pattern
+
+# For Python 2/3 compatibility
+six
