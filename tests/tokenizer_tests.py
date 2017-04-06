@@ -21,6 +21,20 @@ class Tokenizer_Tests():
         tokens = word_tokenizer('hello world')
         assert_equal(tokens, ['hello', 'world'])
 
-    # def word_tokenizer_sentences_test(self):
-    #    tokens = word_tokenizer('hello world. goodbye world')
-    #    assert_equal(tokens, [['hello', 'world'], ['goodbye', 'world']])
+    def word_tokenizer_sentences_test(self):
+        tokens = word_tokenizer('hello world. goodbye world')
+        assert_equal(tokens, ['hello', 'world', '.', 'goodbye', 'world'])
+
+    def split_tokenizer_test(self):
+        def lowered(text):
+            out = []
+            for token in text:
+                lower_token = token.lower()
+                out.append(lower_token)
+            return out
+        
+        string = ["HELlO", "WORLD"]
+        lowerer = split_tokenizer(lowered)
+        output = lowerer(string)
+        output_right = 'hello world'
+        assert_equal(output, output_right)
