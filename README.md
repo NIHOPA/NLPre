@@ -8,10 +8,12 @@ Developed by NIH OPA.
 ### Timeline
 
 + [x] Import modules from pipeline_word2vec
++ [ ] Complete import (missing ABBR phrase replacement)
 + [x] Document which functions exists in README
-+ [ ] Write unit tests for individual functions
-+ [ ] Write unit tests for pipelines
++ [x] Write unit tests for individual functions
++ [ ] Write unit tests for pipelines (multi-function)
 + [ ] Write doc strings for all functions
++ [ ] Clean and format this README
 + [ ] Format as proper python package
 + [ ] Upload to pypy
 
