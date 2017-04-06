@@ -5,6 +5,12 @@ class Parenthetical_Phrases_Tests():
     def __init__(self):
         self.phrases = identify_parenthetical_phrases()
 
+    def OD_of_the_not_included_test(self):
+        doc = 'The Office of the Director (OD) is the best'
+        counter = self.phrases(doc)
+        counter_od = counter[(('Office', 'of', 'the', 'Director'), 'OD')]
+        assert_equal(counter_od, 1)
+
     def EPA_test(self):
         doc = "The Environmental Protection Agency (EPA) was created by Nixon"
         counter = self.phrases(doc)
