@@ -37,20 +37,6 @@ class remove_parenthesis(object):
 
     def __call__(self, text):
 
-        # tokens = self.grammar.parseString(text)
-        # tokens_no_parens = [
-        #    x for x in tokens if isinstance(x, six.string_types)]
-
-        # tokens_list = tokens.asList()
-        # token_parens = [x for x in tokens_list if isinstance(x, list)]
-        # parenthetical_content = self.paren_pop(token_parens)
-
-        # content_list = []
-        # for content in parenthetical_content:
-        #    split = self.parse(content)
-        #    for item in split:
-        #        content_list.append(item)
-
         sentences = self.parse(text)
         doc_out = []
         # Should this be included in recursion?

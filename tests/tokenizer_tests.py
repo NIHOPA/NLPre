@@ -32,7 +32,7 @@ class Tokenizer_Tests():
                 lower_token = token.lower()
                 out.append(lower_token)
             return out
-        
+
         string = ["HELlO", "WORLD"]
         lowerer = split_tokenizer(lowered)
         output = lowerer(string)
