@@ -17,6 +17,11 @@ class Parenthetical_Phrases_Tests():
         counter_epa = counter[(('Environmental', 'Protection', 'Agency'), 'EPA')]
         assert_equal(counter_epa, 1)
 
+    def EPA_multiple_words_in_parans_test(self):
+        doc = "The Environmental Protection Agency (the EPA, founded in 1970) was created by Nixon"
+        counter = self.phrases(doc)
+        assert_equal(len(counter), 0)
+
     def EPA_multiple_test(self):
         doc = ("The Environmental Protection Agency (EPA) was created by Nixon "
                "who loved the Environmental Protection Agency (EPA)")
@@ -27,8 +32,7 @@ class Parenthetical_Phrases_Tests():
     def EPA_nestedParans_test(self):
         doc = "The Environmental Protection Agency ((EPA)) was created by Nixon"
         counter = self.phrases(doc)
-        counter_epa = counter[(('Environmental', 'Protection', 'Agency'), 'EPA')]
-        assert_equal(counter_epa, 0)
+        assert_equal(len(counter), 0)
 
     def EPA_curly_test(self):
         doc = "The Environmental Protection Agency {EPA} was created by Nixon"
@@ -45,20 +49,28 @@ class Parenthetical_Phrases_Tests():
     def EPA_lowercase_test(self):
         doc = "The Environmental Protection Agency (epa) was created by Nixon"
         counter = self.phrases(doc)
-        counter_epa = counter[(('Environmental', 'Protection', 'Agency'), 'epa')]
-        assert_equal(counter_epa, 0)
+        assert_equal(len(counter), 0)
 
     def single_letter_test(self):
         doc = "The Environment (E) is beautiful"
         counter = self.phrases(doc)
-        counter_epa = counter[(('Environment'), 'E')]
-        assert_equal(counter_epa, 0)
+        assert_equal(len(counter), 0)
 
     def HHS_and_not_included_test(self):
         doc = 'A B C D E F G H I and Health and Human Services (HHS) is important'
         counter = self.phrases(doc)
         counter_hhs = counter[(('Health', 'and', 'Human', 'Services'), 'HHS')]
         assert_equal(counter_hhs, 1)
+
+    def HHS_incomplete_phrase_test(self):
+        doc = 'A B C D E F G H I and and Human Services (HHS) is important'
+        counter = self.phrases(doc)
+        assert_equal(len(counter), 0)
+
+    def EPA_incomplete_phrase_test(self):
+        doc = 'Protection Agency (EPA) is incomplete'
+        counter = self.phrases(doc)
+        assert_equal(len(counter), 0)
 
     def HHS_and_included_test(self):
         doc = 'A B C D E F G H I and Health and Human Services (HaHS) is important'
@@ -156,3 +168,9 @@ class Parenthetical_Phrases_Tests():
         assert_equal(counter_epa, 1)
         assert_equal(counter_go, 1)
         assert_equal(counter_hhs, 1)
+
+    def bad_doc_test(self):
+        doc = ''
+        counter = self.phrases(doc)
+        assert_equal(len(counter), 0)
+
