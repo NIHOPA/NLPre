@@ -29,4 +29,3 @@ class Unidecoder_Test:
         doc_right = 'perispomene'
         doc_new = self.decoder(doc)
         assert_equal(doc_right, doc_new)
-
