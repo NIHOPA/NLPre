@@ -5,13 +5,6 @@ import re
 import pandas as pd
 
 
-def contains_sublist(lst, sublst):
-    # Finds all cases of a sublist and lists where it happens
-    n = len(sublst)
-    idx = [(sublst == lst[i:i + n]) for i in range(len(lst) - n + 1)]
-    return idx
-
-
 class replace_from_dictionary(object):
 
     '''
@@ -62,8 +55,8 @@ class replace_from_dictionary(object):
         return doc
 
 
-if __name__ == "__main__":
-    P = replace_from_dictionary('MeSH_two_word_lexicon.csv',
-                                'nlpre/dictionaries')
-    text = '((11-Dimethylethyl)-4-methoxyphenol).'
-    print(P(text))
+# if __name__ == "__main__":
+#    P = replace_from_dictionary('MeSH_two_word_lexicon.csv',
+#                                'nlpre/dictionaries')
+#    text = '((11-Dimethylethyl)-4-methoxyphenol).'
+#    print(P(text))
