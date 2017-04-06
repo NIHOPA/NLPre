@@ -11,6 +11,13 @@ class Replace_From_Dict_Test:
 
         self.replace_MeSH = replace_from_dictionary('MeSH_two_word_lexicon.csv', path_to_meshdict)
 
+    def bad_dictionary_test(self):
+        mesh_dict = "dictionaries/"
+        local_dir = os.path.dirname(os.path.abspath('nlpre/dictionaries'))
+        path_to_meshdict = os.path.join(local_dir, mesh_dict)
+
+        assert_raises(IOError, replace_from_dictionary, 'MeSH_two_word_lexicon1.csv', path_to_meshdict)
+
     def hydroxyethylrutoside_test1(self):
         doc = '0-beta-Hydroxyethylrutoside is great'
         doc_right = 'MeSH_Hydroxyethylrutoside is great'
@@ -22,10 +29,6 @@ class Replace_From_Dict_Test:
         doc = '0 beta Hydroxyethylrutoside is great'
         doc_right = 'MeSH_Hydroxyethylrutoside is great'
         doc_new = self.replace_MeSH(doc)
-
-        print
-        print doc_right
-        print doc_new
 
         assert_equal(doc_right, doc_new)
 

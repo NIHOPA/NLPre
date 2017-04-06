@@ -81,11 +81,12 @@ class pos_tokenizer(object):
 
                 tag = tag.split('|')[0].split('-')[0].split("&")[0]
 
-                try:
-                    pos = self.POS_map[tag]
-                except BaseException:
-                    print("UNKNOWN POS *{}*".format(tag))
-                    pos = "unknown"
+                # try:
+                #    pos = self.POS_map[tag]
+                # except BaseException:
+                #    print("UNKNOWN POS *{}*".format(tag))
+                #    pos = "unknown"
+                pos = self.POS_map[tag]
 
                 if pos in self.filtered_POS:
                     continue

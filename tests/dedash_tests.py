@@ -33,6 +33,13 @@ class Dedash_Test:
 
         assert_equal(doc_right, doc_new)
 
+    def multiple_caps_second_word_test(self):
+        doc = "How is the treat- MEnt going"
+        doc_right = "How is the treat- MEnt going"
+        doc_new = self.dedash(doc)
+
+        assert_equal(doc_right, doc_new)
+
     def one_letter_word_test(self):
         doc = "I love A- Trak!"
         doc_right = "I love A- Trak!"

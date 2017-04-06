@@ -74,11 +74,10 @@ class POS_Tokenizer_Test:
 
         assert_equal(doc_right, doc_new.text)
 
-    #This passes, when it shouldn't. not sure if there's any way around it
-    #def ambiguous_verbs_test(self):
-    #    doc = "The boy wanted to research the ball"
-    #    doc_right = "boy research ball"
+    #def unknown_word_test(self):
+    #    doc = 'The boy akjf45!naf the ball into the yard'
+    #    doc_right = 'boy akjfnaf ball yard'
     #    doc_new = self.tokenizer(doc)
-
     #    assert_equal(doc_right, doc_new.text)
+
 
