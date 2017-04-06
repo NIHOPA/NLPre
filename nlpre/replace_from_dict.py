@@ -25,7 +25,6 @@ class replace_from_dictionary(object):
             for row in csvfile:
                 term = row["term"].lower()
                 self.rdict[term] = row["replacement"]
-                
 
     def __call__(self, org_doc):
 
