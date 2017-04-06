@@ -34,6 +34,11 @@ class Parenthetical_Phrases_Tests():
         counter = self.phrases(doc)
         assert_equal(len(counter), 0)
 
+    def EPA_nestedParans2_test(self):
+        doc = "The Environmental Protection Agency ((EPA) is the abbreviation) was created by Nixon"
+        counter = self.phrases(doc)
+        assert_equal(len(counter), 0)
+
     def EPA_curly_test(self):
         doc = "The Environmental Protection Agency {EPA} was created by Nixon"
         counter = self.phrases(doc)

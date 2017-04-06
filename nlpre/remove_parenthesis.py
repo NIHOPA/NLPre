@@ -57,10 +57,11 @@ class remove_parenthesis(object):
             FLAG_valid = (LP_Paran == RP_Paran) and (
                 LP_Bracket == RP_Bracket) and (LP_Curl == RP_Curl)
 
-            try:
-                tokens = self.grammar.parseString(sent)
-            except (pypar.ParseException, RuntimeError):
-                FLAG_valid = False
+            # try:
+            #    tokens = self.grammar.parseString(sent)
+            # except (pypar.ParseException, RuntimeError):
+            #    FLAG_valid = False
+            tokens = self.grammar.parseString(sent)
 
             if not FLAG_valid:
                 # On fail simply remove all parenthesis

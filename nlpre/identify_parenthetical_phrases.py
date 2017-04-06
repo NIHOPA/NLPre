@@ -65,11 +65,13 @@ class identify_parenthetical_phrases(object):
         # This may fail if used too early in doc or if nested parens
         # this shouldn't be a match so it's OK!
 
-        try:
-            subtokens = tokens[k - len(caps):k]
-            subtoken_let = [let.upper()[0] for let in subtokens]
-        except:
-            return False
+        # try:
+        #    subtokens = tokens[k - len(caps):k]
+        #    subtoken_let = [let.upper()[0] for let in subtokens]
+        # except:
+        #    return False
+        subtokens = tokens[k - len(caps):k]
+        subtoken_let = [let.upper()[0] for let in subtokens]
 
         # if the subtokens don't provide a perfect match of the abbreviation, we must check
         # if there are filler words. Ie, "Health and Human Services (HHS)" doesn't provide
