@@ -92,7 +92,6 @@ class Remove_Parenthesis_Tests():
 
         assert_equals(doc_right, doc_new)
 
-
     # Code doesn't account for multiple sentences within a parenthesis
     # I'm not sure when this case will be encountered, unless we're parsing DFW novels
     # def multisentence_paranthesis_test(self):

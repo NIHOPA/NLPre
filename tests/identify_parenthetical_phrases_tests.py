@@ -72,6 +72,11 @@ class Parenthetical_Phrases_Tests():
         counter = self.phrases(doc)
         assert_equal(len(counter), 0)
 
+    def EPA_incomplete_phrase2_test(self):
+        doc = '(EPA) is incomplete'
+        counter = self.phrases(doc)
+        assert_equal(len(counter), 0)
+
     def HHS_and_included_test(self):
         doc = 'A B C D E F G H I and Health and Human Services (HaHS) is important'
         counter = self.phrases(doc)
