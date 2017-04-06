@@ -26,3 +26,19 @@ class Titlecaps_Test():
         doc_new = self.titlecaps(doc)
 
         assert_equal(doc_new, doc_right)
+
+    def numbers_test(self):
+        doc = 'HELLO WORLD. 1111'
+        doc_right = 'hello world . 1111'
+        doc_new = self.titlecaps(doc)
+
+        assert_equal(doc_new, doc_right)
+
+    def long_enough_sentence_test(self):
+
+        caps = titlecaps()
+        doc = 'THIS SENTENCE SHORT'
+        doc_right = 'THIS SENTENCE SHORT'
+        doc_new = caps(doc)
+
+        assert_equal(doc_new, doc_right)

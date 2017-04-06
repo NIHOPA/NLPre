@@ -42,5 +42,5 @@ class titlecaps(object):
         return doc2
 
 
-if __name__ == "__main__":
-    pass
+# if __name__ == "__main__":
+#    pass
