@@ -2,7 +2,7 @@ import os
 import itertools
 import collections
 import re
-import pandas as pd
+import csv
 
 
 class replace_from_dictionary(object):
@@ -19,9 +19,13 @@ class replace_from_dictionary(object):
             msg = "Can't find dictionary {}".format(f_dict)
             raise IOError(msg)
 
-        df = pd.read_csv(f_dict)
-        items = df["SYNONYM"].str.lower(), df["replace_token"]
-        self.X = dict(zip(*items))
+        self.rdict = {}
+        with open(f_dict) as FIN:
+            csvfile = csv.DictReader(FIN)
+            for row in csvfile:
+                term = row["term"].lower()
+                self.rdict[term] = row["replacement"]
+                
 
     def __call__(self, org_doc):
 
@@ -30,7 +34,7 @@ class replace_from_dictionary(object):
 
         # Identify which phrases were used and possible replacements
         R = collections.defaultdict(list)
-        for key, val in self.X.iteritems():
+        for key, val in self.rdict.iteritems():
             if key in ldoc:
                 R[val].append(key)
 
