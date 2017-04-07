@@ -4,6 +4,7 @@ python:
 
 install:
   - pip install codecov
+  - pip install -e .
 
 script:
   - nosetests --with-coverage --cover-package nlpre
