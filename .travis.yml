@@ -1,13 +1,12 @@
 language: python
 python:
   - "2.7"
-  
-#install:
-#  - pip install coveralls
-#  - coverage run --source hyperop setup.py test
+
+install:
+  - pip install codecov
 
 script:
-   - nosetests
+  - nosetests --with-coverage --cover-package nlpre
 
-#after_success:
-#  - coveralls
+after_success:
+  - codecov

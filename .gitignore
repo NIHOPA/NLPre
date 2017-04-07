@@ -11,4 +11,6 @@
 nlpre.egg*
 .idea
 .coverage
+coverage.xml
 cover/
+*.bak
