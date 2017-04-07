@@ -98,6 +98,8 @@ class remove_parenthesis(object):
 
         # If tokens don't include parenthetical content, return as string
         if len(token_words) == len(tokens):
+            if token_words[-1] != '.':
+                token_words.append('.')
             return [' '.join(token_words)]
         else:
             token_parens = [x for x in tokens if isinstance(x, list)]
@@ -107,10 +109,11 @@ class remove_parenthesis(object):
             # This allows content in nested parenthesis to be captured
             for tokes in token_parens:
                 sents = self.paren_pop_helper(tokes)
-                sents.append('.')
                 reorged_tokens.extend(sents)
 
             # Bundles outer sentence with inner parenthetical content
+            if token_words[-1] != '.':
+                token_words.append('.')
             new_tokins.append(' '.join(token_words))
             new_tokins.extend(reorged_tokens)
 

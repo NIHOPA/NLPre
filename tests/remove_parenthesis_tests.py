@@ -29,7 +29,7 @@ class Remove_Parenthesis_Tests():
 
     def multiple_brackets_pair_test(self):
         doc = 'hello [hello [world1] world2] world3.'
-        doc_right = 'hello world3 .\nhello world2 .\nworld1 .g'
+        doc_right = 'hello world3 .\nhello world2 .\nworld1 .'
         doc_new = self.remove(doc)
 
         assert_equals(doc_right, doc_new)
@@ -58,7 +58,7 @@ class Remove_Parenthesis_Tests():
     
     def multiple_parenthesis_multiple_inner_pair_test(self):
         doc = 'Ad Ba Ca (Da (Ed Xa) Ff (Ga Ha) In) Jo. Ka Le.'
-        doc_right = 'Ad Ba Ca Jo .\nDa Ff In .\nEd Xa .\nGa Ha .\nKa Le.'
+        doc_right = 'Ad Ba Ca Jo .\nDa Ff In .\nEd Xa .\nGa Ha .\nKa Le .'
         doc_new = self.remove(doc)
 
         assert_equals(doc_right, doc_new)
