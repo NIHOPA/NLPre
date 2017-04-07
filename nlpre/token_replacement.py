@@ -1,9 +1,10 @@
 
 class token_replacement(object):
+
     """
     Args:
         text: a string document
-    
+
     Returns
         Returns the document with common extraneous punctuation removed.
     """

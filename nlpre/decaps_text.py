@@ -5,15 +5,17 @@ from tokenizers import sentence_tokenizer
 
 
 class decaps_text(object):
+
     """
-    Args: 
+    Args:
         text: a string document
-    
+
     Returns:
-        Returns the same document, but with all words that have only one 
+        Returns the same document, but with all words that have only one
         capital letter converted to lowercase.
     """
     # Returns the number of different characters between two string
+
     def diffn(self, s1, s2):
         return len([a for a, b in zip(s1, s2) if a != b])
 

@@ -12,12 +12,13 @@ _POS_shorthand = {
 
 
 class pos_tokenizer(object):
+
     """
     Args:
         text: a string document
-        
+
     Returns:
-        Removes all words that are not nouns or adjectives from a document. 
+        Removes all words that are not nouns or adjectives from a document.
         This uses pattern.en to identify each word's POS.
     """
 
