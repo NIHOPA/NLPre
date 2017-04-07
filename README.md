@@ -1,6 +1,7 @@
 # Natural Language Preprocessing (NLPre)
 
 [![Build Status](https://travis-ci.org/NIHOPA/NLPre.svg?branch=master)](https://travis-ci.org/NIHOPA/NLPre)
+[![codecov](https://codecov.io/gh/NIHOPA/NLPre/branch/master/graph/badge.svg)](https://codecov.io/gh/NIHOPA/NLPre)
 
 Ultimately, this will be a python package to preprocess text.
 Developed by NIH OPA.
@@ -35,7 +36,7 @@ This module corrects casing by lowering all words with only one capital letter.
 
 **remove_parenthesis**
 
-Parentheicals (statements in parenthesis) are removed as long as
+Parentheticals (statements in parenthesis) are removed as long as
 they are balanced.
 
 **replace_from_dict**

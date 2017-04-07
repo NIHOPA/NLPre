@@ -65,7 +65,8 @@ setuptools.setup(
     # What does your project relate to?
     keywords="NLP",
 
-    test_suite="tests",
+    test_suite='nose.collector',
+    tests_require=['nose'],
 
     # Fill this in when ready...
     download_url='',
