@@ -9,13 +9,13 @@ class replace_from_dictionary(object):
 
     '''
         Args:
-            org_doc: a document string
+            text: a document string
         
         Returns:
             There are MeSH terms that are associated with certain phrases. This 
-            class identifies those phrases, and replaces them with the corresponding MeSh
-            term from a dictionary. It returns the document with these phrases replaced
-            with MeSH terms
+            class identifies those phrases, and replaces them with the
+            corresponding MeSh term from a dictionary. It returns the document 
+            with these phrases replaced with MeSH terms.
         
         Example:
             input: '(11-Dimethylethyl)-4-methoxyphenol is great'
@@ -35,9 +35,9 @@ class replace_from_dictionary(object):
                 term = row["term"].lower()
                 self.rdict[term] = '{}{}'.format(prefix, row["replacement"])
 
-    def __call__(self, org_doc):
+    def __call__(self, text):
 
-        doc = org_doc
+        doc = text
         ldoc = doc.lower()
 
         # Identify which phrases were used and possible replacements

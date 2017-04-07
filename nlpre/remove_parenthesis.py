@@ -17,9 +17,9 @@ class remove_parenthesis(object):
         
     Returns:
         When creating word embeddings, we do not want parenthetical content 
-        to be associated with the sentences they are found in. This class returns 
-        the input document, and appends parenthetical content as a new sentence
-        to the sentence they were found in.
+        to be associated with the sentences they are found in. This class 
+        returns the input document, and appends parenthetical content as a new 
+        sentence to the sentence they were found in.
     
     Example:
         input = 'Hello (it is a beautiful day) world.'

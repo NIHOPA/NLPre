@@ -7,11 +7,11 @@ from tokenizers import sentence_tokenizer
 class decaps_text(object):
     """
     Args: 
-        doc: a string document
+        text: a string document
     
     Returns:
-        Returns the same document, but with all words that have only one capital letter converted
-        to lowercase
+        Returns the same document, but with all words that have only one 
+        capital letter converted to lowercase.
     """
     # Returns the number of different characters between two string
     def diffn(self, s1, s2):
@@ -29,9 +29,9 @@ class decaps_text(object):
         else:
             return lower
 
-    def __call__(self, doc):
+    def __call__(self, text):
 
-        sentences = sentence_tokenizer(doc)
+        sentences = sentence_tokenizer(text)
 
         doc2 = []
 

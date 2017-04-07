@@ -17,8 +17,8 @@ class pos_tokenizer(object):
         text: a string document
         
     Returns:
-        Removes all words that are not nouns or adjectives from a document. This uses
-        pattern.en to identify each word's POS.
+        Removes all words that are not nouns or adjectives from a document. 
+        This uses pattern.en to identify each word's POS.
     """
 
     def __init__(self, POS_blacklist):
@@ -66,10 +66,10 @@ class pos_tokenizer(object):
             for y in L:
                 self.POS_map[y] = pos
 
-    def __call__(self, doc, force_lemma=True):
+    def __call__(self, text, force_lemma=True):
 
         pos_tags = []
-        tokens = self.parse(doc)
+        tokens = self.parse(text)
         doc2 = []
 
         for sentence in tokens.split():
