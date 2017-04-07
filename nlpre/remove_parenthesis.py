@@ -107,6 +107,7 @@ class remove_parenthesis(object):
             # This allows content in nested parenthesis to be captured
             for tokes in token_parens:
                 sents = self.paren_pop_helper(tokes)
+                sents.append('.')
                 reorged_tokens.extend(sents)
 
             # Bundles outer sentence with inner parenthetical content
