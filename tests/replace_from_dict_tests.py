@@ -5,11 +5,11 @@ import os
 
 class Replace_From_Dict_Test:
     def __init__(self):
-        mesh_dict = "dictionaries/"
+        MeSH_dict = "dictionaries/"
         local_dir = os.path.dirname(os.path.abspath('nlpre/dictionaries'))
-        path_to_meshdict = os.path.join(local_dir, mesh_dict)
 
-        self.replace_MeSH = replace_from_dictionary('MeSH_two_word_lexicon.csv', path_to_meshdict)
+        f_MeSH = os.path.join(local_dir, MeSH_dict, 'MeSH_two_word_lexicon.csv')
+        self.replace_MeSH = replace_from_dictionary(f_MeSH, prefix='MeSH_')
 
     def bad_dictionary_test(self):
         mesh_dict = "dictionaries/"

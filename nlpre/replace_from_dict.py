@@ -11,9 +11,7 @@ class replace_from_dictionary(object):
     DOCSTRING: TO WRITE.
     '''
 
-    def __init__(self, f_dict, input_data_directory):
-
-        f_dict = os.path.join(input_data_directory, f_dict)
+    def __init__(self, f_dict, prefix=''):
 
         if not os.path.exists(f_dict):
             msg = "Can't find dictionary {}".format(f_dict)
@@ -24,7 +22,7 @@ class replace_from_dictionary(object):
             csvfile = csv.DictReader(FIN)
             for row in csvfile:
                 term = row["term"].lower()
-                self.rdict[term] = row["replacement"]
+                self.rdict[term] = '{}{}'.format(prefix, row["replacement"])
 
     def __call__(self, org_doc):
 
