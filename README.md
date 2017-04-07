@@ -35,7 +35,7 @@ This module corrects casing by lowering all words with only one capital letter.
 
 **remove_parenthesis**
 
-Parentheicals (statements in parenthesis) are removed as long as
+Parentheticals (statements in parenthesis) are removed as long as
 they are balanced.
 
 **replace_from_dict**

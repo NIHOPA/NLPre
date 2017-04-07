@@ -2,9 +2,9 @@ from fabric.api import local
 
 def test():
     local("flake8 nlpre --ignore=E501")
-    local("nosetests")
-    #local("flake8 tests")
+    local("nosetests --with-coverage --cover-package nlpre --cover-html")
     local("aspell check README.md")
+    #local("flake8 tests")
     #local("detox")
 
 def lint():
@@ -12,7 +12,6 @@ def lint():
     #local("autopep8 tests/*.py --in-place")
 
 def cover():
-    local("nosetests --with-coverage --cover-package nlpre --cover-html")
     local("xdg-open cover/index.html")
 
 def push():
@@ -22,7 +21,7 @@ def push():
     local("git push")
 
 def clean():
-    local('rm -rvf .coverage cover/ .tox nlpre.egg-info/')
+    local('rm -rvf .coverage cover/ .tox *.egg-info/')
     for tag in ["*.pyc", "*~",]:
         local("find . -name '%s' | xargs -I {} rm -v {}"%(tag))
 

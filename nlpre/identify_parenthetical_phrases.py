@@ -73,11 +73,15 @@ class identify_parenthetical_phrases(object):
         subtokens = tokens[k - len(caps):k]
         subtoken_let = [let.upper()[0] for let in subtokens]
 
-        # if the subtokens don't provide a perfect match of the abbreviation, we must check
-        # if there are filler words. Ie, "Health and Human Services (HHS)" doesn't provide
-        # a match above because "and" isn't represented in the abbreviation. To account for this
-        # we iterate backwards from the abbreviation, trying to reconstruct the abbreviation by ignoring
-        # filler words.
+        '''
+        If the subtokens don't provide a perfect match of the abbreviation,
+        we must check if there are filler words. ie. "Health and Human
+        Services (HHS)" doesn't provide a match above because "and" isn't
+        represented in the abbreviation. To account for this we iterate
+        backwards from the abbreviation, trying to reconstruct the
+        abbreviation by ignoring filler words.
+        '''
+
         if subtoken_let != caps:
             tokens_to_remove = [
                 'and',
@@ -95,8 +99,8 @@ class identify_parenthetical_phrases(object):
                     return False
                 token = tokens[x]
                 subtokens.insert(0, token)
-                subtoken_let = [let.upper()[0]
-                                for let in subtokens if let not in tokens_to_remove]
+                subtoken_let = [let.upper()[0] for let in subtokens
+                                if let not in tokens_to_remove]
                 x -= 1
 
         return tuple(subtokens)
