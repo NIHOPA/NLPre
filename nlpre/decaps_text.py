@@ -5,19 +5,19 @@ from tokenizers import sentence_tokenizer
 
 
 class decaps_text(object):
-    # Returns the number of different characters between two strings
-
+    """
+    Args: 
+        doc: a string document
+    
+    Returns:
+        Returns the same document, but with all words that have only one capital letter converted
+        to lowercase
+    """
+    # Returns the number of different characters between two string
     def diffn(self, s1, s2):
         return len([a for a, b in zip(s1, s2) if a != b])
 
     def __init__(self):
-        '''
-        Converts a word to lowercase if only one letter in the word is
-        capitalized. We could make this a lot less complicated if we just
-        check if the first word is capitalized. When else would a word
-        have only 1 capital letter? pH. Biology has a bunch.
-        '''
-
         pass
 
     def modify_word(self, org):

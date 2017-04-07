@@ -3,11 +3,14 @@ import unidecode
 
 
 class unidecoder(object):
-
-    def __init__(self):
-        '''
+    '''
+    Args:
+        doc: a unicode document
+    
+    Returns:
         Converts a Unicode representation to a reasonable ASCII equivalent.
-        '''
+    '''
+    def __init__(self):
         pass
 
     def __call__(self, doc):

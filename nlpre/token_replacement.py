@@ -1,5 +1,12 @@
 
 class token_replacement(object):
+    """
+    Args:
+        doc: a string document
+    
+    Returns
+        Returns the document with common extraneous punctuation removed
+    """
 
     def __init__(self):
         pass

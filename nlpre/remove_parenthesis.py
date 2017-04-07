@@ -11,6 +11,20 @@ found, the parens are simply removed.
 
 
 class remove_parenthesis(object):
+    """
+    Args: 
+        text: a string document.
+        
+    Returns:
+        When creating word embeddings, we do not want parenthetical content 
+        to be associated with the sentences they are found in. This class returns 
+        the input document, and appends parenthetical content as a new sentence
+        to the sentence they were found in.
+    
+    Example:
+        input = 'Hello (it is a beautiful day) world.'
+        output = 'Hello world. it is a beautiful day'
+    """
 
     def __init__(self):
         nest = pypar.nestedExpr
