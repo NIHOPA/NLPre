@@ -5,7 +5,7 @@ import unidecode
 class unidecoder(object):
     '''
     Args:
-        doc: a unicode document
+        unicode_text: a unicode document
     
     Returns:
         Converts a Unicode representation to a reasonable ASCII equivalent.
@@ -13,8 +13,8 @@ class unidecoder(object):
     def __init__(self):
         pass
 
-    def __call__(self, doc):
-        return unidecode.unidecode(doc)
+    def __call__(self, unicode_text):
+        return unidecode.unidecode(unicode_text)
 
 
 # if __name__ == "__main__":
