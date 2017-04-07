@@ -9,3 +9,6 @@ install:
 
 script:
   - nosetests --with-coverage --cover-package nlpre
+
+after_success:
+  - codecov
