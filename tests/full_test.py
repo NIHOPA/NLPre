@@ -5,6 +5,9 @@ from nose.tools import assert_equal
 
 class Full_Test:
     def __init__(self):
+        self.location = os.path.realpath(
+            os.path.join(os.getcwd(), os.path.dirname('doc1')))
+
         POS_Blacklist = set(("connector",
                              "cardinal",
                              "pronoun",
@@ -34,43 +37,8 @@ class Full_Test:
         self.decaps = decaps_text()
         self.pos_tokenizer = pos_tokenizer(POS_Blacklist)
 
-        self.doc1 = "TITLE: UNMET NEEDS OF NON-HODGKIN LYMPHOMA SURVIVORS IN" \
-                    " KOREA: PREVALENCE, CORRELATES, AND ASSOCIATIONS WITH" \
-                    " HEALTH-RELATED QUALITY OF LIFE." \
-                    " OBJECTIVE: We aimed to describe the prevalence and" \
-                    " correlates of unmet needs among non-Hodgkin lymphoma" \
-                    " (NHL) surv- ivors in Korea and to identify their" \
-                    " association with health-related quality of life" \
-                    " (HRQOL). METHODS: Participants were 826 NHL survivors" \
-                    " from three hospitals in South Korea diagnosed at" \
-                    " least 24 months prior to participating (mean, 6.3" \
-                    " years; range, 2.1-20.9 years). We used self-reported" \
-                    " questionnaires, including the Need Scale for Cancer" \
-                    " Patients Undergoing Follow-up Care (NS-C) developed" \
-                    " in Korea and the EORTC QLQ-C30. We defined an unmet" \
-                    " need as a moderate to high level of unmet need in the" \
-                    " NS-C response scale. RESULTS: Among six domains, unmet" \
-                    " need prevalence ranged from 1.7% to 38.3%. Most" \
-                    " commonl- y reported domains with unmet needs were" \
-                    " 'treatment and prognosis' (38.3%) and 'keeping mind" \
-                    " under control' (30.5%). The three most frequently" \
-                    " reported individual unmet needs were 'being informed" \
-                    " about prevention of recurrence' (50.7%), 'being" \
-                    " informed about prevention of metastasis' (49.7%), and" \
-                    " 'having self-confidence of overcoming cancer'" \
-                    " (42.7%). Multivariate logistic analyses revealed" \
-                    " that younger age, being unm- arried, and low monthly" \
-                    " income were associated with unmet needs of multiple" \
-                    " domains. Participants with unmet needs demonstrated" \
-                    " significantly poorer HRQOL, and the most clinically" \
-                    " meaningful differences were found in social function" \
-                    " and emotional function. CONCLUSIONS: Korean NHL" \
-                    " survivors have substantial unmet needs, especially" \
-                    " those who are younger, unmarried, and have a lower" \
-                    " income. Initiating supportive care programs for" \
-                    " meeting unmet needs may enhance their HRQOL." \
-                    " Copyright 2016 John Wiley & Sons, Ltd."
-        # © this breaks
+        with open(self.location+'/tests/doc1','r') as f:
+            self.doc1 = f.read()
 
     def full_run(self, text):
         doc = text
@@ -92,33 +60,8 @@ class Full_Test:
     def document1_test(self):
         doc = self.doc1
 
-        doc_right = "title unmet need Lymphoma_Non-Hodgkin survivor" \
-                    " korea prevalence correlate association" \
-                    " health-related Quality_of_Life\n" \
-                    "OBJECTIVE prevalence" \
-                    " correlate unmet need Lymphoma_Non-Hodgkin" \
-                    " survivor korea" \
-                    " association health-related Quality_of_Life" \
-                    "\nNHL\nHRQOL\nMETHOD participant NHL survivor" \
-                    " hospital Republic_of_Korea least" \
-                    " month\nmean year range year\nquestionnaire need scale cancer" \
-                    " patient follow-up" \
-                    " korea EORTC QLQ-C30\nNS-C\nunmet" \
-                    " need moderate high level unmet need" \
-                    " NS-C response scale\nresult domain unmet" \
-                    " need prevalence percent percent\ndomain unmet need" \
-                    " treatment prognosi mind control\npercent\npercent\n" \
-                    "individual unmet need" \
-                    " prevention recurrence prevention metastasi" \
-                    " self-confidence cancer\npercent\npercent\npercent\n" \
-                    "multivariate logistic analysis" \
-                    " younger age unmarried low monthly" \
-                    " income unmet need multiple domain\nparticipant unmet" \
-                    " need poorer HRQOL meaningful difference social function" \
-                    " emotional function\nCONCLUSION NHL" \
-                    " survivor substantial unmet need" \
-                    " younger unmarried lower income\nsupportive care program" \
-                    " meet unmet need HRQOL\ncopyright john wiley son ltd"
+        with open(self.location+'/tests/doc1_right', 'r') as f:
+            doc_right = f.read()
 
         doc_new, counter = self.full_run(doc)
 
@@ -129,8 +72,6 @@ class Full_Test:
         split1 = doc_new.text.split('\n')
         split2 = doc_right.split('\n')
 
-        #for x in range(len(split1)):
-         #   assert_equal(split1[x],split2[x])
 
         #assert_equal(doc_new.text, doc_right)
         assert_equal(counter_nhl, 1)
