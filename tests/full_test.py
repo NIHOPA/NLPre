@@ -63,7 +63,7 @@ class Full_Test:
 
         return pos_tokenizer_doc, counter
 
-    def document1_test(self):
+    def document1(self):
         doc = self.doc1
 
         with open(self.location+'/tests/doc1_right', 'r') as f:
@@ -85,9 +85,17 @@ class Full_Test:
         assert_equal(counter_nhl, 1)
         assert_equal(counter_HRQOL, 1)
 
-    #def document2_test(self):
-    #    doc = self.doc2
-    #    with open(self.location+'/tests/doc1_right', 'r') as f:
-    #        doc_right = f.read()
+    def document2_test(self):
+        doc = self.doc2
+        with open(self.location+'/tests/doc2_right', 'r') as f:
+            doc_right = f.read()
 
-    #    doc_new, counter = self.full_run(doc)
+        doc_new, counter = self.full_run(doc)
+
+        split1 = doc_new.text.split('\n')
+        split2 = doc_right.split('\n')
+
+        for x in range(len(split2)):
+            assert_equal(split1[x], split2[x])
+
+        assert_equal(doc_new.text, doc_right)

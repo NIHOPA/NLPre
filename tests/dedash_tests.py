@@ -61,9 +61,17 @@ class Dedash_Test:
 
         assert_equal(doc_right, doc_new)
 
-    def dash_no_space(self):
+    def dash_no_space_test(self):
         doc = "How is the treat-ment going"
-        doc_right = "How is the treatment  going"
+        doc_right = "How is the treat-ment going"
         doc_new = self.dedash(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def dash_capitalized_word_test(self):
+        doc = "How is the Treat- ment going"
+        doc_right = "How is the Treatment  going"
+        doc_new = self.dedash(doc)
+
 
         assert_equal(doc_right, doc_new)
