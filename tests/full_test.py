@@ -63,7 +63,7 @@ class Full_Test:
 
         return pos_tokenizer_doc, counter
 
-    def document1(self):
+    def document1_test(self):
         doc = self.doc1
 
         with open(self.location+'/tests/doc1_right', 'r') as f:
@@ -74,12 +74,6 @@ class Full_Test:
         counter_nhl = counter[(('non', 'Hodgkin', 'lymphoma'), 'NHL')]
         counter_HRQOL = counter[(('health', 'related', 'quality', 'of',
                                   'life'),'HRQOL')]
-
-        split1 = doc_new.text.split('\n')
-        split2 = doc_right.split('\n')
-
-        for x in range(len(split2)):
-            assert_equal(split1[x], split2[x])
 
         assert_equal(doc_new.text, doc_right)
         assert_equal(counter_nhl, 1)
@@ -92,10 +86,7 @@ class Full_Test:
 
         doc_new, counter = self.full_run(doc)
 
-        split1 = doc_new.text.split('\n')
-        split2 = doc_right.split('\n')
-
-        for x in range(len(split2)):
-            assert_equal(split1[x], split2[x])
+        counter_sle = counter[(('systemic', 'lupus', 'erythematosus'), 'SLE')]
 
         assert_equal(doc_new.text, doc_right)
+        assert_equal(counter_sle, 1)
