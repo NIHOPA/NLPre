@@ -9,7 +9,7 @@ _internal_wordlist = os.path.join(__local_dir, __internal_wordlist)
 def dash_word(s):
 
     # Skip words with more than 2 caps
-    if len([x for x in s if x == x.upper()]) >= 2:
+    if len([x for x in s if x == x.upper() and x.isalpha()]) >= 2:
         return False
     if len(s) <= 1:
         return False
@@ -60,7 +60,7 @@ class dedash(object):
                 test_word = ''.join([x for x in word if x.isalpha()])
 
                 # Only combine sensible english words
-                if test_word not in self.english_words:
+                if test_word.lower() not in self.english_words:
                     continue
 
                 print("Merging tokens", tokens[i], tokens[i + 1], word)
