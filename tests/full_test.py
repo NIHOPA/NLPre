@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from nlpre import *
 import os
+import codecs
 from nose.tools import assert_equal
+import io
 
 class Full_Test:
     def __init__(self):
@@ -37,8 +39,10 @@ class Full_Test:
         self.decaps = decaps_text()
         self.pos_tokenizer = pos_tokenizer(POS_Blacklist)
 
-        with open(self.location+'/tests/doc1','r') as f:
+        with codecs.open(self.location+'/tests/doc1', 'r', 'utf-8') as f:
             self.doc1 = f.read()
+
+        print "done"
 
     def full_run(self, text):
         doc = text
