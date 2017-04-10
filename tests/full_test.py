@@ -25,7 +25,6 @@ class Full_Test:
 
         f_MeSH = os.path.join(local_dir, MeSH_dict, 'MeSH_two_word_lexicon.csv')
 
-
         self.unidecoder = unidecoder()
 
         self.dedash = dedash()
@@ -39,8 +38,11 @@ class Full_Test:
         self.decaps = decaps_text()
         self.pos_tokenizer = pos_tokenizer(POS_Blacklist)
 
-        with codecs.open(self.location+'/tests/doc1', 'r', 'utf-8') as f:
-            self.doc1 = f.read()
+        with codecs.open(self.location+'/tests/doc1', 'r', 'utf-8') as f1:
+            self.doc1 = f1.read()
+
+        with codecs.open(self.location+'/tests/doc2', 'r', 'utf-8') as f2:
+            self.doc2 = f2.read()
 
         print "done"
 
@@ -76,7 +78,16 @@ class Full_Test:
         split1 = doc_new.text.split('\n')
         split2 = doc_right.split('\n')
 
+        for x in range(len(split2)):
+            assert_equal(split1[x], split2[x])
 
-        #assert_equal(doc_new.text, doc_right)
+        assert_equal(doc_new.text, doc_right)
         assert_equal(counter_nhl, 1)
         assert_equal(counter_HRQOL, 1)
+
+    #def document2_test(self):
+    #    doc = self.doc2
+    #    with open(self.location+'/tests/doc1_right', 'r') as f:
+    #        doc_right = f.read()
+
+    #    doc_new, counter = self.full_run(doc)
