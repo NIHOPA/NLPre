@@ -3,8 +3,17 @@ import unidecode
 
 
 class unidecoder(object):
+
     '''
+<<<<<<< HEAD
     Converts a Unicode representation to a reasonable ASCII equivalent.
+=======
+    Args:
+        unicode_text: a unicode document
+
+    Returns:
+        Converts a Unicode representation to a reasonable ASCII equivalent.
+>>>>>>> master
     '''
 
     def __init__(self):

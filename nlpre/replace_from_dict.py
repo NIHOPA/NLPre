@@ -7,6 +7,7 @@ import csv
 
 class replace_from_dictionary(object):
 
+<<<<<<< HEAD
     """
     There are MeSH terms that are associated with certain phrases. This
     class identifies those phrases, and replaces them with the
@@ -17,6 +18,22 @@ class replace_from_dictionary(object):
         input: '(11-Dimethylethyl)-4-methoxyphenol is great'
         output: 'MeSH_Butylated_Hydroxyanisole is great'
     """
+=======
+    '''
+        Args:
+            text: a document string
+
+        Returns:
+            There are MeSH terms that are associated with certain phrases. This
+            class identifies those phrases, and replaces them with the
+            corresponding MeSh term from a dictionary. It returns the document
+            with these phrases replaced with MeSH terms.
+
+        Example:
+            input: '(11-Dimethylethyl)-4-methoxyphenol is great'
+            output: 'MeSH_Butylated_Hydroxyanisole is great'
+    '''
+>>>>>>> master
 
     def __init__(self, f_dict, prefix=''):
 

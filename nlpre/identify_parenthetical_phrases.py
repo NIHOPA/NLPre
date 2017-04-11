@@ -40,10 +40,21 @@ class parenthesis_nester(object):
 
 
 class identify_parenthetical_phrases(object):
+
     """
+<<<<<<< HEAD
     The class identifies abbreviations of phrases found in a parenthesis
     after the phrase. ex. 'Health and Human Services (HHS).
     It returns a count of how often the phrases are used in the document.
+=======
+    Args:
+        text: a string document
+
+    Returns:
+        The class identifies abbreviations of phrases found in a parenthesis
+        after the phrase. ex. 'Health and Human Services (HHS).
+        It returns a count of how often the phrases are used in the document.
+>>>>>>> master
     """
 
     def __init__(self):

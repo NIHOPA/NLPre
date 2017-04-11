@@ -17,7 +17,7 @@ def dash_word(s):
     """
 
     # Skip words with more than 2 caps
-    if len([x for x in s if x == x.upper()]) >= 2:
+    if len([x for x in s if x == x.upper() and x.isalpha()]) >= 2:
         return False
     if len(s) <= 1:
         return False
@@ -29,11 +29,23 @@ def dash_word(s):
 
 
 class dedash(object):
+
     """
+<<<<<<< HEAD
     When importing documents, words are occasionally split apart and
     separated by a dash. For instance, "treatment" might be imported as
     "treat- ment". This class detects these splits and returns a version of
     the document with the words corrected.
+=======
+    Args:
+        text: a string document
+
+    Returns:
+        When importing documents, words are occasionally split apart and
+        separated by a dash.For instance, "treatment" might be imported as
+        "treat- ment". This class detects thesesplits and returns a version of
+        the document with the words corrected.
+>>>>>>> master
     """
 
     def __init__(self):
@@ -63,7 +75,7 @@ class dedash(object):
                 test_word = ''.join([x for x in word if x.isalpha()])
 
                 # Only combine sensible english words
-                if test_word not in self.english_words:
+                if test_word.lower() not in self.english_words:
                     continue
 
                 print("Merging tokens", tokens[i], tokens[i + 1], word)

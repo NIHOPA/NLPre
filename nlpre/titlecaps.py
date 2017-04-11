@@ -30,10 +30,22 @@ def is_any_lowercase(tokens):
 class titlecaps(object):
 
     """
+<<<<<<< HEAD
     Some documents have sentences where every word is uppercase. This is
     common with titles and abstracts. This class identifies sentences where
     every word is uppercase,and returns the document with these sentences
     converted to lowercase.
+=======
+    Args:
+        min_length: the minimum length of sentences to convert to lowercase
+        text: a string document
+
+    Returns:
+        Some documents have sentences where every word is uppercase. This is
+        common with titles and abstracts. This class identifies sentences where
+        every word is uppercase,and returns the document with these sentences
+        converted to lowercase.
+>>>>>>> master
     """
 
     def __init__(self, min_length=4):

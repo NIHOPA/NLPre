@@ -4,11 +4,23 @@ import six
 
 
 class remove_parenthesis(object):
+
     """
+<<<<<<< HEAD
     When creating word embeddings, we do not want parenthetical content
     to be associated with the sentences they are found in. This class
     returns the input document, and appends parenthetical content as a new
     sentence to the sentence they were found in.
+=======
+    Args:
+        text: a string document.
+
+    Returns:
+        When creating word embeddings, we do not want parenthetical content
+        to be associated with the sentences they are found in. This class
+        returns the input document, and appends parenthetical content as a new
+        sentence to the sentence they were found in.
+>>>>>>> master
 
     Example:
         input = 'Hello (it is a beautiful day) world.'
@@ -112,6 +124,8 @@ class remove_parenthesis(object):
 
         # If tokens don't include parenthetical content, return as string
         if len(token_words) == len(tokens):
+            if token_words[-1] != '.':
+                token_words.append('.')
             return [' '.join(token_words)]
         else:
             token_parens = [x for x in tokens if isinstance(x, list)]
@@ -124,6 +138,8 @@ class remove_parenthesis(object):
                 reorged_tokens.extend(sents)
 
             # Bundles outer sentence with inner parenthetical content
+            if token_words[-1] != '.':
+                token_words.append('.')
             new_tokins.append(' '.join(token_words))
             new_tokins.extend(reorged_tokens)
 
