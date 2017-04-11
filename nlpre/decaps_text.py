@@ -7,17 +7,20 @@ from tokenizers import sentence_tokenizer
 class decaps_text(object):
 
     """
-    Args:
-        text: a string document
-
-    Returns:
-        Returns the same document, but with all words that have only one
-        capital letter converted to lowercase.
+    Returns the same document, but with all words that have only one
+    capital letter converted to lowercase.
     """
     # Returns the number of different characters between two string
 
     def diffn(self, s1, s2):
         return len([a for a, b in zip(s1, s2) if a != b])
+    '''
+    Args:
+        s1: a string
+        s2: a string
+    Returns:
+        the number of different characters between s1 and s2, an int
+    '''
 
     def __init__(self):
         pass
@@ -30,6 +33,12 @@ class decaps_text(object):
             return org
         else:
             return lower
+    '''
+    Args:
+        org: a string
+    Returns:
+        lower: the lowercase of org, a string
+    '''
 
     def __call__(self, text):
 
@@ -45,3 +54,10 @@ class decaps_text(object):
         doc2 = '\n'.join(doc2)
 
         return doc2
+
+    '''
+    Args:
+        text: a string document
+    Returns:
+        doc2: a string document
+    '''
