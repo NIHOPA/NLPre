@@ -1,11 +1,7 @@
 
 class token_replacement(object):
     """
-    Args:
-        text: a string document
-    
-    Returns
-        Returns the document with common extraneous punctuation removed.
+        Changes common tokens to standard replacements
     """
 
     def __init__(self):
@@ -38,3 +34,9 @@ class token_replacement(object):
         text = text.replace('"', '')
 
         return text
+    '''
+    Args:
+        text: a string document
+    Returns
+        Returns the document with common extraneous punctuation removed.
+    '''

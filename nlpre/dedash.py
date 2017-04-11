@@ -7,6 +7,14 @@ _internal_wordlist = os.path.join(__local_dir, __internal_wordlist)
 
 
 def dash_word(s):
+    """
+    Determines if a token might be the first portion of a dashed word
+    
+    Args:
+        s: a string
+    Return:
+        a boolean of whether the token is potentially a dash word
+    """
 
     # Skip words with more than 2 caps
     if len([x for x in s if x == x.upper()]) >= 2:
@@ -22,14 +30,10 @@ def dash_word(s):
 
 class dedash(object):
     """
-    Args:
-        text: a string document
-    
-    Returns:
-        When importing documents, words are occasionally split apart and 
-        separated by a dash.For instance, "treatment" might be imported as 
-        "treat- ment". This class detects thesesplits and returns a version of 
-        the document with the words corrected.
+    When importing documents, words are occasionally split apart and 
+    separated by a dash. For instance, "treatment" might be imported as 
+    "treat- ment". This class detects these splits and returns a version of 
+    the document with the words corrected.
     """
 
     def __init__(self):
@@ -70,6 +74,13 @@ class dedash(object):
         doc = ' '.join(tokens)
 
         return doc
+
+    '''
+    Args:
+        text: a string document    
+    Returns:
+        doc: a string document
+    '''
 
 
 # if __name__ == "__main__":

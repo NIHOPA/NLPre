@@ -5,6 +5,9 @@ import pyparsing as pypar
 
 
 class parenthesis_nester(object):
+    """
+    Class that recognizes a grammar of nested parenthesis.
+    """
 
     def __init__(self):
         nest = pypar.nestedExpr
@@ -28,17 +31,19 @@ class parenthesis_nester(object):
         except:
             return []
         return tokens
+    '''
+    Args:
+        line: a string
+    Returns:
+        tokens: a parsed object
+    '''
 
 
 class identify_parenthetical_phrases(object):
     """
-    Args:
-        text: a string document
-    
-    Returns:
-        The class identifies abbreviations of phrases found in a parenthesis
-        after the phrase. ex. 'Health and Human Services (HHS). 
-        It returns a count of how often the phrases are used in the document.
+    The class identifies abbreviations of phrases found in a parenthesis
+    after the phrase. ex. 'Health and Human Services (HHS). 
+    It returns a count of how often the phrases are used in the document.
     """
 
     def __init__(self):
@@ -61,6 +66,12 @@ class identify_parenthetical_phrases(object):
             return False
 
         return word
+    '''
+    Args:
+        item: a list of tokens
+    Returns:
+        word: the abbreviation, a string token
+    '''
 
     def check_matching(self, word, k, tokens):
         # Identify the capital letters
@@ -73,7 +84,6 @@ class identify_parenthetical_phrases(object):
 
         # This may fail if used too early in doc or if nested parens
         # this shouldn't be a match so it's OK!
-
         # try:
         #    subtokens = tokens[k - len(caps):k]
         #    subtoken_let = [let.upper()[0] for let in subtokens]
@@ -113,6 +123,14 @@ class identify_parenthetical_phrases(object):
                 x -= 1
 
         return tuple(subtokens)
+    '''
+    Args:
+        word: a string
+        k: the position of the word in tokens, an int
+        tokens: a list of strings"
+    Returns:
+        subtokens: a tuple of string tokens of the abbreviated phrase
+    '''
 
     def __call__(self, text):
 
@@ -131,7 +149,12 @@ class identify_parenthetical_phrases(object):
                     results[(tuple(subtokens), word)] += 1
 
         return results
-
+    '''
+    Args:
+        text: a string document
+    Returns:
+        results: a counter object
+    '''
 
 # if __name__ == "__main__":
 

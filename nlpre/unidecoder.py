@@ -4,17 +4,19 @@ import unidecode
 
 class unidecoder(object):
     '''
-    Args:
-        unicode_text: a unicode document
-    
-    Returns:
-        Converts a Unicode representation to a reasonable ASCII equivalent.
+    Converts a Unicode representation to a reasonable ASCII equivalent.
     '''
     def __init__(self):
         pass
 
     def __call__(self, unicode_text):
         return unidecode.unidecode(unicode_text)
+    '''
+    Args:
+        unicode_text: a unicode document
+    Returns:
+        An ascii equivalent of unicode_text
+    '''
 
 
 # if __name__ == "__main__":

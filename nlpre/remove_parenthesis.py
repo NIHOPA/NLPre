@@ -3,27 +3,16 @@ import pattern.en
 import six
 
 
-'''
-this class removes all words that are found within a parenthesis,
-regardless of how nested they are. If an unbalanced amount of parens are
-found, the parens are simply removed.
-'''
-
-
 class remove_parenthesis(object):
     """
-    Args: 
-        text: a string document.
-        
-    Returns:
-        When creating word embeddings, we do not want parenthetical content 
-        to be associated with the sentences they are found in. This class 
-        returns the input document, and appends parenthetical content as a new 
-        sentence to the sentence they were found in.
+    When creating word embeddings, we do not want parenthetical content 
+    to be associated with the sentences they are found in. This class 
+    returns the input document, and appends parenthetical content as a new 
+    sentence to the sentence they were found in.
     
     Example:
         input = 'Hello (it is a beautiful day) world.'
-        output = 'Hello world. it is a beautiful day'
+        output = 'Hello world. it is a beautiful day .'
     """
 
     def __init__(self):
@@ -53,7 +42,6 @@ class remove_parenthesis(object):
 
         sentences = self.parse(text)
         doc_out = []
-        # Should this be included in recursion?
         for sent in sentences:
 
             # Count the number of left and right parens
@@ -96,6 +84,12 @@ class remove_parenthesis(object):
 
         # doc_out.extend(content_list)
         return '\n'.join(doc_out)
+    '''
+    Args: 
+        text: a string document.    
+    Returns:
+        doc_out: a string document with parenthetical content processed
+    '''
 
     def paren_pop(self, parsed_tokens):
         # must convert the ParseResult to a list, otherwise adding it to a list
@@ -105,6 +99,12 @@ class remove_parenthesis(object):
 
         content = self.paren_pop_helper(parsed_tokens)
         return content
+    '''
+    Args:
+        parsed_tokens: a ParseResult object
+    Returns:
+        content: a list of string sentences
+    '''
 
     def paren_pop_helper(self, tokens):
         new_tokins = []
@@ -129,3 +129,9 @@ class remove_parenthesis(object):
 
             # New tokins returns a list of strings
             return new_tokins
+    '''
+    Args:
+        tokens: a list of string sentences and parenthetical content lists
+    Returns:
+        new_tokins: a list of string sentences
+    '''

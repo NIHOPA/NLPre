@@ -13,12 +13,10 @@ _POS_shorthand = {
 
 class pos_tokenizer(object):
     """
-    Args:
-        text: a string document
-        
-    Returns:
-        Removes all words that are not nouns or adjectives from a document. 
-        This uses pattern.en to identify each word's POS.
+    Removes all words that are of a designated POS from a document. For
+    example, when processing medical text, it is useful to remove all words
+    that are not nouns or adjectives.
+    This uses pattern.en to identify each word's POS.
     """
 
     def __init__(self, POS_blacklist):
@@ -65,6 +63,11 @@ class pos_tokenizer(object):
         for pos, L in POS.items():
             for y in L:
                 self.POS_map[y] = pos
+
+    '''
+    Args:
+        POS_blacklist: A set of parts of speech to remove from the text
+    '''
 
     def __call__(self, text, force_lemma=True):
 
@@ -118,3 +121,10 @@ class pos_tokenizer(object):
 
         result = meta_text(doc2, POS=pos_tags)
         return result
+    '''
+    Args:
+        text: a string document
+        force_lemma: a boolean
+    Returns:
+        result: a meta text of a string with the POS tags metadata
+    '''
