@@ -3,7 +3,7 @@ import pattern.en
 
 def split_tokenizer(func):
     ''' Splits a string from input as tokens, allows the function
-    to act over the tokens and return a string 
+    to act over the tokens and return a string
     '''
     def wrapper(text):
         # tokens = text.split()

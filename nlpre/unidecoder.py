@@ -6,6 +6,7 @@ class unidecoder(object):
     '''
     Converts a Unicode representation to a reasonable ASCII equivalent.
     '''
+
     def __init__(self):
         pass
 

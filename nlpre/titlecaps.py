@@ -5,7 +5,7 @@ from tokenizers import sentence_tokenizer
 def is_any_lowercase(tokens):
     """
     Checks if any letter in a token is lowercase
-    
+
     Args:
         tokens: a string token
     Returns:
@@ -30,9 +30,9 @@ def is_any_lowercase(tokens):
 class titlecaps(object):
 
     """
-    Some documents have sentences where every word is uppercase. This is 
+    Some documents have sentences where every word is uppercase. This is
     common with titles and abstracts. This class identifies sentences where
-    every word is uppercase,and returns the document with these sentences 
+    every word is uppercase,and returns the document with these sentences
     converted to lowercase.
     """
 

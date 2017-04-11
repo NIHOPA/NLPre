@@ -28,7 +28,7 @@ class parenthesis_nester(object):
     def __call__(self, line):
         try:
             tokens = self.grammar.parseString(line)
-        except:
+        except BaseException:
             return []
         return tokens
     '''
@@ -42,7 +42,7 @@ class parenthesis_nester(object):
 class identify_parenthetical_phrases(object):
     """
     The class identifies abbreviations of phrases found in a parenthesis
-    after the phrase. ex. 'Health and Human Services (HHS). 
+    after the phrase. ex. 'Health and Human Services (HHS).
     It returns a count of how often the phrases are used in the document.
     """
 

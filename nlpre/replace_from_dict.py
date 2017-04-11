@@ -8,11 +8,11 @@ import csv
 class replace_from_dictionary(object):
 
     """
-    There are MeSH terms that are associated with certain phrases. This 
+    There are MeSH terms that are associated with certain phrases. This
     class identifies those phrases, and replaces them with the
-    corresponding MeSh term from a dictionary. It returns the document 
+    corresponding MeSh term from a dictionary. It returns the document
     with these phrases replaced with MeSH terms.
-        
+
     Example:
         input: '(11-Dimethylethyl)-4-methoxyphenol is great'
         output: 'MeSH_Butylated_Hydroxyanisole is great'
