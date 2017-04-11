@@ -108,6 +108,15 @@ class remove_parenthesis(object):
     '''
 
     def paren_pop_helper(self, tokens):
+
+        # check if tokens is empty
+        if not tokens:
+            return tokens
+        # Check if there is a single sentence in parenthetical content
+        # if so, use the sentence as tokens
+        if isinstance(tokens[0], list) and len(tokens) == 1:
+            tokens = tokens[0]
+
         new_tokins = []
         token_words = [x for x in tokens if isinstance(x, six.string_types)]
 

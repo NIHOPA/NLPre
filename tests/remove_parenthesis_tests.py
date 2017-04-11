@@ -92,9 +92,38 @@ class Remove_Parenthesis_Tests():
 
         assert_equals(doc_right, doc_new)
 
+    def single_sentance_parens_test(self):
+        doc = 'hello world. (It is a beautiful day.) Goodbye world.'
+        doc_right = 'hello world .\nIt is a beautiful day .\nGoodbye world .'
+        doc_new = self.remove(doc)
+
+        assert_equals(doc_right, doc_new)
+
+    def empty_parens_test(self):
+        doc = 'Hello () world.'
+        doc_right = 'Hello world .'
+        doc_new = self.remove(doc)
+
+        assert_equal(doc_right, doc_new)
+
+
+    # def mixed_types_test(self):
+    #    doc = 'hello world. (It {is a} beautiful day.) Goodbye world.'
+    #    doc_right = 'hello world .\nIt  beautiful day .\nis a .\nGoodbye world .'
+    #    doc_new = self.remove(doc)
+
+    #    assert_equals(doc_right, doc_new)
+
+    # def mixed_types_unbalanced_test(self):
+    #    doc = 'hello world. (It {is a} beautiful day. Goodbye world.'
+    #    doc_right = 'hello world .\nIt  beautiful day .\nis a .\nGoodbye world .'
+    #    doc_new = self.remove(doc)
+
+    #    assert_equals(doc_right, doc_new)
+
     # Code doesn't account for multiple sentences within a parenthesis
     # I'm not sure when this case will be encountered, unless we're parsing DFW novels
-    # def multisentence_paranthesis_test(self):
+    #def multisentence_paranthesis_test(self):
     #    doc = 'hello (hello world1. Goodnight moon) world2.'
     #    doc_right = 'hello world2 .\nhello world1 .\nGoodnight moon'
     #    doc_new = self.remove(doc)
