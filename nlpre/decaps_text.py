@@ -7,15 +7,8 @@ from tokenizers import sentence_tokenizer
 class decaps_text(object):
 
     """
-<<<<<<< HEAD
-=======
-    Args:
-        text: a string document
-
-    Returns:
->>>>>>> master
-        Returns the same document, but with all words that have only one
-        capital letter converted to lowercase.
+    Returns the same document, but with all words that have only one
+    capital letter converted to lowercase.
     """
     # Returns the number of different characters between two string
 

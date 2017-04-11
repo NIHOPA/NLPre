@@ -2,15 +2,7 @@
 class token_replacement(object):
 
     """
-<<<<<<< HEAD
         Changes common tokens to standard replacements
-=======
-    Args:
-        text: a string document
-
-    Returns
-        Returns the document with common extraneous punctuation removed.
->>>>>>> master
     """
 
     def __init__(self):

@@ -14,19 +14,10 @@ _POS_shorthand = {
 class pos_tokenizer(object):
 
     """
-<<<<<<< HEAD
     Removes all words that are of a designated POS from a document. For
     example, when processing medical text, it is useful to remove all words
     that are not nouns or adjectives.
     This uses pattern.en to identify each word's POS.
-=======
-    Args:
-        text: a string document
-
-    Returns:
-        Removes all words that are not nouns or adjectives from a document.
-        This uses pattern.en to identify each word's POS.
->>>>>>> master
     """
 
     def __init__(self, POS_blacklist):

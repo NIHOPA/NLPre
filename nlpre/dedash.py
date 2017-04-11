@@ -31,21 +31,10 @@ def dash_word(s):
 class dedash(object):
 
     """
-<<<<<<< HEAD
     When importing documents, words are occasionally split apart and
     separated by a dash. For instance, "treatment" might be imported as
     "treat- ment". This class detects these splits and returns a version of
     the document with the words corrected.
-=======
-    Args:
-        text: a string document
-
-    Returns:
-        When importing documents, words are occasionally split apart and
-        separated by a dash.For instance, "treatment" might be imported as
-        "treat- ment". This class detects thesesplits and returns a version of
-        the document with the words corrected.
->>>>>>> master
     """
 
     def __init__(self):

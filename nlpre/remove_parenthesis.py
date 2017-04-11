@@ -6,21 +6,10 @@ import six
 class remove_parenthesis(object):
 
     """
-<<<<<<< HEAD
     When creating word embeddings, we do not want parenthetical content
     to be associated with the sentences they are found in. This class
     returns the input document, and appends parenthetical content as a new
     sentence to the sentence they were found in.
-=======
-    Args:
-        text: a string document.
-
-    Returns:
-        When creating word embeddings, we do not want parenthetical content
-        to be associated with the sentences they are found in. This class
-        returns the input document, and appends parenthetical content as a new
-        sentence to the sentence they were found in.
->>>>>>> master
 
     Example:
         input = 'Hello (it is a beautiful day) world.'
