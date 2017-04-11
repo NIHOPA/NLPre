@@ -109,8 +109,11 @@ class remove_parenthesis(object):
 
     def paren_pop_helper(self, tokens):
 
-        #Check if there is a single sentence in parenthetical content
-        #if so, use the sentence as tokens
+        # check if tokens is empty
+        if not tokens:
+            return tokens
+        # Check if there is a single sentence in parenthetical content
+        # if so, use the sentence as tokens
         if isinstance(tokens[0], list) and len(tokens) == 1:
             tokens = tokens[0]
 
