@@ -4,18 +4,19 @@
 [![codecov](https://codecov.io/gh/NIHOPA/NLPre/branch/master/graph/badge.svg)](https://codecov.io/gh/NIHOPA/NLPre)
 
 Ultimately, this will be a python package to preprocess text.
-Developed by NIH OPA.
+Part of [`word2vec-pipeline`](https://github.com/NIHOPA/NLPre).
+Developed by the [Office of Portfolio Analysis](https://dpcpsi.nih.gov/opa/aboutus) at the [National Institutes of Health](https://www.nih.gov/).
 
 ### Timeline
 
 + [x] Import modules from pipeline_word2vec
-+ [ ] Complete import (missing ABBR phrase replacement)
 + [x] Document which functions exists in README
 + [x] Write unit tests for individual functions
-+ [ ] Write unit tests for pipelines (multi-function)
-+ [ ] Write doc strings for all functions
-+ [ ] Clean and format this README
-+ [ ] Format as proper python package
++ [x] Write unit tests for pipelines (multi-function)
++ [x] Write doc strings for all functions
++ [x] Format as proper python package
++ [ ] Complete import (missing ABBR phrase replacement)
++ [ ] Clean and format the README
 + [ ] Upload to pypy
 
 
