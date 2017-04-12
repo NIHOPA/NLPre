@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/NIHOPA/NLPre/branch/master/graph/badge.svg)](https://codecov.io/gh/NIHOPA/NLPre)
 
 Ultimately, this will be a python package to preprocess text.
-Part of [`word2vec-pipeline`](https://github.com/NIHOPA/NLPre).
+Part of the [`word2vec-pipeline`](https://github.com/NIHOPA/word2vec_pipeline).
 Developed by the [Office of Portfolio Analysis](https://dpcpsi.nih.gov/opa/aboutus) at the [National Institutes of Health](https://www.nih.gov/).
 
 ### Timeline
