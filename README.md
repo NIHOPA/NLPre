@@ -7,6 +7,10 @@ Ultimately, this will be a python package to preprocess text.
 Part of the [`word2vec-pipeline`](https://github.com/NIHOPA/word2vec_pipeline).
 Developed by the [Office of Portfolio Analysis](https://dpcpsi.nih.gov/opa/aboutus) at the [National Institutes of Health](https://www.nih.gov/).
 
+### Installation
+
+    pip install git+git://github.com/NIHOPA/NLPre.git
+
 ### Timeline
 
 + [x] Import modules from pipeline_word2vec
