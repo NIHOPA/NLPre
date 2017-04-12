@@ -136,9 +136,10 @@ class remove_parenthesis(object):
                 reorged_tokens.extend(sents)
 
             # Bundles outer sentence with inner parenthetical content
-            if token_words[-1] != '.':
-                token_words.append('.')
-            new_tokins.append(' '.join(token_words))
+            if token_words:
+                if token_words[-1] != '.':
+                    token_words.append('.')
+                new_tokins.append(' '.join(token_words))
             new_tokins.extend(reorged_tokens)
 
             # New tokins returns a list of strings

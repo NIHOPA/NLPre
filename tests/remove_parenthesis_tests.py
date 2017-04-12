@@ -106,6 +106,12 @@ class Remove_Parenthesis_Tests():
 
         assert_equal(doc_right, doc_new)
 
+    def multiple_parens_single_sentence_test(self):
+        doc = "Hello world. (Good Evening)(goodbye)"
+        doc_right = "Hello world .\nGood Evening .\ngoodbye ."
+        doc_new = self.remove(doc)
+
+        assert_equal(doc_right, doc_new)
 
     # def mixed_types_test(self):
     #    doc = 'hello world. (It {is a} beautiful day.) Goodbye world.'
