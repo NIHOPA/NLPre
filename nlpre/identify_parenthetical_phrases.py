@@ -5,6 +5,7 @@ import pyparsing as pypar
 
 
 class parenthesis_nester(object):
+
     """
     Class that recognizes a grammar of nested parenthesis.
     """
