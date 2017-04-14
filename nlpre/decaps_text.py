@@ -1,5 +1,6 @@
 from tokenizers import sentence_tokenizer
 
+
 class decaps_text(object):
 
     """
@@ -24,7 +25,7 @@ class decaps_text(object):
         Returns:
             lower: the lowercase of org, a string
         '''
-                
+
         lower = org.lower()
 
         if self.diffn(org, lower) > 1:
@@ -33,7 +34,7 @@ class decaps_text(object):
             return lower
 
     def __call__(self, text):
-        """ 
+        """
         Runs the parser.
 
         Args:
