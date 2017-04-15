@@ -5,7 +5,9 @@ import codecs
 from nose.tools import assert_equal
 import io
 
+
 class Full_Test:
+
     def __init__(self):
         self.location = os.path.realpath(
             os.path.join(os.getcwd(), os.path.dirname('doc1')))
@@ -23,7 +25,10 @@ class Full_Test:
         MeSH_dict = "dictionaries/"
         local_dir = os.path.dirname(os.path.abspath('nlpre/dictionaries'))
 
-        f_MeSH = os.path.join(local_dir, MeSH_dict, 'MeSH_two_word_lexicon.csv')
+        f_MeSH = os.path.join(
+            local_dir,
+            MeSH_dict,
+            'MeSH_two_word_lexicon.csv')
 
         self.unidecoder = unidecoder()
 
@@ -38,10 +43,10 @@ class Full_Test:
         self.decaps = decaps_text()
         self.pos_tokenizer = pos_tokenizer(POS_Blacklist)
 
-        with codecs.open(self.location+'/tests/doc1', 'r', 'utf-8') as f1:
+        with codecs.open(self.location + '/tests/doc1', 'r', 'utf-8') as f1:
             self.doc1 = f1.read()
 
-        with codecs.open(self.location+'/tests/doc2', 'r', 'utf-8') as f2:
+        with codecs.open(self.location + '/tests/doc2', 'r', 'utf-8') as f2:
             self.doc2 = f2.read()
 
         print "done"
@@ -66,14 +71,14 @@ class Full_Test:
     def document1_test(self):
         doc = self.doc1
 
-        with open(self.location+'/tests/doc1_right', 'r') as f:
+        with open(self.location + '/tests/doc1_right', 'r') as f:
             doc_right = f.read()
 
         doc_new, counter = self.full_run(doc)
 
         counter_nhl = counter[(('non', 'Hodgkin', 'lymphoma'), 'NHL')]
         counter_HRQOL = counter[(('health', 'related', 'quality', 'of',
-                                  'life'),'HRQOL')]
+                                  'life'), 'HRQOL')]
 
         assert_equal(doc_new.text, doc_right)
         assert_equal(counter_nhl, 1)
@@ -81,7 +86,7 @@ class Full_Test:
 
     def document2_test(self):
         doc = self.doc2
-        with open(self.location+'/tests/doc2_right', 'r') as f:
+        with open(self.location + '/tests/doc2_right', 'r') as f:
             doc_right = f.read()
 
         doc_new, counter = self.full_run(doc)

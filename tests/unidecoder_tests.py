@@ -2,7 +2,9 @@
 from nose.tools import assert_equal
 from nlpre import unidecoder
 
+
 class Unidecoder_Test:
+
     def __init__(self):
         self.decoder = unidecoder()
 

@@ -3,6 +3,7 @@ from nlpre import titlecaps
 
 
 class Titlecaps_Test():
+
     def __init__(self):
         self.titlecaps = titlecaps(min_length=1)
 

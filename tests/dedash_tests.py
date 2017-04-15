@@ -1,7 +1,9 @@
 from nose.tools import *
 from nlpre.dedash import dedash
 
+
 class Dedash_Test:
+
     def __init__(self):
         self.dedash = dedash()
 
@@ -72,6 +74,5 @@ class Dedash_Test:
         doc = "How is the Treat- ment going"
         doc_right = "How is the Treatment  going"
         doc_new = self.dedash(doc)
-
 
         assert_equal(doc_right, doc_new)

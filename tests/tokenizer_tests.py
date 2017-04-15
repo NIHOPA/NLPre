@@ -3,6 +3,7 @@ from nlpre.tokenizers import meta_text, split_tokenizer, sentence_tokenizer, wor
 
 
 class Tokenizer_Tests():
+
     def __init__(self):
         pass
 
@@ -10,7 +11,7 @@ class Tokenizer_Tests():
         meta = meta_text('hello world', stuff='unicode')
 
         assert_equal('hello world', meta.text)
-        assert_equal({'stuff':'unicode'}, meta.meta)
+        assert_equal({'stuff': 'unicode'}, meta.meta)
         assert_equal('hello world', meta.__unicode__())
 
     def word_tokenizer_blank_test(self):
