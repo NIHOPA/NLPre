@@ -3,7 +3,7 @@ import pattern.en
 import six
 
 
-class remove_parenthesis(object):
+class separated_parenthesis(object):
 
     """
     Separates parenthetical content into new sentences. This is useful when
