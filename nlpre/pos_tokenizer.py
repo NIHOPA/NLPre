@@ -14,22 +14,41 @@ _POS_shorthand = {
 class pos_tokenizer(object):
 
     """
-    Removes all words that are of a designated POS from a document. For
-    example, when processing medical text, it is useful to remove all words
-    that are not nouns or adjectives.
-    This uses pattern.en to identify each word's POS.
+    Removes all words that are of a designated part-of-speech (POS) from
+    a document. For example, when processing medical text, it is useful to
+    remove all words that are not nouns or adjectives. POS detection is
+    provided by the pattern.en.parse module. Parts of speech:
+
+    POS = {
+            "connector": ["CC", "IN", "DT", "TO", "UH", "PDT"],
+            "cardinal": ["CD", "LS"],
+            "adjective": ["JJ", "JJR", "JJS"],
+            "noun": ["NN", "NNS", "NNP", "NNPS"],
+            "pronoun": ["PRP", "PRP$"],
+            "adverb": ["RB", "RBR", "RBS", "RP"],
+            "symbol": ["SYM", '$', ],
+            "punctuation": [".", ",", ":", ')', '('],
+            "modal_verb": ["MD"],
+            "verb": ["VB", "VBZ", "VBP", "VBD", "VBG", "VBN"],
+            "w_word": ["WDT", "WP", "WP$", "WRB", "EX"],
+            "unknown": ["FW", "``"],
+        }
+
+    connectors -> conjunction, determiner, infinitival to,
+                  interjection, predeterminer
+    w_word     -> which, what, who, whose, when, where, there, ...
+
     """
 
     def __init__(self, POS_blacklist):
-        '''
-        Uses pattern.en to remove POS terms on the blacklist
-        '''
+        """
+        Initialize the parser.
+
+        Args:
+            POS_blacklist: A list of parts of speech to remove from the text.
+        """
 
         self.parse = lambda x: pattern.en.parse(x, chunks=False, tags=True)
-
-        # connectors = conjunction,determiner,infinitival to,
-        #              interjection,predeterminer
-        # w_word = which, what, who, whose, when, where & there ...
 
         POS = {
             "connector": ["CC", "IN", "DT", "TO", "UH", "PDT"],
@@ -47,30 +66,21 @@ class pos_tokenizer(object):
         }
 
         self.filtered_POS = POS_blacklist
-
-        '''
-                set(("connector",
-                     "cardinal",
-                     "pronoun",
-                     "adverb",
-                     "symbol",
-                     "verb",
-                     "punctuation",
-                     "modal_verb",
-                     "w_word",))
-        '''
-
         self.POS_map = {}
         for pos, L in POS.items():
             for y in L:
                 self.POS_map[y] = pos
 
-    '''
-    Args:
-        POS_blacklist: A set of parts of speech to remove from the text
-    '''
-
     def __call__(self, text, force_lemma=True):
+        '''
+        Runs the parser.
+
+        Args:
+            text: a string document
+            force_lemma: bool, lemmitze the words prior to parsing
+        Returns:
+            results: A string document
+        '''
 
         pos_tags = []
         tokens = self.parse(text)
@@ -122,10 +132,3 @@ class pos_tokenizer(object):
 
         result = meta_text(doc2, POS=pos_tags)
         return result
-    '''
-    Args:
-        text: a string document
-        force_lemma: a boolean
-    Returns:
-        result: a meta text of a string with the POS tags metadata
-    '''

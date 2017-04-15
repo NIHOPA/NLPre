@@ -3,6 +3,7 @@ from nlpre import remove_parenthesis
 
 
 class Remove_Parenthesis_Tests():
+
     def __init__(self):
         self.remove = remove_parenthesis()
 
@@ -48,14 +49,13 @@ class Remove_Parenthesis_Tests():
 
         assert_equals(doc_right, doc_new)
 
-
     def multiple_parenthesis_pair_expand_test(self):
         doc = 'Ad Ba Ca (Da Ed Ff (Ga Ha) In) Jo. Ka Le.'
         doc_right = 'Ad Ba Ca Jo .\nDa Ed Ff In .\nGa Ha .\nKa Le .'
         doc_new = self.remove(doc)
 
         assert_equals(doc_right, doc_new)
-    
+
     def multiple_parenthesis_multiple_inner_pair_test(self):
         doc = 'Ad Ba Ca (Da (Ed Xa) Ff (Ga Ha) In) Jo. Ka Le.'
         doc_right = 'Ad Ba Ca Jo .\nDa Ff In .\nEd Xa .\nGa Ha .\nKa Le .'
@@ -106,6 +106,12 @@ class Remove_Parenthesis_Tests():
 
         assert_equal(doc_right, doc_new)
 
+    def multiple_parens_single_sentence_test(self):
+        doc = "Hello world. (Good Evening)(goodbye)"
+        doc_right = "Hello world .\nGood Evening .\ngoodbye ."
+        doc_new = self.remove(doc)
+
+        assert_equal(doc_right, doc_new)
 
     # def mixed_types_test(self):
     #    doc = 'hello world. (It {is a} beautiful day.) Goodbye world.'
@@ -130,14 +136,14 @@ class Remove_Parenthesis_Tests():
 
     #    assert_equals(doc_right, doc_new)
 
-    #def multisentence_bracket_test(self):
+    # def multisentence_bracket_test(self):
     #    doc = 'hello [world. Goodnight moon] world'
     #    doc_right = 'hello world'
     #    doc_new = self.remove(doc)
 
     #    assert_equals(doc_right, doc_new)
 
-    #def multisentence_curly_test(self):
+    # def multisentence_curly_test(self):
     #    doc = 'hello {world. Goodnight moon} world'
     #    doc_right = 'hello world'
     #    doc_new = self.remove(doc)

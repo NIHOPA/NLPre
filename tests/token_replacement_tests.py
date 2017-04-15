@@ -6,6 +6,7 @@ from nlpre import token_replacement
 
 
 class Token_Test:
+
     def __init__(self):
         self.token_replacer = token_replacement()
 
@@ -88,7 +89,7 @@ class Token_Test:
         assert_equal(doc_new, doc_right)
 
     # I think the code on this one is wrong. it only replaces 's if it's surrounded by spaces
-    #def possesivesplit_test(self):
+    # def possesivesplit_test(self):
     #    doc = "what 's up doc?"
     #    doc_new = self.token_replacer(doc)
     #    doc_right = "what up doc?"

@@ -44,10 +44,9 @@ This module corrects casing by lowering all words with only one capital letter.
 Parentheticals (statements in parenthesis) are removed as long as
 they are balanced.
 
-**replace_from_dict**
+**replace_from_dictionary**
 
-Noun phrases from a predefined dictionary are replaced. In this case we have
-MeSH already preloaded.
+Noun phrases from a predefined dictionary are replaced. The [MeSH](https://www.nlm.nih.gov/mesh/) dictionary comes included.
 
 **replace_phrases**
 
