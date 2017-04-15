@@ -6,10 +6,14 @@ import six
 class remove_parenthesis(object):
 
     """
-    When creating word embeddings, we do not want parenthetical content
-    to be associated with the sentences they are found in. This class
-    returns the input document, and appends parenthetical content as a new
-    sentence to the sentence they were found in.
+    Separates parenthetical content into new sentences. This is useful when
+    creating word embeddings, as associations should only be made within the
+    same sentence.
+
+    This parser returns a document that is sentence chunked and appends
+    parenthetical content as a new sentence to the sentence following the
+    sentences it was found in. Terminal punctuation of a period is added to
+    parenthetical sentences if necessary.
 
     Example:
         input = 'Hello (it is a beautiful day) world.'
@@ -17,8 +21,10 @@ class remove_parenthesis(object):
     """
 
     def __init__(self):
+        """ Initialize the parser. """
+
         nest = pypar.nestedExpr
-        g = pypar.Forward()  # is this necessary?
+        g = pypar.Forward()
         nestedParens = nest('(', ')')
         nestedBrackets = nest('[', ']')
         nestedCurlies = nest('{', '}')
@@ -28,8 +34,7 @@ class remove_parenthesis(object):
         letters = ''.join([x for x in pypar.printables
                            if x not in parens])
         word = pypar.Word(letters)
-        # An allowable word is a sequence of any non
-        # parenthesis character
+        # An allowable word is a sequence of any non-parenthesis character
 
         g = pypar.OneOrMore(word | nest_grammar)
         self.grammar = g
@@ -40,6 +45,14 @@ class remove_parenthesis(object):
         # Tags each word of a sentence with part of speech
 
     def __call__(self, text):
+        '''
+        Runs the parser.
+
+        Args:
+            text: a string document
+        Returns:
+            text: A string document with parenthetical content processed
+        '''
 
         sentences = self.parse(text)
         doc_out = []
@@ -85,14 +98,15 @@ class remove_parenthesis(object):
 
         # doc_out.extend(content_list)
         return '\n'.join(doc_out)
-    '''
-    Args:
-        text: a string document.
-    Returns:
-        doc_out: a string document with parenthetical content processed
-    '''
 
     def paren_pop(self, parsed_tokens):
+        '''
+        Args:
+            parsed_tokens: a ParseResult object
+        Returns:
+            content: a list of string sentences
+        '''
+
         # must convert the ParseResult to a list, otherwise adding it to a list
         # causes weird results.
         if isinstance(parsed_tokens, pypar.ParseResults):
@@ -100,15 +114,16 @@ class remove_parenthesis(object):
 
         content = self.paren_pop_helper(parsed_tokens)
         return content
-    '''
-    Args:
-        parsed_tokens: a ParseResult object
-    Returns:
-        content: a list of string sentences
-    '''
 
     def paren_pop_helper(self, tokens):
-        new_tokins = []
+        '''
+        Args:
+            tokens: a list of string sentences and parenthetical content lists
+        Returns:
+            new_tokins: a list of string sentences
+        '''
+
+        new_tokens = []
         token_words = [x for x in tokens if isinstance(x, six.string_types)]
 
         # If tokens don't include parenthetical content, return as string
@@ -129,14 +144,8 @@ class remove_parenthesis(object):
             # Bundles outer sentence with inner parenthetical content
             if token_words[-1] != '.':
                 token_words.append('.')
-            new_tokins.append(' '.join(token_words))
-            new_tokins.extend(reorged_tokens)
+            new_tokens.append(' '.join(token_words))
+            new_tokens.extend(reorged_tokens)
 
             # New tokins returns a list of strings
-            return new_tokins
-    '''
-    Args:
-        tokens: a list of string sentences and parenthetical content lists
-    Returns:
-        new_tokins: a list of string sentences
-    '''
+            return new_tokens
