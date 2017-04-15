@@ -120,8 +120,17 @@ class remove_parenthesis(object):
         Args:
             tokens: a list of string sentences and parenthetical content lists
         Returns:
-            new_tokins: a list of string sentences
+            new_tokens: a list of string sentences
         '''
+
+        # Check if token list is empty
+        if not tokens:
+            return tokens
+
+        # Check if there is a single sentence in parenthetical content
+        # if so, use the sentence as tokens
+        if isinstance(tokens[0], list) and len(tokens) == 1:
+            tokens = tokens[0]
 
         new_tokens = []
         token_words = [x for x in tokens if isinstance(x, six.string_types)]
@@ -142,10 +151,11 @@ class remove_parenthesis(object):
                 reorged_tokens.extend(sents)
 
             # Bundles outer sentence with inner parenthetical content
-            if token_words[-1] != '.':
-                token_words.append('.')
-            new_tokens.append(' '.join(token_words))
+            if token_words:
+                if token_words[-1] != '.':
+                    token_words.append('.')
+                new_tokens.append(' '.join(token_words))
             new_tokens.extend(reorged_tokens)
 
-            # New tokins returns a list of strings
+            # New tokens returns a list of strings
             return new_tokens
