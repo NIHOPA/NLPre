@@ -5,6 +5,7 @@ import pyparsing as pypar
 
 
 class parenthesis_nester(object):
+
     """
     Class that recognizes a grammar of nested parenthesis.
     """
@@ -42,15 +43,49 @@ class parenthesis_nester(object):
 class identify_parenthetical_phrases(object):
 
     """
-    The class identifies abbreviations of phrases found in a parenthesis
-    after the phrase. ex. 'Health and Human Services (HHS).
-    It returns a count of how often the phrases are used in the document.
+    Parser to identify abbreviations of phrases found in a parenthesis, ex.
+    Health and Human Services (HHS) and Office of the Director (OD).
     """
 
     def __init__(self):
+        """ Initialize the parser. """
         self.parser = parenthesis_nester()
 
-    def is_valid_abbr(self, item):
+    def __call__(self, text):
+        '''
+        Runs the parser. Returns a count of how often the phrases are
+        used in the document.
+
+        Args:
+            text: a string document
+        Returns:
+            results: A collections.counter object
+        '''
+
+        text = text.replace('-', ' ')
+        text = text.replace("'", '')
+        text = text.replace('"', '')
+
+        tokens = self.parser(text)
+        results = collections.Counter()
+
+        for k, item in enumerate(tokens):
+            word = self._is_valid_abbr(item)
+            if word:
+                subtokens = self._check_matching(word, k, tokens)
+                if subtokens:
+                    results[(tuple(subtokens), word)] += 1
+
+        return results
+
+    def _is_valid_abbr(self, item):
+        '''
+        Args:
+            item: a list of tokens
+        Returns:
+            word: the abbreviation, a string token
+        '''
+
         if isinstance(item, six.string_types):
             return False
         if len(item) != 1:
@@ -67,14 +102,17 @@ class identify_parenthetical_phrases(object):
             return False
 
         return word
-    '''
-    Args:
-        item: a list of tokens
-    Returns:
-        word: the abbreviation, a string token
-    '''
 
-    def check_matching(self, word, k, tokens):
+    def _check_matching(self, word, k, tokens):
+        '''
+        Args:
+            word: a string
+            k: the position of the word in tokens, an int
+            tokens: a list of strings"
+        Returns:
+            subtokens: a tuple of string tokens of the abbreviated phrase
+        '''
+
         # Identify the capital letters
         caps = [let for let in word if
                 let in string.ascii_uppercase.upper()]
@@ -124,38 +162,7 @@ class identify_parenthetical_phrases(object):
                 x -= 1
 
         return tuple(subtokens)
-    '''
-    Args:
-        word: a string
-        k: the position of the word in tokens, an int
-        tokens: a list of strings"
-    Returns:
-        subtokens: a tuple of string tokens of the abbreviated phrase
-    '''
 
-    def __call__(self, text):
-
-        text = text.replace('-', ' ')
-        text = text.replace("'", '')
-        text = text.replace('"', '')
-
-        tokens = self.parser(text)
-        results = collections.Counter()
-
-        for k, item in enumerate(tokens):
-            word = self.is_valid_abbr(item)
-            if word:
-                subtokens = self.check_matching(word, k, tokens)
-                if subtokens:
-                    results[(tuple(subtokens), word)] += 1
-
-        return results
-    '''
-    Args:
-        text: a string document
-    Returns:
-        results: a counter object
-    '''
 
 # if __name__ == "__main__":
 

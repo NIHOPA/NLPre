@@ -1,20 +1,21 @@
 from nose.tools import *
 from nlpre import pos_tokenizer
 
+
 class POS_Tokenizer_Test:
+
     def __init__(self):
         POS_Blacklist = set(("connector",
-                     "cardinal",
-                     "pronoun",
-                     "adverb",
-                     "symbol",
-                     "verb",
-                     "punctuation",
-                     "modal_verb",
-                     "w_word",))
+                             "cardinal",
+                             "pronoun",
+                             "adverb",
+                             "symbol",
+                             "verb",
+                             "punctuation",
+                             "modal_verb",
+                             "w_word",))
 
         self.tokenizer = pos_tokenizer(POS_Blacklist)
-
 
     def keep_nouns_test1(self):
         doc = "The boy threw the ball into the yard"
@@ -74,10 +75,8 @@ class POS_Tokenizer_Test:
 
         assert_equal(doc_right, doc_new.text)
 
-    #def unknown_word_test(self):
+    # def unknown_word_test(self):
     #    doc = 'The boy akjf45!naf the ball into the yard'
     #    doc_right = 'boy akjfnaf ball yard'
     #    doc_new = self.tokenizer(doc)
     #    assert_equal(doc_right, doc_new.text)
-
-

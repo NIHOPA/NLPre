@@ -6,14 +6,14 @@ __local_dir = os.path.dirname(os.path.abspath(__file__))
 _internal_wordlist = os.path.join(__local_dir, __internal_wordlist)
 
 
-def dash_word(s):
+def is_dash_word(s):
     """
     Determines if a token might be the first portion of a dashed word
 
     Args:
         s: a string
     Return:
-        a boolean of whether the token is potentially a dash word
+        A boolean indicating whether the token is potentially a dash word
     """
 
     # Skip words with more than 2 caps
@@ -38,6 +38,7 @@ class dedash(object):
     """
 
     def __init__(self):
+        """ Initialize the parser. Preloads a fixed English dictionary. """
 
         self.english_words = set()
         with open(_internal_wordlist) as FIN:
@@ -45,11 +46,12 @@ class dedash(object):
                 self.english_words.add(line.strip())
 
     def __call__(self, text):
+        """ Runs the parser, takes and returns a string. """
 
         tokens = text.split()
 
         for i in range(len(tokens) - 1):
-            if dash_word(tokens[i]):
+            if is_dash_word(tokens[i]):
 
                 # Require the first character of the next word is an alpha
                 if not tokens[i + 1][0].isalpha():
@@ -75,13 +77,6 @@ class dedash(object):
         doc = ' '.join(tokens)
 
         return doc
-
-    '''
-    Args:
-        text: a string document
-    Returns:
-        doc: a string document
-    '''
 
 
 # if __name__ == "__main__":

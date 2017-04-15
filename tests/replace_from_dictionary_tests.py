@@ -3,12 +3,16 @@ from nlpre import replace_from_dictionary
 import os
 
 
-class Replace_From_Dict_Test:
+class Replace_From_Dictionary_Test:
+
     def __init__(self):
         MeSH_dict = "dictionaries/"
         local_dir = os.path.dirname(os.path.abspath('nlpre/dictionaries'))
 
-        f_MeSH = os.path.join(local_dir, MeSH_dict, 'MeSH_two_word_lexicon.csv')
+        f_MeSH = os.path.join(
+            local_dir,
+            MeSH_dict,
+            'MeSH_two_word_lexicon.csv')
         self.replace_MeSH = replace_from_dictionary(f_MeSH, prefix='MeSH_')
 
     def bad_dictionary_test(self):
@@ -16,7 +20,8 @@ class Replace_From_Dict_Test:
         local_dir = os.path.dirname(os.path.abspath('nlpre/dictionaries'))
         path_to_meshdict = os.path.join(local_dir, mesh_dict)
 
-        assert_raises(IOError, replace_from_dictionary, 'MeSH_two_word_lexicon1.csv', path_to_meshdict)
+        assert_raises(IOError, replace_from_dictionary,
+                      'MeSH_two_word_lexicon1.csv', path_to_meshdict)
 
     def hydroxyethylrutoside_test1(self):
         doc = '0-beta-Hydroxyethylrutoside is great'
@@ -34,13 +39,13 @@ class Replace_From_Dict_Test:
 
     def pandemic_test(self):
         doc = '1918-1919 Influenza Pandemic was awful'
-        doc_right ='MeSH_Influenza_Pandemic_1918-1919 was awful'
+        doc_right = 'MeSH_Influenza_Pandemic_1918-1919 was awful'
         doc_new = self.replace_MeSH(doc)
 
         assert_equal(doc_right, doc_new)
 
     # fails because periods are split on
-    #def period_test(self):
+    # def period_test(self):
     #    doc = '19th Cent. History of Medicine was a good century'
     #    doc_right = 'MeSH_History_19th_Century was a good century'
     #    doc_new = self.replace_MeSH(doc)

@@ -2,13 +2,48 @@
 class token_replacement(object):
 
     """
-        Changes common tokens to standard replacements
+        Changes common tokens to standard replacements:
+
+        ('&', ' and ')
+        ('%', ' percent ')
+        ('>', ' greater-than ')
+        ('<', ' less-than ')
+        ('=', ' equals ')
+        ('#', ' ')
+        ('~', ' ')
+        ('/', ' ')
+        ('\\', ' ')
+        ('|', ' ')
+        ('$', '')
+
+        # Remove empty colons
+        (' : ', ' ')
+
+        # Remove double dashes
+        ('--', ' ')
+
+        # Remove possesive splits
+        (" 's ", ' ')
+
+        # Remove quotes
+        ("'", '')
+        ('"', '')
     """
 
     def __init__(self):
+        """ Initialize the parser. """
         pass
 
     def __call__(self, text):
+        """
+        Runs the parser.
+
+        Args:
+            text: A string document
+        Returns:
+            text: The document with common extraneous punctuation removed.
+        """
+
         text = text.replace('&', ' and ')
         text = text.replace('%', ' percent ')
         text = text.replace('>', ' greater-than ')
@@ -35,9 +70,3 @@ class token_replacement(object):
         text = text.replace('"', '')
 
         return text
-    '''
-    Args:
-        text: a string document
-    Returns
-        Returns the document with common extraneous punctuation removed.
-    '''

@@ -1,31 +1,30 @@
 from tokenizers import sentence_tokenizer
 
-# Given a document, this class will convert all words that have only one
-# capitalized letter to lowercase
-
 
 class decaps_text(object):
 
     """
-    Returns the same document, but with all words that have only one
-    capital letter converted to lowercase.
+    Normalizes capitalization patterns. Words with only a single capital
+    will be converted into lower case.
     """
-    # Returns the number of different characters between two string
 
     def diffn(self, s1, s2):
+        """ Returns the number of different characters between two strings."""
         return len([a for a, b in zip(s1, s2) if a != b])
-    '''
-    Args:
-        s1: a string
-        s2: a string
-    Returns:
-        the number of different characters between s1 and s2, an int
-    '''
 
     def __init__(self):
+        """ Initialize the parser. """
         pass
 
     def modify_word(self, org):
+        '''
+        Changes a word to lower case if it contains exactly one capital letter.
+
+        Args:
+            org: a string
+        Returns:
+            lower: the lowercase of org, a string
+        '''
 
         lower = org.lower()
 
@@ -33,14 +32,16 @@ class decaps_text(object):
             return org
         else:
             return lower
-    '''
-    Args:
-        org: a string
-    Returns:
-        lower: the lowercase of org, a string
-    '''
 
     def __call__(self, text):
+        """
+        Runs the parser.
+
+        Args:
+            text: a string document
+        Returns:
+            doc2: a string document
+        """
 
         sentences = sentence_tokenizer(text)
 
@@ -54,10 +55,3 @@ class decaps_text(object):
         doc2 = '\n'.join(doc2)
 
         return doc2
-
-    '''
-    Args:
-        text: a string document
-    Returns:
-        doc2: a string document
-    '''

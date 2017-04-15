@@ -1,7 +1,9 @@
 from nose.tools import assert_equal
 from nlpre import identify_parenthetical_phrases
 
+
 class Parenthetical_Phrases_Tests():
+
     def __init__(self):
         self.phrases = identify_parenthetical_phrases()
 
@@ -14,7 +16,8 @@ class Parenthetical_Phrases_Tests():
     def EPA_test(self):
         doc = "The Environmental Protection Agency (EPA) was created by Nixon"
         counter = self.phrases(doc)
-        counter_epa = counter[(('Environmental', 'Protection', 'Agency'), 'EPA')]
+        counter_epa = counter[
+            (('Environmental', 'Protection', 'Agency'), 'EPA')]
         assert_equal(counter_epa, 1)
 
     def EPA_multiple_words_in_parans_test(self):
@@ -26,7 +29,8 @@ class Parenthetical_Phrases_Tests():
         doc = ("The Environmental Protection Agency (EPA) was created by Nixon "
                "who loved the Environmental Protection Agency (EPA)")
         counter = self.phrases(doc)
-        counter_epa = counter[(('Environmental', 'Protection', 'Agency'), 'EPA')]
+        counter_epa = counter[
+            (('Environmental', 'Protection', 'Agency'), 'EPA')]
         assert_equal(counter_epa, 2)
 
     def EPA_nestedParans_test(self):
@@ -42,13 +46,15 @@ class Parenthetical_Phrases_Tests():
     def EPA_curly_test(self):
         doc = "The Environmental Protection Agency {EPA} was created by Nixon"
         counter = self.phrases(doc)
-        counter_epa = counter[(('Environmental', 'Protection', 'Agency'), 'EPA')]
+        counter_epa = counter[
+            (('Environmental', 'Protection', 'Agency'), 'EPA')]
         assert_equal(counter_epa, 1)
 
     def EPA_bracket_test(self):
         doc = "The Environmental Protection Agency [EPA] was created by Nixon"
         counter = self.phrases(doc)
-        counter_epa = counter[(('Environmental', 'Protection', 'Agency'), 'EPA')]
+        counter_epa = counter[
+            (('Environmental', 'Protection', 'Agency'), 'EPA')]
         assert_equal(counter_epa, 1)
 
     def EPA_lowercase_test(self):
@@ -97,22 +103,24 @@ class Parenthetical_Phrases_Tests():
     def ADA_with_not_included_test(self):
         doc = 'I love the Americans with Disabilities Act (ADA)'
         counter = self.phrases(doc)
-        counter_ada = counter[(('Americans', 'with', 'Disabilities', 'Act'), 'ADA')]
+        counter_ada = counter[
+            (('Americans', 'with', 'Disabilities', 'Act'), 'ADA')]
         assert_equal(counter_ada, 1)
 
     def CADE_for_not_included_test(self):
         doc = 'I love the Center for Acute Disease Epidemiology (CADE)'
         counter = self.phrases(doc)
-        counter_cade = counter[(('Center', 'for', 'Acute', 'Disease', 'Epidemiology'), 'CADE')]
+        counter_cade = counter[
+            (('Center', 'for', 'Acute', 'Disease', 'Epidemiology'), 'CADE')]
         assert_equal(counter_cade, 1)
 
-    #def CDC_for_and_not_included_test(self):
+    # def CDC_for_and_not_included_test(self):
     #    doc = 'I love the Centers for Disease Control and Prevention (CDC)'
     #    counter = self.phrases(doc)
     #    counter_cdc = counter[(('Centers', 'for', 'Disease', 'Control', 'and', 'Prevention'), 'CDC')]
     #    assert_equal(counter_cdc, 1)
 
-    #def CMS_ampersand_words_not_in_abr_test(self):
+    # def CMS_ampersand_words_not_in_abr_test(self):
     #    doc = "The Centers for Medicare & Medicaid Services (CMS) is great"
     #    counter = self.phrases(doc)
     #    counter_cms = counter[(('Centers', 'for', 'Medicare', '&', 'Medicaid', 'Services'), 'CMS')]
@@ -121,7 +129,8 @@ class Parenthetical_Phrases_Tests():
     def HHS_comma_test(self):
         doc = 'Health, Human Services (HHS) is a good agency'
         counter = self.phrases(doc)
-        counter_hhs = counter[(('Health,', 'Human', 'Services'), 'HHS')]   #health has comma
+        counter_hhs = counter[
+            (('Health,', 'Human', 'Services'), 'HHS')]  # health has comma
         assert_equal(counter_hhs, 1)
 
     def POC_of_included_test(self):
@@ -154,7 +163,7 @@ class Parenthetical_Phrases_Tests():
         counter_afb = counter[(('acid', 'fast', 'bacillus'), 'AFB')]
         assert_equal(counter_afb, 1)
 
-    #def GERD_word_has_multiple_letters_in_abbreviation_test(self):
+    # def GERD_word_has_multiple_letters_in_abbreviation_test(self):
     #    doc = 'I hate gastroesophageal reflux disease (GERD)'
     #    counter = self.phrases(doc)
     #    counter_gerd = counter[(('gastroesophageal', 'reflux', 'disease'), 'GERD')]
@@ -163,15 +172,17 @@ class Parenthetical_Phrases_Tests():
     def SOCE_plus_sign_test(self):
         doc = 'I want a store operated Ca2+ entry (SOCE)'
         counter = self.phrases(doc)
-        counter_soce = counter[(('store', 'operated', 'Ca2+', 'entry'), 'SOCE')]
+        counter_soce = counter[
+            (('store', 'operated', 'Ca2+', 'entry'), 'SOCE')]
         assert_equal(counter_soce, 1)
 
     def epa_od_hhs_test(self):
         doc = ("The Environmental Protection Agency (EPA) is not a government "
-            "organization (GO) of Health and Human Services (HHS).")
+               "organization (GO) of Health and Human Services (HHS).")
 
         counter = self.phrases(doc)
-        counter_epa = counter[(('Environmental', 'Protection', 'Agency'), 'EPA')]
+        counter_epa = counter[
+            (('Environmental', 'Protection', 'Agency'), 'EPA')]
         counter_go = counter[(('government', 'organization'), 'GO')]
         counter_hhs = counter[(('Health', 'and', 'Human', 'Services'), 'HHS')]
 
@@ -183,4 +194,3 @@ class Parenthetical_Phrases_Tests():
         doc = ''
         counter = self.phrases(doc)
         assert_equal(len(counter), 0)
-

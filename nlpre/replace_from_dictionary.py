@@ -8,17 +8,24 @@ import csv
 class replace_from_dictionary(object):
 
     """
-    There are MeSH terms that are associated with certain phrases. This
-    class identifies those phrases, and replaces them with the
-    corresponding MeSh term from a dictionary. It returns the document
-    with these phrases replaced with MeSH terms.
+    Replace phrases from an input dictionary. The replacement is done without
+    regard to case, but punctuation is handled correctly.
 
-    Example:
+    The MeSH (Medical Subject Headings) dictionary is built-in.
+
+    Example (given the MeSH dictionary):
         input: '(11-Dimethylethyl)-4-methoxyphenol is great'
         output: 'MeSH_Butylated_Hydroxyanisole is great'
     """
 
     def __init__(self, f_dict, prefix=''):
+        '''
+        Initialize the parser.
+
+        Args:
+            f_dict: filename, location of the replacement dictionary.
+            prefix: string, text to prefix each replacement.
+        '''
 
         if not os.path.exists(f_dict):
             msg = "Can't find dictionary {}".format(f_dict)
@@ -30,13 +37,16 @@ class replace_from_dictionary(object):
             for row in csvfile:
                 term = row["term"].lower()
                 self.rdict[term] = '{}{}'.format(prefix, row["replacement"])
-    '''
-    Args:
-        f_dict: the location of the MeSH dictionary
-        prefix: a string
-    '''
 
     def __call__(self, text):
+        '''
+        Runs the parser.
+
+        Args:
+            text: a document string
+        Returns:
+            doc: a document string
+        '''
 
         doc = text
         ldoc = doc.lower()
@@ -66,12 +76,6 @@ class replace_from_dictionary(object):
 
         doc = ' '.join([x for x in doc.split(' ') if x])
         return doc
-    '''
-    Args:
-        text: a document string
-    Returns:
-        doc: a document string
-    '''
 
 
 # if __name__ == "__main__":
