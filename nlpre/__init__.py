@@ -1,4 +1,4 @@
-from .replace_from_dict import replace_from_dictionary
+from .replace_from_dictionary import replace_from_dictionary
 from .remove_parenthesis import remove_parenthesis
 from .token_replacement import token_replacement
 from .decaps_text import decaps_text

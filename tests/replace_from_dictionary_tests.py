@@ -3,7 +3,7 @@ from nlpre import replace_from_dictionary
 import os
 
 
-class Replace_From_Dict_Test:
+class Replace_From_Dictionary_Test:
     def __init__(self):
         MeSH_dict = "dictionaries/"
         local_dir = os.path.dirname(os.path.abspath('nlpre/dictionaries'))
@@ -16,7 +16,8 @@ class Replace_From_Dict_Test:
         local_dir = os.path.dirname(os.path.abspath('nlpre/dictionaries'))
         path_to_meshdict = os.path.join(local_dir, mesh_dict)
 
-        assert_raises(IOError, replace_from_dictionary, 'MeSH_two_word_lexicon1.csv', path_to_meshdict)
+        assert_raises(IOError, replace_from_dictionary,
+                      'MeSH_two_word_lexicon1.csv', path_to_meshdict)
 
     def hydroxyethylrutoside_test1(self):
         doc = '0-beta-Hydroxyethylrutoside is great'
