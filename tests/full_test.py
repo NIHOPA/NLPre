@@ -38,7 +38,7 @@ class Full_Test:
 
         self.parenthetical = identify_parenthetical_phrases()
 
-        self.remove_parenthesis = remove_parenthesis()
+        self.separated_parenthesis = separated_parenthesis()
         self.token_replacement = token_replacement()
         self.decaps = decaps_text()
         self.pos_tokenizer = pos_tokenizer(POS_Blacklist)
@@ -61,8 +61,8 @@ class Full_Test:
         counter = self.parenthetical(titlecaps_doc)
 
         replace_from_dict_doc = self.replace_from_dict(titlecaps_doc)
-        remove_parenthesis_doc = self.remove_parenthesis(replace_from_dict_doc)
-        token_replacement_doc = self.token_replacement(remove_parenthesis_doc)
+        separated_parenthesis_doc = self.separated_parenthesis(replace_from_dict_doc)
+        token_replacement_doc = self.token_replacement(separated_parenthesis_doc)
         decaps_doc = self.decaps(token_replacement_doc)
         pos_tokenizer_doc = self.pos_tokenizer(decaps_doc)
 
