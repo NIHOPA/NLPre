@@ -1,6 +1,7 @@
 import pyparsing as pypar
 import pattern.en
 import six
+from Grammars import parenthesis_nester
 
 
 class separated_parenthesis(object):
@@ -23,21 +24,7 @@ class separated_parenthesis(object):
     def __init__(self):
         """ Initialize the parser. """
 
-        nest = pypar.nestedExpr
-        g = pypar.Forward()
-        nestedParens = nest('(', ')')
-        nestedBrackets = nest('[', ']')
-        nestedCurlies = nest('{', '}')
-        nest_grammar = nestedParens | nestedBrackets | nestedCurlies
-
-        parens = "(){}[]"
-        letters = ''.join([x for x in pypar.printables
-                           if x not in parens])
-        word = pypar.Word(letters)
-        # An allowable word is a sequence of any non-parenthesis character
-
-        g = pypar.OneOrMore(word | nest_grammar)
-        self.grammar = g
+        self.grammar = parenthesis_nester()
 
         # self.parse = lambda x:pattern.en.parse(x,chunks=False,tags=False)
         self.parse = lambda x: pattern.en.tokenize(
@@ -77,7 +64,7 @@ class separated_parenthesis(object):
             #    tokens = self.grammar.parseString(sent)
             # except (pypar.ParseException, RuntimeError):
             #    FLAG_valid = False
-            tokens = self.grammar.parseString(sent)
+            tokens = self.grammar.grammar.parseString(sent)
 
             if not FLAG_valid:
                 # On fail simply remove all parenthesis
