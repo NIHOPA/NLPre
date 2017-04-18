@@ -72,7 +72,8 @@ class dedash(object):
                 if test_word.lower() not in self.english_words:
                     continue
 
-                logger.info("Merging tokens", tokens[i], tokens[i + 1], word)
+                logger.info("Merging tokens %s %s %s"
+                            % (tokens[i], tokens[i + 1], word))
 
                 tokens[i] = word
                 tokens[i + 1] = ''
