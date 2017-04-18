@@ -1,5 +1,8 @@
 import pattern.en
 from tokenizers import meta_text
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 _POS_shorthand = {
     "adjective": "ADJ",
@@ -106,7 +109,7 @@ class pos_tokenizer(object):
                 # try:
                 #    pos = self.POS_map[tag]
                 # except BaseException:
-                #    print("UNKNOWN POS *{}*".format(tag))
+                #    logger.info("UNKNOWN POS *{}*".format(tag))
                 #    pos = "unknown"
                 pos = self.POS_map[tag]
 
