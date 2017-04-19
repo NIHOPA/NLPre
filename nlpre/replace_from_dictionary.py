@@ -3,6 +3,9 @@ import itertools
 import collections
 import re
 import csv
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class replace_from_dictionary(object):
@@ -73,6 +76,7 @@ class replace_from_dictionary(object):
                     continue
                 pattern = re.compile(re.escape(rval), re.IGNORECASE)
                 doc = pattern.sub(' {} '.format(term), doc)
+                logger.info('Replacing term %s with %s' % (rval, term))
 
         doc = ' '.join([x for x in doc.split(' ') if x])
         return doc
