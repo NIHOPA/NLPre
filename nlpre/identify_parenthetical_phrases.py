@@ -2,9 +2,11 @@ import string
 import collections
 import six
 from Grammars import parenthesis_nester
-import logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+import os
+import logging.config
+logDir = os.path.split(os.path.dirname(__file__))[0]
+logging.config.fileConfig(logDir + '/logging.conf')
+logger = logging.getLogger("identify_parenthetical_phrases")
 
 
 class identify_parenthetical_phrases(object):

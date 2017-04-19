@@ -8,7 +8,6 @@ class Replace_From_Dictionary_Test:
     def __init__(self):
         MeSH_dict = "dictionaries/"
         local_dir = os.path.dirname(os.path.abspath('nlpre/dictionaries'))
-
         f_MeSH = os.path.join(
             local_dir,
             MeSH_dict,

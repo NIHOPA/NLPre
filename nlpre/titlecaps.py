@@ -1,7 +1,9 @@
 from tokenizers import sentence_tokenizer
-import logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+import os
+import logging.config
+logDir = os.path.split(os.path.dirname(__file__))[0]
+logging.config.fileConfig(logDir + '/logging.conf')
+logger = logging.getLogger("titlecaps")
 
 
 class titlecaps(object):

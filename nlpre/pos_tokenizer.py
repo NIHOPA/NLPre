@@ -1,8 +1,10 @@
 import pattern.en
 from tokenizers import meta_text
-import logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+import os
+import logging.config
+logDir = os.path.split(os.path.dirname(__file__))[0]
+logging.config.fileConfig(logDir + '/logging.conf')
+logger = logging.getLogger("pos_tokenizer")
 
 _POS_shorthand = {
     "adjective": "ADJ",
