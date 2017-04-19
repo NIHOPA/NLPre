@@ -2,6 +2,9 @@ import string
 import collections
 import six
 from Grammars import parenthesis_nester
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class identify_parenthetical_phrases(object):
@@ -40,6 +43,8 @@ class identify_parenthetical_phrases(object):
                 if subtokens:
                     results[(tuple(subtokens), word)] += 1
 
+        if results:
+            logger.info('counter: %s' % results)
         return results
 
     def _is_valid_abbr(self, item):

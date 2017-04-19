@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 __internal_wordlist = "dictionaries/english_wordlist.txt"
 __local_dir = os.path.dirname(os.path.abspath(__file__))
@@ -69,7 +72,8 @@ class dedash(object):
                 if test_word.lower() not in self.english_words:
                     continue
 
-                print("Merging tokens", tokens[i], tokens[i + 1], word)
+                logger.info("Merging tokens %s %s %s"
+                            % (tokens[i], tokens[i + 1], word))
 
                 tokens[i] = word
                 tokens[i + 1] = ''

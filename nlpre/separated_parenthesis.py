@@ -2,6 +2,9 @@ import pyparsing as pypar
 import pattern.en
 import six
 from Grammars import parenthesis_nester
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class separated_parenthesis(object):
@@ -135,6 +138,7 @@ class separated_parenthesis(object):
             # This allows content in nested parenthesis to be captured
             for tokes in token_parens:
                 sents = self.paren_pop_helper(tokes)
+                logger.info('Expanded parenthetical content: %s' % sents)
                 reorged_tokens.extend(sents)
 
             # Bundles outer sentence with inner parenthetical content

@@ -1,5 +1,8 @@
 import pattern.en
 from tokenizers import meta_text
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 _POS_shorthand = {
     "adjective": "ADJ",
@@ -85,6 +88,7 @@ class pos_tokenizer(object):
         pos_tags = []
         tokens = self.parse(text)
         doc2 = []
+        removedWords = []
 
         for sentence in tokens.split():
             sent2 = []
@@ -106,11 +110,12 @@ class pos_tokenizer(object):
                 # try:
                 #    pos = self.POS_map[tag]
                 # except BaseException:
-                #    print("UNKNOWN POS *{}*".format(tag))
+                #    logger.info("UNKNOWN POS *{}*".format(tag))
                 #    pos = "unknown"
                 pos = self.POS_map[tag]
 
                 if pos in self.filtered_POS:
+                    removedWords.append(word)
                     continue
 
                 word = pattern.en.singularize(word, pos)
@@ -126,6 +131,8 @@ class pos_tokenizer(object):
             doc2.append(' '.join(sent2))
 
         doc2 = '\n'.join(doc2)
+
+        logger.info('Removed words: %s' % removedWords)
 
         # The number of POS tokens should match the number of word tokens
         assert(len(pos_tags) == len(doc2.split()))
