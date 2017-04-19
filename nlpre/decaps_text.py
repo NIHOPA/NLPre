@@ -1,4 +1,9 @@
 from tokenizers import sentence_tokenizer
+import os
+import logging.config
+logDir = os.path.split(os.path.dirname(__file__))[0]
+logging.config.fileConfig(logDir + '/logging.conf')
+logger = logging.getLogger("decaps")
 
 
 class decaps_text(object):
@@ -30,8 +35,9 @@ class decaps_text(object):
 
         if self.diffn(org, lower) > 1:
             return org
-        else:
-            return lower
+        elif org != lower:
+            logger.info('Decapitalizing word %s to %s' % (org, lower))
+        return lower
 
     def __call__(self, text):
         """
