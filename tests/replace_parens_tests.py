@@ -1,18 +1,20 @@
 from nose.tools import assert_equal
 from nlpre import identify_parenthetical_phrases
+from nlpre.replace_acronyms import Replace_Acronym
 
 class Parens_Replace_Test():
     def __init__(self):
         self.phrases = identify_parenthetical_phrases()
-        self.replacer = replacer()
+        #self.replacer = Replace_Acronym()
 
     def acronym_in_same_doc_test(self):
         doc = "The Environmental Protection Agency (EPA) was created by Nixon. The EPA helps the environment"
         counter = self.phrases(doc)
 
-        doc_new = self.replacer(doc, counter)
-        doc_right = "The Environmental Protection Agency (EPA) was created by Nixon ." \
-                    " The Environmental Protection Agency helps the environment"
+        replacer = Replace_Acronym(counter)
+        doc_new = replacer(doc)
+        doc_right = "The Environmental Protection Agency ( Environmental Protection Agency ) was created by Nixon .\n" \
+                    "The Environmental Protection Agency helps the environment"
 
         assert_equal(doc_right, doc_new)
 
@@ -20,10 +22,11 @@ class Parens_Replace_Test():
         doc = 'I love the Americans with Disabilities Act (ADA). The ADA saved my life'
         counter = self.phrases(doc)
 
-        doc_new = self.replacer(doc, counter)
+        replacer = Replace_Acronym(counter)
+        doc_new = replacer(doc)
 
-        doc_right = 'I love the Americans with Disabilities Act (ADA) .' \
-                    ' The Americans with Disabilities Act saved my life'
+        doc_right = 'I love the Americans with Disabilities Act ( Americans with Disabilities Act ) .\n' \
+                    'The Americans with Disabilities Act saved my life'
 
         assert_equal(doc_new, doc_right)
 
@@ -35,10 +38,11 @@ class Parens_Replace_Test():
 
         counter = self.phrases(doc)
 
-        doc_new = self.replacer(doc, counter)
+        replacer = Replace_Acronym(counter)
+        doc_new = replacer(doc)
 
-        doc_right = ("The Environmental Protection Agency (EPA) is not a government "
-               "organization (GO) of Health and Human Services (HHS) . While the Environmental Protection Agency and "
+        doc_right = ("The Environmental Protection Agency ( Environmental Protection Agency ) is not a government "
+               "organization ( government organization ) of Health and Human Services ( Health and Human Services ) .\nWhile the Environmental Protection Agency and "
                "Health and Human Services are both a government organization , they are different agencies")
 
         assert_equal(doc_new, doc_right)
@@ -47,11 +51,29 @@ class Parens_Replace_Test():
         doc1 = 'The Environmental Protection Agency (EPA) was created by Nixon'
         doc2 = 'The EPA helps the environment'
 
+        doc_right = 'The Environmental Protection Agency helps the environment'
+
         counter = self.phrases(doc1)
 
-        doc_new = self.replacer(doc2, counter)
-        assert_equal(doc1, doc2)
+        replacer = Replace_Acronym(counter)
+        doc_new = replacer(doc2)
+        assert_equal(doc_new, doc_right)
 
+    def duplicate_acronyms_test(self):
+        doc1 = 'The Environmental Protection Agency (EPA) was created by Nixon. ' \
+               'The Environmental Protection Agency (EPA) loves the tress. ' \
+               'The less well known Elephant Protection Agency (EPA) does ' \
+               'important work as well.'
+
+        doc2 = 'The EPA helps the environment'
+
+        doc_right = 'The Environmental Protection Agency helps the environment'
+
+        counter = self.phrases(doc1)
+
+        replacer = Replace_Acronym(counter)
+        doc_new = replacer(doc2)
+        assert_equal(doc_new, doc_right)
 
 
     #Need a class to compile all individual counters
@@ -67,6 +89,9 @@ class Parens_Replace_Test():
         counter3 = self.phrases(doc3)
 
         return
+
+
+
 
 
 
