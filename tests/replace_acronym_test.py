@@ -112,6 +112,26 @@ class Parens_Replace_Test():
         doc_new = replacer(doc2, doc_counter)
         assert_equal(doc_new, doc_right)
 
+    def duplicate_acronyms_included_test(self):
+        doc1 = 'The Environmental Protection Agency (EPA) was created ' \
+               'by Nixon. The Environmental Protection Agency (EPA) loves ' \
+               'the tress. The less well known Elephant Protection Agency ' \
+               '(EPA) does important work as well.'
+
+        doc2 = 'The Ent Protection Agency (EPA) stopped Sauromon. ' \
+               'The EPA helps the environment'
+
+        doc_right = 'The Ent Protection Agency ( Ent Protection Agency ) ' \
+                    'stopped Sauromon .\nThe Ent Protection Agency helps ' \
+                    'the environment'
+
+        counter = self.phrases(doc1)
+        doc_counter = self.phrases(doc2)
+
+        replacer = replace_acronym(counter, underscore=False)
+        doc_new = replacer(doc2, doc_counter)
+        assert_equal(doc_new, doc_right)
+
 
     #Need a class to compile all individual counters
     def count_multiple_docs_test(self):

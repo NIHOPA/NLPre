@@ -73,7 +73,6 @@ class Full_Test:
 
         replaced_abbrv_doc = self.replace_abbreviation(pos_tokenizer_doc.text, counter)
 
-
         return replaced_abbrv_doc, counter
 
     def acronym_counter(self):
@@ -98,11 +97,6 @@ class Full_Test:
         counter_HRQOL = counter[(('health', 'related', 'quality', 'of',
                                   'life'), 'HRQOL')]
 
-        #sent1 = doc_new.split('\n')
-        #sent2 = doc_right.split('\n')
-        #for x in range(0,len(sent1)):
-        #    assert_equal(sent1[x], sent2[x])
-
         assert_equal(doc_new, doc_right)
         assert_equal(counter_nhl, 1)
         assert_equal(counter_HRQOL, 1)
@@ -116,12 +110,10 @@ class Full_Test:
 
         counter_sle = counter[(('systemic', 'lupus', 'erythematosus'), 'SLE')]
 
-
         sent1 = doc_new.split('\n')
         sent2 = doc_right.split('\n')
         for x in range(0,len(sent1)):
             assert_equal(sent1[x], sent2[x])
-
 
         assert_equal(doc_new, doc_right)
         assert_equal(counter_sle, 1)
