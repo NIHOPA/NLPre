@@ -1,6 +1,6 @@
 from nose.tools import assert_equal
 from nlpre import identify_parenthetical_phrases
-from nlpre.replace_acronyms import Replace_Acronym
+from nlpre.replace_acronyms import replace_acronym
 
 class Parens_Replace_Test():
     def __init__(self):
@@ -11,8 +11,8 @@ class Parens_Replace_Test():
               "Nixon. The EPA helps the environment"
         counter = self.phrases(doc)
 
-        replacer = Replace_Acronym(counter,underscore=False)
-        doc_new = replacer(doc)
+        replacer = replace_acronym(counter, underscore=False)
+        doc_new = replacer(doc, counter)
         doc_right = "The Environmental Protection Agency ( Environmental " \
                     "Protection Agency ) was created by Nixon .\n" \
                     "The Environmental Protection Agency helps the environment"
@@ -24,8 +24,8 @@ class Parens_Replace_Test():
               "Nixon. The EPA helps the environment"
         counter = self.phrases(doc)
 
-        replacer = Replace_Acronym(counter)
-        doc_new = replacer(doc)
+        replacer = replace_acronym(counter)
+        doc_new = replacer(doc, counter)
         doc_right = "The Environmental Protection Agency " \
                     "( Environmental_Protection_Agency ) was created by " \
                     "Nixon .\nThe Environmental_Protection_Agency helps the " \
@@ -38,8 +38,8 @@ class Parens_Replace_Test():
               'saved my life'
         counter = self.phrases(doc)
 
-        replacer = Replace_Acronym(counter,underscore=False)
-        doc_new = replacer(doc)
+        replacer = replace_acronym(counter, underscore=False)
+        doc_new = replacer(doc, counter)
 
         doc_right = 'I love the Americans with Disabilities Act ( Americans ' \
                     'with Disabilities Act ) .\nThe Americans with' \
@@ -55,8 +55,8 @@ class Parens_Replace_Test():
 
         counter = self.phrases(doc)
 
-        replacer = Replace_Acronym(counter,underscore=False)
-        doc_new = replacer(doc)
+        replacer = replace_acronym(counter,underscore=False)
+        doc_new = replacer(doc, counter)
 
         doc_right = ("The Environmental Protection Agency ( Environmental "
                      "Protection Agency ) is not a government organization "
@@ -73,11 +73,11 @@ class Parens_Replace_Test():
         doc2 = 'The EPA helps the environment'
 
         doc_right = 'The Environmental Protection Agency helps the environment'
-
         counter = self.phrases(doc1)
+        doc_counter = self.phrases(doc2)
 
-        replacer = Replace_Acronym(counter, underscore=False)
-        doc_new = replacer(doc2)
+        replacer = replace_acronym(counter, underscore=False)
+        doc_new = replacer(doc2, doc_counter)
         assert_equal(doc_new, doc_right)
 
     def almost_acronym_but_lowercase_test(self):
@@ -85,8 +85,8 @@ class Parens_Replace_Test():
               "Nixon. The epa helps the environment"
         counter = self.phrases(doc)
 
-        replacer = Replace_Acronym(counter, underscore=False)
-        doc_new = replacer(doc)
+        replacer = replace_acronym(counter, underscore=False)
+        doc_new = replacer(doc, counter)
         doc_right = "The Environmental Protection Agency ( Environmental " \
                     "Protection Agency ) was created by Nixon .\nThe epa " \
                     "helps the environment"
@@ -106,9 +106,10 @@ class Parens_Replace_Test():
         doc_right = 'The Environmental Protection Agency helps the environment'
 
         counter = self.phrases(doc1)
+        doc_counter = self.phrases(doc2)
 
-        replacer = Replace_Acronym(counter, underscore=False)
-        doc_new = replacer(doc2)
+        replacer = replace_acronym(counter, underscore=False)
+        doc_new = replacer(doc2, doc_counter)
         assert_equal(doc_new, doc_right)
 
 
@@ -125,9 +126,11 @@ class Parens_Replace_Test():
         counter2 = self.phrases(doc2)
         counter3 = self.phrases(doc3)
 
+        doc_counter = self.phrases(doc_replace)
+
         big_counter = counter1 + counter2 + counter3
-        replacer = Replace_Acronym(big_counter, underscore=False)
-        doc_new = replacer(doc_replace)
+        replacer = replace_acronym(big_counter, underscore=False)
+        doc_new = replacer(doc_replace, doc_counter)
         assert_equal(doc_new, doc_right)
 
 

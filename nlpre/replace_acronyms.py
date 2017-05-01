@@ -1,15 +1,15 @@
 # Given a counter dictionary and a document, this class will replace all
 # instances of acronyms in the document
 import pattern
-from identify_parenthetical_phrases import identify_parenthetical_phrases
 import operator
 from Grammars import parenthesis_nester
 
 
-class Replace_Acronym():
-    def __init__(self, counter, underscore=True):
+class replace_acronym():
+    def __init__(self, counter, underscore=True, preprocessed=False):
         self.counter = counter
         self.underscore = underscore
+        self.preprocessed = preprocessed
 
         self.parse = lambda x: pattern.en.tokenize(
             x)
@@ -35,16 +35,15 @@ class Replace_Acronym():
         else:
             return False
 
-    def __call__(self, document):
-        # if isinstance(tokens, pypar.ParseResults):
-        #    tokens = tokens.asList()
-
-        sentences = self.parse(document)
+    def __call__(self, document, doc_counter):
+        if self.preprocessed:
+            sentences = document.split('\n')
+        else:
+            sentences = self.parse(document)
         # not really efficient to re-run the counter. I think saving counters
         # for each doc as meta-data might be the way to go
-        ID_Phrases = identify_parenthetical_phrases()
-        counter = ID_Phrases(document)
-
+        # ID_Phrases = identify_parenthetical_phrases()
+        # counter = ID_Phrases(document)
         new_doc = []
 
         for sentence in sentences:
@@ -54,7 +53,7 @@ class Replace_Acronym():
                 continue_flag = False
                 if self.check_acronym(token):
                     # check if acronym is used within document
-                    for tuple in counter.iterkeys():
+                    for tuple in doc_counter.iterkeys():
                         if tuple[1] == token:
                             continue_flag = True
                             highest_phrase = list(tuple[0])
