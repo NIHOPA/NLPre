@@ -89,7 +89,7 @@ class replace_acronym():
         '''
 
         for acronym_tuple in doc_counter.iterkeys():
-            if tuple[1] == token:
+            if acronym_tuple[1] == token:
                 highest_phrase = list(acronym_tuple[0])
                 return highest_phrase
         return False
