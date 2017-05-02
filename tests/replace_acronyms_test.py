@@ -19,6 +19,19 @@ class Parens_Replace_Test():
 
         assert_equal(doc_right, doc_new)
 
+    def counter_must_be_infered_test(self):
+        doc = "The Environmental Protection Agency (EPA) was created by " \
+              "Nixon. The EPA helps the environment"
+        counter = self.phrases(doc)
+
+        replacer = replace_acronyms(counter, underscore=False)
+        doc_new = replacer(doc)
+        doc_right = "The Environmental Protection Agency ( Environmental " \
+                    "Protection Agency ) was created by Nixon .\n" \
+                    "The Environmental Protection Agency helps the environment"
+
+        assert_equal(doc_right, doc_new)
+
     def acronym_in_same_doc_underscore_test(self):
         doc = "The Environmental Protection Agency (EPA) was created by " \
               "Nixon. The EPA helps the environment"
