@@ -16,7 +16,24 @@ NLPre is part of the [`word2vec-pipeline`](https://github.com/NIHOPA/word2vec_pi
 
 ### Example
 
-    text = '''TITLE: UNMET NEEDS OF NON-HODGKIN LYMPHOMA SURVIVORS IN KOREA: PREVALENCE, CORRELATES, AND ASSOCIATIONS WITH HEALTH-RELATED QUALITY OF LIFE. OBJECTIVE: We aimed to describe the prevalence and correlates of unmet needs among non-Hodgkin lymphoma (NHL) surv- ivors in Korea and to identify their association with health-related quality of life (HRQOL). '''
+    from nlpre import titlecaps, dedash, identify_parenthetical_phrases
+    from nlpre import replace_acronyms, replace_from_dictionary
+
+    text = '''LYMPHOMA SURVIVORS IN KOREA. Describe the unmet needs among non-Hodgkin lymphoma
+              (NHL) surv- ivors in Korea and to identify NHL patients and their relation to '''
+
+    ABBR = identify_parenthetical_phrases()(text)
+    parsers = [dedash(), titlecaps(), replace_acronyms(ABBR),
+    	       replace_from_dictionary(prefix="MeSH_")]
+
+    for f in parsers:
+        text = f(text)
+
+    print (text)
+
+    ''' Describe the correlates of unmet needs among MeSH_Lymphoma_Non-Hodgkin ( non_Hodgkin_lymphoma ) survivors
+        in Korea and identify non_Hodgkin_lymphoma patients with an abnormal MeSH_Leukocyte_Count . '''
+
 
 ### What's included?
 
