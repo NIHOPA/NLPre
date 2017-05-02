@@ -49,9 +49,9 @@ class Parens_Replace_Test():
 
 
     def multiple_acronyms_same_doc_test(self):
-        doc = ("The Environmental Protection Agency (EPA) is not a government "
-               "organization (GO) of Health and Human Services (HHS). While"
-               " the EPA and HHS are both a GO, they are different agencies")
+        doc = "The Environmental Protection Agency (EPA) is not a government" \
+               " organization (GO) of Health and Human Services (HHS). While" \
+               " the EPA and HHS are both a GO, they are different agencies"
 
         counter = self.phrases(doc)
 

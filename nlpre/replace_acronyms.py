@@ -1,43 +1,41 @@
-# Given a counter dictionary and a document, this class will replace all
-# instances of acronyms in the document
 import pattern
 import operator
-from Grammars import parenthesis_nester
 
 
 class replace_acronym():
 
     """
-    Replaces acronym's and abbreviations found in a document with it's
-    corresponding full phrase. A counter dictionary is passed in __init__
-    to determine the corresponding full phrases.
-    
+    Replaces acronyms and abbreviations found in a document with their
+    corresponding phrase. A counter dictionary is passed in __init__
+    to determine phrases.
+
     If an acronym is explicitly identified with a phrase in a document, then
-    all instances of that acronym will replaced with the given phrase.
-    
+    all instances of that acronym in the document will be replaced with the
+    given phrase.
+
     Example:
         input: "The Environmental Protection Agency (EPA) protects trees. The
                 EPA was created by Nixon"
-        output: "The Environmental Protection Agency 
-                 (Environmental_Protection_Agency) protects trees. The 
+        output: "The Environmental Protection Agency
+                 (Environmental_Protection_Agency) protects trees. The
                  Environmental_Protection_Agency was created by Nixon"
-                 
+
     If there is no explicit indication what the phrase is within the document,
     then the most common phrase associated with the acronym in the given
     counter is used.
-    
+
     Example:
         input: "The EPA protects trees"
         output: "The Environmental_Protection_Agency protects trees"
-    
     """
 
     def __init__(self, counter, underscore=True, preprocessed=False):
         '''
-        Initialize the parser and the acronym dictionary
-        
+        Initialize the parser, the acronym dictionary, and flags
+
         Args:
-            counter: A counter
+            counter: A counter object of acronyms and their counts found in a
+                     larger corpus
             underscore: A boolean to indicate whether to insert phrases
                         as a single underscored token
             preprocessed: A boolean to indicate if input text is raw,
@@ -62,7 +60,7 @@ class replace_acronym():
     def check_acronym(self, token):
         '''
         Check if a token is an acronym to be replaced
-        
+
         Args:
             token: a string token
         Returns:
@@ -77,13 +75,13 @@ class replace_acronym():
         else:
             return False
 
-    def check_counter(self, token, doc_counter):
+    def check_self_counter(self, token, doc_counter):
         '''
         Check if an acronym token is defined within the document
 
         Args:
             token: a string token
-            doc_counter: a counter object of acronyms defined in document
+            doc_counter: a counter object of acronyms defined within a document
         Returns:
             a boolean
         '''
@@ -95,14 +93,12 @@ class replace_acronym():
         return False
 
     def __call__(self, document, doc_counter):
-
         '''
         Identify and replace all acronyms in the document
 
         Args:
             document: a string
-            doc_counter: a counter object of acronyms defined in a larger
-             corpus
+            doc_counter: a counter object of acronyms defined within a document
         Returns:
             new_doc: a string
         '''
@@ -120,7 +116,8 @@ class replace_acronym():
             for token in tokens:
                 if self.check_acronym(token):
                     # check if acronym is used within document
-                    highest_phrase = self.check_counter(token, doc_counter)
+                    highest_phrase = self.check_self_counter(
+                        token, doc_counter)
 
                     if not highest_phrase:
                         acronym_counts = self.acronym_dict[token]
