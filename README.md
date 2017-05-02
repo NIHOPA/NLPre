@@ -29,46 +29,16 @@ NLPre is part of the [`word2vec-pipeline`](https://github.com/NIHOPA/word2vec_pi
 
 ### What's included?
 
-| #What's included | |
+| Function | Description |
 | --- | --- |
 | **dedash** | When text is passed though a word-processor sometimes hyphenations with with newlines are inserted. This module attempts to correct the hyphenation pattern by joining words that if they appear in an English word list. <br> `How is the treat- ment going` -> `How is the treatment going` |
-| **decaps** | 
-We presume that case is important, but only when it differs from title case. This module corrects casing by lowering all words with only one capital letter. <br> `James and Sally had a fMRI` -> `james and sally had a fMRI` |
-
-**dedash**
-
-**decaps**
-
-**remove_parenthesis**
-
-Parentheticals (statements in parenthesis) are removed as long as
-they are balanced.
-
-**replace_from_dictionary**
-
-Noun phrases from a predefined dictionary are replaced. The [MeSH](https://www.nlm.nih.gov/mesh/) dictionary comes included.
-
-**replace_phrases**
-
-Phrases found though an abbreviation finder (not included yet), are replaced.
-
-**titlecaps**
-
-WHY ARE SOME SENTENCES IN ALL CAPS? These sentences are converted to lower case.
-
-**token_replacement**
-
-Simple token replacement (% -> `percent`)
-
-**pos_tokenizer**
-
-Parts of speech are filtered out by using a white-list. 
-
-**unidecoder**
-
-Converts Unicode phrases into ASCII equivalent, (`β-sheet` -> `b-sheet`).
-
-**identify_parenthetical_phrases**
-
-`What is Health and Human Services (HHS)?` gets tokenized as `counter[(('Health', 'and', 'Human', 'Services'), 'HHS')]`
+| **decaps** | We presume that case is important, but only when it differs from title case. This module corrects casing by lowering all words with only one capital letter. <br> `James and Sally had a fMRI` -> `james and sally had a fMRI` |
+| **remove_parenthesis** | Parentheticals (statements in parenthesis) are removed as long as they are balanced. |
+| **replace_from_dictionary** | Noun phrases from a predefined dictionary are replaced. The [MeSH](https://www.nlm.nih.gov/mesh/) dictionary comes included. |
+| **replace_phrases** | Phrases found though an abbreviation finder (not included yet), are replaced. |
+| **titlecaps** | WHY ARE SOME SENTENCES IN ALL CAPS? These sentences are converted to lower case. |
+| **token_replacement**| Simple token replacement (% -> `percent`) |
+| **pos_tokenizer**| Parts of speech are filtered out by using a white-list. |
+| **unidecoder**| Converts Unicode phrases into ASCII equivalent, (`β-sheet` -> `b-sheet`). |
+| **identify_parenthetical_phrases** | `What is Health and Human Services (HHS)?` gets tokenized as `counter[(('Health', 'and', 'Human', 'Services'), 'HHS')]` |
 
