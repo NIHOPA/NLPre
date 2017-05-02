@@ -19,7 +19,7 @@ Developed by the [Office of Portfolio Analysis](https://dpcpsi.nih.gov/opa/about
 + [x] Write unit tests for pipelines (multi-function)
 + [x] Write doc strings for all functions
 + [x] Format as proper python package
-+ [ ] Complete import (missing ABBR phrase replacement)
++ [x] Complete import (missing ABBR phrase replacement)
 + [ ] Clean and format the README
 + [ ] Upload to pypy
 
