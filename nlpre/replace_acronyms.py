@@ -51,11 +51,13 @@ class replace_acronym():
 
         self.acronym_dict = {}
 
-        for tuple, count in self.counter.iteritems():
-            if tuple[1] in self.acronym_dict:
-                self.acronym_dict[tuple[1]].append([tuple[0], count])
+        for acronym_tuple, count in self.counter.iteritems():
+            if acronym_tuple[1] in self.acronym_dict:
+                self.acronym_dict[acronym_tuple[1]].append(
+                    [acronym_tuple[0], count])
             else:
-                self.acronym_dict[tuple[1]] = [(tuple[0], count)]
+                self.acronym_dict[acronym_tuple[1]] = [(acronym_tuple[0],
+                                                        count)]
 
     def check_acronym(self, token):
         '''
@@ -86,9 +88,9 @@ class replace_acronym():
             a boolean
         '''
 
-        for tuple in doc_counter.iterkeys():
+        for acronym_tuple in doc_counter.iterkeys():
             if tuple[1] == token:
-                highest_phrase = list(tuple[0])
+                highest_phrase = list(acronym_tuple[0])
                 return highest_phrase
         return False
 
