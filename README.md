@@ -16,24 +16,28 @@ NLPre is part of the [`word2vec-pipeline`](https://github.com/NIHOPA/word2vec_pi
 
 ### Example
 
-    from nlpre import titlecaps, dedash, identify_parenthetical_phrases
-    from nlpre import replace_acronyms, replace_from_dictionary
+```python
+from nlpre import titlecaps, dedash, identify_parenthetical_phrases
+from nlpre import replace_acronyms, replace_from_dictionary
 
-    text = '''LYMPHOMA SURVIVORS IN KOREA. Describe the unmet needs among non-Hodgkin lymphoma
-              (NHL) surv- ivors in Korea and to identify NHL patients and their relation to '''
+text = ("LYMPHOMA SURVIVORS IN KOREA. Describe the correlates of unmet needs "
+        "among non-Hodgkin lymphoma (NHL) surv- ivors in Korea and identify "
+        "NHL patients with an abnormal white blood cell count.")
 
-    ABBR = identify_parenthetical_phrases()(text)
-    parsers = [dedash(), titlecaps(), replace_acronyms(ABBR),
-    	       replace_from_dictionary(prefix="MeSH_")]
+ABBR = identify_parenthetical_phrases()(text)
+parsers = [dedash(), titlecaps(), replace_acronyms(ABBR),
+           replace_from_dictionary(prefix="MeSH_")]
 
-    for f in parsers:
-        text = f(text)
+for f in parsers:
+    text = f(text)
 
-    print (text)
+print(text)
 
-    ''' Describe the correlates of unmet needs among MeSH_Lymphoma_Non-Hodgkin ( non_Hodgkin_lymphoma ) survivors
-        in Korea and identify non_Hodgkin_lymphoma patients with an abnormal MeSH_Leukocyte_Count . '''
-
+''' lymphoma survivors in korea .
+    Describe the correlates of unmet needs among MeSH_Lymphoma_Non-Hodgkin
+    ( non_Hodgkin_lymphoma ) survivors in Korea and identify non_Hodgkin_lymphoma
+    patients with an abnormal MeSH_Leukocyte_Count . '''
+```
 
 ### What's included?
 
