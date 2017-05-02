@@ -29,22 +29,12 @@ NLPre is part of the [`word2vec-pipeline`](https://github.com/NIHOPA/word2vec_pi
 
 ### What's included?
 
-{|
-|+ #What's included
-|-
-|**dedash**
-|When text is passed though a word-processor sometimes hyphenations with with newlines are inserted. This module attempts to correct the hyphenation pattern by joining words that if they appear in an English word list.
-|-
-|Bread
-|Pie
-|-
-|Butter
-|Ice cream 
-|}
+| #What's included | |
+| --- | --- |
+| **dedash** | When text is passed though a word-processor sometimes hyphenations with with newlines are inserted. This module attempts to correct the hyphenation pattern by joining words that if they appear in an English word list. |
+| **decaps** | When text is passed though a word-processor sometimes hyphenations with with newlines are inserted. This module attempts to correct the hyphenation pattern by joining words that if they appear in an English word list. |
 
 **dedash**
-
-When text is passed though a word-processor sometimes hyphenations with with newlines are inserted. This module attempts to correct the hyphenation pattern by joining words that if they appear in an English word list.
 
 **decaps**
 
