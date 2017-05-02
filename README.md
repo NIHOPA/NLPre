@@ -31,17 +31,13 @@ NLPre is part of the [`word2vec-pipeline`](https://github.com/NIHOPA/word2vec_pi
 
 | #What's included | |
 | --- | --- |
-| **dedash** | Test <br> Test \n When text is passed though a word-processor sometimes hyphenations with with newlines are inserted. This module attempts to correct the hyphenation pattern by joining words that if they appear in an English word list. |
-| **decaps** | When text is passed though a word-processor sometimes hyphenations with with newlines are inserted. This module attempts to correct the hyphenation pattern by joining words that if they appear in an English word list. |
+| **dedash** | When text is passed though a word-processor sometimes hyphenations with with newlines are inserted. This module attempts to correct the hyphenation pattern by joining words that if they appear in an English word list. <br> `How is the treat- ment going` -> `How is the treatment going` |
+| **decaps** | 
+We presume that case is important, but only when it differs from title case. This module corrects casing by lowering all words with only one capital letter. <br> `James and Sally had a fMRI` -> `james and sally had a fMRI` |
 
 **dedash**
 
 **decaps**
-
-We presume that case is important, but only for complicated words like fMRI.
-This module corrects casing by lowering all words with only one capital letter.
-
-`Hello world` -> `hello world`
 
 **remove_parenthesis**
 
