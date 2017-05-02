@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from nlpre import *
+from nlpre.replace_acronyms import replace_acronym
 import os
 import codecs
 from nose.tools import assert_equal
@@ -49,6 +50,11 @@ class Full_Test:
         with codecs.open(self.location + '/tests/doc2', 'r', 'utf-8') as f2:
             self.doc2 = f2.read()
 
+        self.big_counter = self.acronym_counter()
+
+        self.replace_abbreviation = replace_acronym(self.big_counter, preprocessed=True)
+
+
         print "done"
 
     def full_run(self, text):
@@ -59,14 +65,25 @@ class Full_Test:
         titlecaps_doc = self.titlecaps(dedash_doc)
 
         counter = self.parenthetical(titlecaps_doc)
-
         replace_from_dict_doc = self.replace_from_dict(titlecaps_doc)
         separated_parenthesis_doc = self.separated_parenthesis(replace_from_dict_doc)
         token_replacement_doc = self.token_replacement(separated_parenthesis_doc)
         decaps_doc = self.decaps(token_replacement_doc)
         pos_tokenizer_doc = self.pos_tokenizer(decaps_doc)
 
-        return pos_tokenizer_doc, counter
+        replaced_abbrv_doc = self.replace_abbreviation(pos_tokenizer_doc.text, counter)
+
+        return replaced_abbrv_doc, counter
+
+    def acronym_counter(self):
+        doc1 = self.doc1
+        doc2 = self.doc2
+
+        counter1 = self.parenthetical(doc1)
+        counter2 = self.parenthetical(doc2)
+
+        big_counter = counter1 + counter2
+        return big_counter
 
     def document1_test(self):
         doc = self.doc1
@@ -80,7 +97,7 @@ class Full_Test:
         counter_HRQOL = counter[(('health', 'related', 'quality', 'of',
                                   'life'), 'HRQOL')]
 
-        assert_equal(doc_new.text, doc_right)
+        assert_equal(doc_new, doc_right)
         assert_equal(counter_nhl, 1)
         assert_equal(counter_HRQOL, 1)
 
@@ -93,5 +110,5 @@ class Full_Test:
 
         counter_sle = counter[(('systemic', 'lupus', 'erythematosus'), 'SLE')]
 
-        assert_equal(doc_new.text, doc_right)
+        assert_equal(doc_new, doc_right)
         assert_equal(counter_sle, 1)
