@@ -22,6 +22,16 @@ class Replace_From_Dictionary_Test:
         assert_raises(IOError, replace_from_dictionary,
                       'MeSH_two_word_lexicon1.csv', path_to_meshdict)
 
+    def default_dictionary_test(self):
+        ''' Use the default dictionary if one is missing. '''
+        MeSH = replace_from_dictionary(prefix='MeSH_')
+
+        doc = '0-beta-Hydroxyethylrutoside is great'
+        doc_right = 'MeSH_Hydroxyethylrutoside is great'
+        doc_new = self.replace_MeSH(doc)
+
+        assert_equal(doc_right, doc_new)
+
     def hydroxyethylrutoside_test1(self):
         doc = '0-beta-Hydroxyethylrutoside is great'
         doc_right = 'MeSH_Hydroxyethylrutoside is great'

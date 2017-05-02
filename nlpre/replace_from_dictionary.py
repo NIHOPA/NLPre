@@ -22,7 +22,9 @@ class replace_from_dictionary(object):
         output: 'MeSH_Butylated_Hydroxyanisole is great'
     """
 
-    def __init__(self, f_dict, prefix=''):
+    f_MeSH = "dictionaries/MeSH_two_word_lexicon.csv"
+
+    def __init__(self, f_dict=None, prefix=''):
         '''
         Initialize the parser.
 
@@ -30,6 +32,11 @@ class replace_from_dictionary(object):
             f_dict: filename, location of the replacement dictionary.
             prefix: string, text to prefix each replacement.
         '''
+
+        if f_dict is None:
+            local_path = os.path.dirname(__file__)
+            f_dict = os.path.join(local_path, self.f_MeSH)
+            logger.info('Using default dictionary: %s' % f_dict)
 
         if not os.path.exists(f_dict):
             msg = "Can't find dictionary {}".format(f_dict)

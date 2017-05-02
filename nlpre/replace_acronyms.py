@@ -1,8 +1,9 @@
 import pattern
 import operator
+import nlpre.identify_parenthetical_phrases as IPP
 
 
-class replace_acronym():
+class replace_acronyms():
 
     """
     Replaces acronyms and abbreviations found in a document with their
@@ -45,9 +46,9 @@ class replace_acronym():
         self.counter = counter
         self.underscore = underscore
         self.preprocessed = preprocessed
+        self.IPP = IPP.identify_parenthetical_phrases()
 
-        self.parse = lambda x: pattern.en.tokenize(
-            x)
+        self.parse = lambda x: pattern.en.tokenize(x)
 
         self.acronym_dict = {}
 
@@ -94,16 +95,21 @@ class replace_acronym():
                 return highest_phrase
         return False
 
-    def __call__(self, document, doc_counter):
+    def __call__(self, document, doc_counter=None):
         '''
         Identify and replace all acronyms in the document
 
         Args:
             document: a string
-            doc_counter: a counter object of acronyms defined within a document
+            doc_counter: a counter object of acronyms defined within a
+                         document. If missing, identify_parenthetical_phrases
+                         is run.
         Returns:
             new_doc: a string
         '''
+
+        if doc_counter is None:
+            doc_counter = self.IPP(document)
 
         if self.preprocessed:
             sentences = document.split('\n')
