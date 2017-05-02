@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from nlpre import *
-from nlpre.replace_acronyms import replace_acronym
+from nlpre.replace_acronyms import replace_acronyms
 import os
 import codecs
 from nose.tools import assert_equal
@@ -52,7 +52,8 @@ class Full_Test:
 
         self.big_counter = self.acronym_counter()
 
-        self.replace_abbreviation = replace_acronym(self.big_counter, preprocessed=True)
+        self.replace_abbreviation = replace_acronyms(self.big_counter,
+                                                     preprocessed=True)
 
 
         print "done"
@@ -71,7 +72,8 @@ class Full_Test:
         decaps_doc = self.decaps(token_replacement_doc)
         pos_tokenizer_doc = self.pos_tokenizer(decaps_doc)
 
-        replaced_abbrv_doc = self.replace_abbreviation(pos_tokenizer_doc.text, counter)
+        replaced_abbrv_doc = self.replace_abbreviation(pos_tokenizer_doc.text,
+                                                       counter)
 
         return replaced_abbrv_doc, counter
 

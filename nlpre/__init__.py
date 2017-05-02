@@ -6,6 +6,7 @@ from .pos_tokenizer import pos_tokenizer
 from .dedash import dedash
 from .unidecoder import unidecoder
 from .titlecaps import titlecaps
+from .replace_acronyms import replace_acronyms
 from .identify_parenthetical_phrases import identify_parenthetical_phrases
 
 __all__ = [
@@ -18,4 +19,5 @@ __all__ = [
     'replace_from_dictionary',
     'identify_parenthetical_phrases',
     'unidecoder',
+    'replace_acronyms',
 ]

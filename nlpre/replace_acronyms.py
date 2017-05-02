@@ -2,7 +2,7 @@ import pattern
 import operator
 
 
-class replace_acronym():
+class replace_acronyms():
 
     """
     Replaces acronyms and abbreviations found in a document with their

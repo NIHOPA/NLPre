@@ -5,8 +5,8 @@
 
 NLPre is a text (pre)-processing library that helps smooth some of the inconsistencies found in real-world data.
 Correcting for issues like random capitalization patterns, strange hyphenations, and abbreviations are essential parts of wrangling textual data but are often left to the user.
-The library is developed by the [Office of Portfolio Analysis](https://dpcpsi.nih.gov/opa/aboutus) at the [National Institutes of Health](https://www.nih.gov/) and many of the utilities are designed to correct for historical artifacts in our data.
-The goals of NLPre are a set of functions that can act in a pipeline independent of one another with a consistent and predictable result.
+
+While this library was developed by the [Office of Portfolio Analysis](https://dpcpsi.nih.gov/opa/aboutus) at the [National Institutes of Health](https://www.nih.gov/) to correct for historical artifacts in our data, we envision this module to encompass a broad spectrum of problems encountered in the preprocessing step of natural language processing.
 
 NLPre is part of the [`word2vec-pipeline`](https://github.com/NIHOPA/word2vec_pipeline).
 
@@ -14,18 +14,9 @@ NLPre is part of the [`word2vec-pipeline`](https://github.com/NIHOPA/word2vec_pi
 
     pip install git+git://github.com/NIHOPA/NLPre.git
 
-### Timeline to release
+### Example
 
-+ [x] Import modules from pipeline_word2vec
-+ [x] Document which functions exists in README
-+ [x] Write unit tests for individual functions
-+ [x] Write unit tests for pipelines (multi-function)
-+ [x] Write doc strings for all functions
-+ [x] Format as proper python package
-+ [x] Complete import (missing ABBR phrase replacement)
-+ [ ] Clean and format the README
-+ [ ] Upload to pypy
-
+    text = '''TITLE: UNMET NEEDS OF NON-HODGKIN LYMPHOMA SURVIVORS IN KOREA: PREVALENCE, CORRELATES, AND ASSOCIATIONS WITH HEALTH-RELATED QUALITY OF LIFE. OBJECTIVE: We aimed to describe the prevalence and correlates of unmet needs among non-Hodgkin lymphoma (NHL) surv- ivors in Korea and to identify their association with health-related quality of life (HRQOL). '''
 
 ### What's included?
 
@@ -33,7 +24,7 @@ NLPre is part of the [`word2vec-pipeline`](https://github.com/NIHOPA/word2vec_pi
 | --- | --- |
 | [**replace_from_dictionary**](nlpre/replace_from_dictionary.py) | Replace phrases from an input dictionary. The replacement is done without regard to case, but punctuation is handled correctly. The [MeSH ](https://www.nlm.nih.gov/mesh/) (Medical Subject Headings) dictionary is built-in. <br> `(11-Dimethylethyl)-4-methoxyphenol is great` <br> `MeSH_Butylated_Hydroxyanisole is great` |
 | [**replace_acronyms**](nlpre/replace_acronyms.py) | Replaces acronyms and abbreviations found in a document with their corresponding phrase. If an acronym is explicitly identified with a phrase in a document, then  all instances of that acronym in the document will be replaced with the given phrase. If there is no explicit indication what the phrase is within the document, then the most common phrase associated with the acronym in the given counter is used. <br> `The EPA protects trees` <br> `The Environmental_Protection_Agency protects trees`
-| [**identify_parenthetical_phrases**](nlpre/identify_parenthetical_phrases.py) | Identify abbreviations of phrases found in a parenthesis. Returns a counter and can be passed directly into `replace_acronyms`. <br> `Health and Human Services (HHS)` <br> `Counter((('Environmental', 'Protection', 'Agency'), 'EPA'):1)` |
+| [**identify_parenthetical_phrases**](nlpre/identify_parenthetical_phrases.py) | Identify abbreviations of phrases found in a parenthesis. Returns a counter and can be passed directly into [`replace_acronyms`]((nlpre/replace_acronyms). <br> `Health and Human Services (HHS)` <br> `Counter((('Environmental', 'Protection', 'Agency'), 'EPA'):1)` |
 | [**separated_parenthesis**](nlpre/separated_parenthesis.py) | Separates parenthetical content into new sentences. This is useful when creating word embeddings, as associations should only be made within the same sentence. Terminal punctuation of a period is added to parenthetical sentences if necessary. <br> `Hello (it is a beautiful day) world.` <br>`Hello world. it is a beautiful day .` |
 | [**pos_tokenizer**](nlpre/pos_tokenizer.py) | Removes all words that are of a designated part-of-speech (POS) from a document. For example, when processing medical text, it is useful to remove all words that are not nouns or adjectives. POS detection is provided by the [`pattern.en.parse`](http://www.clips.ua.ac.be/pages/pattern-en#parser) module. <br> `The boy threw the ball into the yard` <br> `boy ball yard` |
 | [**unidecoder**](nlpre/unidecoder.py) | Converts Unicode phrases into ASCII equivalent. <br> `α-Helix β-sheet` <br> `a-Helix b-sheet` |
