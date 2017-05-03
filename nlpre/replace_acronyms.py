@@ -1,6 +1,7 @@
 import pattern
 import operator
 import nlpre.identify_parenthetical_phrases as IPP
+import re
 
 
 class replace_acronyms():
@@ -95,6 +96,18 @@ class replace_acronyms():
                 return highest_phrase
         return False
 
+    def tokenize_phrases(self, doc, counter):
+        phrase_list = []
+
+        for acronym_tuple in counter.iterkeys():
+            phrase_list.append(acronym_tuple[0])
+
+        for phrase in phrase_list:
+            pattern = re.compile(re.escape(' '.join(phrase)))
+            doc = pattern.sub('_'.join(phrase), doc)
+
+        return doc
+
     def __call__(self, document, doc_counter=None):
         '''
         Identify and replace all acronyms in the document
@@ -121,7 +134,7 @@ class replace_acronyms():
         for sentence in sentences:
             tokens = sentence.split()
             new_sentence = []
-            for token in tokens:
+            for index, token in enumerate(tokens):
                 if self.check_acronym(token):
                     # check if acronym is used within document
                     highest_phrase = self.check_self_counter(
@@ -137,9 +150,13 @@ class replace_acronyms():
                         new_sentence.append('_'.join(highest_phrase))
                     else:
                         new_sentence.extend(highest_phrase)
-
                 else:
                     new_sentence.append(token)
             new_doc.append(' '.join(new_sentence))
 
-        return '\n'.join(new_doc)
+        new_doc = '\n'.join(new_doc)
+
+        if self.underscore:
+            new_doc = self.tokenize_phrases(new_doc, doc_counter)
+
+        return new_doc
