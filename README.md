@@ -45,13 +45,28 @@ print(text)
 | --- | --- |
 | [**replace_from_dictionary**](nlpre/replace_from_dictionary.py) | Replace phrases from an input dictionary. The replacement is done without regard to case, but punctuation is handled correctly. The [MeSH ](https://www.nlm.nih.gov/mesh/) (Medical Subject Headings) dictionary is built-in. <br> `(11-Dimethylethyl)-4-methoxyphenol is great` <br> `MeSH_Butylated_Hydroxyanisole is great` |
 | [**replace_acronyms**](nlpre/replace_acronyms.py) | Replaces acronyms and abbreviations found in a document with their corresponding phrase. If an acronym is explicitly identified with a phrase in a document, then  all instances of that acronym in the document will be replaced with the given phrase. If there is no explicit indication what the phrase is within the document, then the most common phrase associated with the acronym in the given counter is used. <br> `The EPA protects trees` <br> `The Environmental_Protection_Agency protects trees`
-| [**identify_parenthetical_phrases**](nlpre/identify_parenthetical_phrases.py) | Identify abbreviations of phrases found in a parenthesis. Returns a counter and can be passed directly into [`replace_acronyms`]((nlpre/replace_acronyms). <br> `Health and Human Services (HHS)` <br> `Counter((('Environmental', 'Protection', 'Agency'), 'EPA'):1)` |
+| [**identify_parenthetical_phrases**](nlpre/identify_parenthetical_phrases.py) | Identify abbreviations of phrases found in a parenthesis. Returns a counter and can be passed directly into [`replace_acronyms`](nlpre/replace_acronyms). <br> `Health and Human Services (HHS)` <br> `Counter((('Environmental', 'Protection', 'Agency'), 'EPA'):1)` |
 | [**separated_parenthesis**](nlpre/separated_parenthesis.py) | Separates parenthetical content into new sentences. This is useful when creating word embeddings, as associations should only be made within the same sentence. Terminal punctuation of a period is added to parenthetical sentences if necessary. <br> `Hello (it is a beautiful day) world.` <br>`Hello world. it is a beautiful day .` |
 | [**pos_tokenizer**](nlpre/pos_tokenizer.py) | Removes all words that are of a designated part-of-speech (POS) from a document. For example, when processing medical text, it is useful to remove all words that are not nouns or adjectives. POS detection is provided by the [`pattern.en.parse`](http://www.clips.ua.ac.be/pages/pattern-en#parser) module. <br> `The boy threw the ball into the yard` <br> `boy ball yard` |
 | [**unidecoder**](nlpre/unidecoder.py) | Converts Unicode phrases into ASCII equivalent. <br> `α-Helix β-sheet` <br> `a-Helix b-sheet` |
 | [**dedash**](nlpre/dedash.py) | Hyphenations are sometimes erroneously inserted when text is passed through a word-processor. This module attempts to correct the hyphenation pattern by joining words that if they appear in an English word list. <br> `How is the treat- ment going` <br> `How is the treatment going` |
 | [**decaps_text**](nlpre/decaps_text.py) | We presume that case is important, but only when it differs from title case. This class normalizes capitalization patterns. <br> `James and Sally had a fMRI` <br> `james and sally had a fMRI` |
 | [**titlecaps**](nlpre/titlecaps.py) | Documents sometimes have sentences that are entirely in uppercase (commonly found in titles and abstracts of older documents). This parser identifies sentences where every word is uppercase, and returns the document with these sentences converted to lowercase. <br> `ON THE STRUCTURE OF WATER.` <br> `On the structure of water .` |
-| [**token_replacement**](nlpre/token_replacement.py) | Simple token replacement <br> `Observed > 20%` <br> `Observed greater-than 20 percent` |
+| [**token_replacement**](nlpre/token_replacement.py) | Simple token replacement. <br> `Observed > 20%` <br> `Observed greater-than 20 percent` |
 
+### Parallel processing
 
+To run NLPre in parallel, simply create a small pipeline function and pass it to either multiprocessing or [`joblib`](https://github.com/joblib/joblib). For example, continuing from the example from above:
+
+```python
+from joblib import Parallel, delayed
+
+def pipeline(x):
+    for f in parsers:
+        x = f(x)
+    return x
+
+docs = [text,]*500
+with Parallel(-1) as MP:
+    print MP(delayed(pipeline)(x) for x in docs)
+```
