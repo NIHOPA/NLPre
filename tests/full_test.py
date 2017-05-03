@@ -75,10 +75,10 @@ class Full_Test:
         decaps_doc = self.decaps(token_replacement_doc)
         pos_tokenizer_doc = self.pos_tokenizer(decaps_doc)
 
-        replaced_abbrv_doc = self.replace_abbreviation(pos_tokenizer_doc.text,
-                                                       counter)
+        #replaced_abbrv_doc = self.replace_abbreviation(pos_tokenizer_doc.text,
+        #                                               counter)
 
-        return replaced_abbrv_doc, counter
+        return pos_tokenizer_doc.text, counter
 
     def acronym_counter(self):
         doc1 = self.doc1
@@ -104,11 +104,11 @@ class Full_Test:
 
         self.check_line_by_line(doc_new, doc_right)
 
-        #assert_equal(doc_new, doc_right)
-        #assert_equal(counter_nhl, 1)
-        #assert_equal(counter_HRQOL, 1)
+        assert_equal(doc_new, doc_right)
+        assert_equal(counter_nhl, 1)
+        assert_equal(counter_HRQOL, 1)
 
-    def document2(self):
+    def document2_test(self):
         doc = self.doc2
         with open(self.location + '/tests/doc2_right', 'r') as f:
             doc_right = f.read()
@@ -119,8 +119,8 @@ class Full_Test:
 
         self.check_line_by_line(doc_new, doc_right)
 
-        #assert_equal(doc_new, doc_right)
-        #assert_equal(counter_sle, 1)
+        assert_equal(doc_new, doc_right)
+        assert_equal(counter_sle, 1)
 
     def check_line_by_line(self, doc1, doc2):
         doc1 = doc1.split('\n')

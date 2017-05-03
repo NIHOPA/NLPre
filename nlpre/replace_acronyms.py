@@ -190,7 +190,7 @@ class replace_acronyms():
                         acronym_counts = self.acronym_dict[token]
                         acronym_counts.sort(
                             key=operator.itemgetter(1), reverse=True)
-                        highest_phrase = acronym_counts[0][0]
+                        highest_phrase = list(acronym_counts[0][0])
                     if self.underscore and self.prefix:
                         highest_phrase.insert(0, self.prefix)
                     if self.underscore:
