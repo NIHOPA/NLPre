@@ -31,7 +31,12 @@ class replace_acronyms():
         output: "The Environmental_Protection_Agency protects trees"
     """
 
-    def __init__(self, counter, underscore=True, preprocessed=False):
+    def __init__(
+            self,
+            counter,
+            prefix=None,
+            underscore=True,
+            preprocessed=False):
         '''
         Initialize the parser, the acronym dictionary, and flags
 
@@ -45,6 +50,7 @@ class replace_acronyms():
         '''
 
         self.counter = counter
+        self.prefix = prefix
         self.underscore = underscore
         self.preprocessed = preprocessed
         self.IPP = IPP.identify_parenthetical_phrases()
@@ -100,13 +106,46 @@ class replace_acronyms():
         phrase_list = []
 
         for acronym_tuple in counter.iterkeys():
-            phrase_list.append(acronym_tuple[0])
+            phrase_list.append(list(acronym_tuple[0]))
 
         for phrase in phrase_list:
-            pattern = re.compile(re.escape(' '.join(phrase)))
+            pattern = re.compile(re.escape(' '.join(phrase)), re.IGNORECASE)
+            if self.prefix:
+                phrase.insert(0, self.prefix)
             doc = pattern.sub('_'.join(phrase), doc)
 
         return doc
+
+    def check_phrase(self, token, pos, tokens, counter):
+        acronym_phrases = []
+
+        for acronym_tuple in counter.iterkeys():
+            acronym_phrases.append(list(acronym_tuple[0]))
+
+
+        #find length of longest phrase? worth it?
+        phrase = []
+        word = token
+        length = 0
+        while pos < len(tokens) - 1:
+            length += 1
+            if '-' in word:
+                word = word.split('-')
+                phrase.extend(word)
+            else:
+                phrase.append(word)
+
+            if phrase in acronym_phrases:
+                if self.underscore:
+                    output = ('_'.join(phrase), length - 1)
+                else:
+                    output = (' '.join(phrase), length - 1)
+                return output
+            else:
+                pos += 1
+                word = tokens[pos]
+
+        return False
 
     def __call__(self, document, doc_counter=None):
         '''
@@ -131,10 +170,17 @@ class replace_acronyms():
 
         new_doc = []
 
+        #This code is pretty hideous. Try to refactor it
         for sentence in sentences:
             tokens = sentence.split()
             new_sentence = []
-            for index, token in enumerate(tokens):
+            #for index, token in enumerate(tokens):
+            #for index in range(0, len(tokens)):
+
+            index = -1 #seems extremely problematic way to do a loop
+            while index < len(tokens) - 1:
+                index += 1
+                token = tokens[index]
                 if self.check_acronym(token):
                     # check if acronym is used within document
                     highest_phrase = self.check_self_counter(
@@ -145,18 +191,29 @@ class replace_acronyms():
                         acronym_counts.sort(
                             key=operator.itemgetter(1), reverse=True)
                         highest_phrase = acronym_counts[0][0]
-
+                    if self.underscore and self.prefix:
+                        highest_phrase.insert(0, self.prefix)
                     if self.underscore:
                         new_sentence.append('_'.join(highest_phrase))
+                        continue
                     else:
                         new_sentence.extend(highest_phrase)
+                        continue
+
+                tokenized_phrase = self.check_phrase(token, index, tokens, doc_counter)
+                if tokenized_phrase:
+                    phrase = tokenized_phrase[0]
+                    if self.prefix:
+                        phrase = '_'.join([self.prefix, phrase])
+                    new_sentence.append(phrase)
+                    index += tokenized_phrase[1]
                 else:
                     new_sentence.append(token)
             new_doc.append(' '.join(new_sentence))
 
         new_doc = '\n'.join(new_doc)
 
-        if self.underscore:
-            new_doc = self.tokenize_phrases(new_doc, doc_counter)
+        #if self.underscore:
+        #    new_doc = self.tokenize_phrases(new_doc, doc_counter)
 
         return new_doc
