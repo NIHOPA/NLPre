@@ -56,7 +56,7 @@ print(text)
 
 ### Parallel processing
 
-To run NLPre in parallel, create a simple pipeline and pass it to either multiprocessing or [`joblib`](https://github.com/joblib/joblib). To illustate, we continue the example from above:
+To run NLPre in parallel, simply create a small pipeline function and pass it to either multiprocessing or [`joblib`](https://github.com/joblib/joblib). For example, continuing from the example from above:
 
 ```python
 from joblib import Parallel, delayed
