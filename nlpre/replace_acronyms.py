@@ -1,7 +1,6 @@
 import pattern
 import operator
 import nlpre.identify_parenthetical_phrases as IPP
-import re
 
 
 class replace_acronyms():
@@ -67,6 +66,38 @@ class replace_acronyms():
                 self.acronym_dict[acronym_tuple[1]] = [(acronym_tuple[0],
                                                         count)]
 
+    def check_self_counter(self, token, doc_counter):
+        '''
+        Check if an acronym token is defined within the document
+
+        Args:
+            token: a string token
+            doc_counter: a counter object of acronyms defined within a document
+        Returns:
+            a boolean
+        '''
+
+        for acronym_tuple in doc_counter.iterkeys():
+            if acronym_tuple[1] == token:
+                highest_phrase = list(acronym_tuple[0])
+                return highest_phrase
+        return False
+
+    # Return false if a word cannot belong to any abbreviated phrase
+    # Since words with dashes are turned into a list of their
+    # individual words, we must treat all words as a list. So, single
+    # tokens are thus converted to single item lists.
+    def word_belongs(self, word, acronym_phrases):
+        for acronym_phrase in acronym_phrases:
+            if isinstance(word, basestring):
+                wordlist = [word]
+            else:
+                wordlist = list(word)
+            for individual_word in wordlist:
+                if individual_word not in acronym_phrase:
+                    return False
+        return True
+    """
     def check_acronym(self, token):
         '''
         Check if a token is an acronym to be replaced
@@ -85,45 +116,18 @@ class replace_acronyms():
         else:
             return False
 
-    def check_self_counter(self, token, doc_counter):
-        '''
-        Check if an acronym token is defined within the document
 
-        Args:
-            token: a string token
-            doc_counter: a counter object of acronyms defined within a document
-        Returns:
-            a boolean
-        '''
-
-        for acronym_tuple in doc_counter.iterkeys():
-            if acronym_tuple[1] == token:
-                highest_phrase = list(acronym_tuple[0])
-                return highest_phrase
-        return False
-
-    def tokenize_phrases(self, doc, counter):
-        phrase_list = []
-
-        for acronym_tuple in counter.iterkeys():
-            phrase_list.append(list(acronym_tuple[0]))
-
-        for phrase in phrase_list:
-            pattern = re.compile(re.escape(' '.join(phrase)), re.IGNORECASE)
-            if self.prefix:
-                phrase.insert(0, self.prefix)
-            doc = pattern.sub('_'.join(phrase), doc)
-
-        return doc
 
     def check_phrase(self, token, pos, tokens, counter):
+        if not self.underscore:
+            return False
+
         acronym_phrases = []
 
         for acronym_tuple in counter.iterkeys():
             acronym_phrases.append(list(acronym_tuple[0]))
 
-
-        #find length of longest phrase? worth it?
+        # find length of longest phrase? worth it?
         phrase = []
         word = token
         length = 0
@@ -135,11 +139,11 @@ class replace_acronyms():
             else:
                 phrase.append(word)
 
+            if not self.word_belongs(word, acronym_phrases):
+                return False
+
             if phrase in acronym_phrases:
-                if self.underscore:
-                    output = ('_'.join(phrase), length - 1)
-                else:
-                    output = (' '.join(phrase), length - 1)
+                output = ('_'.join(phrase), length - 1)
                 return output
             else:
                 pos += 1
@@ -170,14 +174,11 @@ class replace_acronyms():
 
         new_doc = []
 
-        #This code is pretty hideous. Try to refactor it
         for sentence in sentences:
             tokens = sentence.split()
             new_sentence = []
-            #for index, token in enumerate(tokens):
-            #for index in range(0, len(tokens)):
 
-            index = -1 #seems extremely problematic way to do a loop
+            index = -1
             while index < len(tokens) - 1:
                 index += 1
                 token = tokens[index]
@@ -195,12 +196,12 @@ class replace_acronyms():
                         highest_phrase.insert(0, self.prefix)
                     if self.underscore:
                         new_sentence.append('_'.join(highest_phrase))
-                        continue
                     else:
                         new_sentence.extend(highest_phrase)
-                        continue
+                    continue
 
-                tokenized_phrase = self.check_phrase(token, index, tokens, doc_counter)
+                tokenized_phrase = self.check_phrase(
+                    token, index, tokens, doc_counter)
                 if tokenized_phrase:
                     phrase = tokenized_phrase[0]
                     if self.prefix:
@@ -213,7 +214,124 @@ class replace_acronyms():
 
         new_doc = '\n'.join(new_doc)
 
-        #if self.underscore:
+        # if self.underscore:
         #    new_doc = self.tokenize_phrases(new_doc, doc_counter)
 
         return new_doc
+    """
+
+    def __call__(self, document, doc_counter=None):
+        if doc_counter is None:
+            doc_counter = self.IPP(document)
+
+        if self.preprocessed:
+            sentences = document.split('\n')
+        else:
+            sentences = self.parse(document)
+
+        new_doc = []
+
+        # This code is pretty hideous. Try to refactor it
+        for sentence in sentences:
+            tokens = sentence.split()
+            new_sentence = []
+            index = -1
+            while index < len(tokens) - 1:
+                index += 1
+                token = tokens[index]
+                mutable_index = [index]
+                # Check if a token is an acronym and replace if so
+                if self.check_acronym2(token, new_sentence, doc_counter):
+                    pass
+
+                # Check if a series of tokens is a phrase associated with
+                # an abbreviated, and tokenize
+                elif self.underscore and self.check_phrase2(token,
+                                                            mutable_index,
+                                                            tokens,
+                                                            doc_counter,
+                                                            new_sentence):
+                    index = mutable_index[0]
+                    pass
+                else:
+                    new_sentence.append(token)
+            new_doc.append(' '.join(new_sentence))
+
+        new_doc = '\n'.join(new_doc)
+        return new_doc
+
+    def check_acronym2(self, token, new_sentence, doc_counter):
+        '''
+        Check if a token is an acronym to be replaced
+
+        Args:
+            token: a string token
+        Returns:
+            a boolean
+        '''
+
+        if token.lower() == token:
+            return False
+        if token not in self.acronym_dict:
+            return False
+        else:
+            # check if acronym is used within document
+            highest_phrase = self.check_self_counter(
+                token, doc_counter)
+            # if not, then search the full counter dictionary and use the
+            # most common phrase
+            if not highest_phrase:
+                acronym_counts = self.acronym_dict[token]
+                acronym_counts.sort(
+                    key=operator.itemgetter(1), reverse=True)
+                highest_phrase = list(acronym_counts[0][0])
+
+            if self.underscore and self.prefix:
+                highest_phrase.insert(0, self.prefix)
+
+            if self.underscore:
+                new_sentence.append('_'.join(highest_phrase))
+            else:
+                new_sentence.extend(highest_phrase)
+
+        return True
+
+    def check_phrase2(self, token, index, tokens, counter, new_sentence):
+        acronym_phrases = []
+        pos = index[0]
+        for acronym_tuple in counter.iterkeys():
+            acronym_phrases.append(list(acronym_tuple[0]))
+
+        phrase = []
+        word = token
+        length = 0
+        tokenized_phrase = None
+
+        # Check to see if proceeding tokens form an abbreviated phrase
+        while pos < len(tokens) - 1:
+            length += 1
+            if '-' in word:
+                word = word.split('-')
+                phrase.extend(word)
+            else:
+                phrase.append(word)
+
+            if not self.word_belongs(word, acronym_phrases):
+                return False
+
+            if phrase in acronym_phrases:
+                tokenized_phrase = '_'.join(phrase)
+                break
+            else:
+                pos += 1
+                word = tokens[pos]
+
+        if tokenized_phrase:
+            if self.prefix:
+                tokenized_phrase = '_'.join([self.prefix, tokenized_phrase])
+            new_sentence.append(tokenized_phrase)
+            index[0] += length - 1
+            return True
+
+        return False
+    # """
