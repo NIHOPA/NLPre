@@ -83,11 +83,19 @@ class replace_acronyms():
                 return highest_phrase
         return False
 
-    # Return false if a word cannot belong to any abbreviated phrase
-    # Since words with dashes are turned into a list of their
-    # individual words, we must treat all words as a list. So, single
-    # tokens are thus converted to single item lists.
     def word_belongs(self, word, acronym_phrases):
+        '''
+        Return false if a word cannot belong to any abbreviated phrase.
+        Since words with dashes are turned into a list of their
+        individual words, we must treat all words as a list. So, single
+        tokens are converted to single item lists.
+
+        Args:
+            word: a string token
+            acronym_phrases: a 2D list of string tokens
+        Returns:
+            a boolean
+        '''
         Match = []
         for acronym_phrase in acronym_phrases:
             if isinstance(word, basestring):
@@ -126,6 +134,22 @@ class replace_acronyms():
             return False
 
     def check_phrase(self, token, pos, tokens, counter):
+        '''
+        Determine if a series of tokens, starting with the input token, form
+        an acronym phrase found in the counter. If the token does not form
+        a phrase, the function returns as false.
+
+        Args:
+            token: a string token
+            pos: an int
+            tokens: a list of string tokens
+            counter: a counter of acronym's and associated phrases
+        Returns:
+            output: a string the tokens that make up an acronym phrases,
+                    connected by an underline
+            If no valid output exists, a boolean False is returned
+
+        '''
         if not self.underscore:
             return False
 
@@ -134,7 +158,6 @@ class replace_acronyms():
         for acronym_tuple in counter.iterkeys():
             acronym_phrases.append(list(acronym_tuple[0]))
 
-        # find length of longest phrase? worth it?
         phrase = []
         word = token
         length = 0
@@ -206,6 +229,13 @@ class replace_acronyms():
                         new_sentence.extend(highest_phrase)
                     continue
 
+                # Note: this code is case sensitive. Tokens will not be
+                # recognized as being acronym phrases if their capitalization
+                # is different from the phrases found in identify_parenthetical
+                # _phrases.py
+                #
+                # This is particularly an issue with titlecaps.py, which might
+                # force phrase tokens to lowercase
                 tokenized_phrase = self.check_phrase(
                     token, index, tokens, doc_counter)
                 if tokenized_phrase:

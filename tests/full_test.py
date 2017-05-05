@@ -75,9 +75,6 @@ class Full_Test:
         decaps_doc = self.decaps(token_replacement_doc)
         pos_tokenizer_doc = self.pos_tokenizer(decaps_doc)
 
-        #replaced_abbrv_doc = self.replace_abbreviation(pos_tokenizer_doc.text,
-        #                                               counter)
-
         return pos_tokenizer_doc.text, counter
 
     def acronym_counter(self):
