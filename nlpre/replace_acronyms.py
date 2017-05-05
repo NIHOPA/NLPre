@@ -1,7 +1,10 @@
 import pattern
 import nlpre.identify_parenthetical_phrases as IPP
 import collections
-
+import os, logging
+logDir = os.path.split(os.path.dirname(__file__))[0]
+logging.config.fileConfig(logDir + '/logging.conf')
+logger = logging.getLogger("replace_acronyms")
 
 class replace_acronyms():
 
@@ -224,8 +227,11 @@ class replace_acronyms():
                     if self.underscore and self.prefix:
                         highest_phrase.insert(0, self.prefix)
                     if self.underscore:
-                        new_sentence.append('_'.join(highest_phrase))
+                        highest_phrase = '_'.join(highest_phrase)
+                        logger.info('Replacing token %s with phrase %s' % (token, highest_phrase))
+                        new_sentence.append(highest_phrase)
                     else:
+                        logger.info('Replacing token %s with phrase %s' % (token, highest_phrase))
                         new_sentence.extend(highest_phrase)
                     continue
 
@@ -242,6 +248,7 @@ class replace_acronyms():
                     phrase = tokenized_phrase[0]
                     if self.prefix:
                         phrase = '_'.join([self.prefix, phrase])
+                    logger.info('Tokenizing phrase %s' % phrase)
                     new_sentence.append(phrase)
                     index += tokenized_phrase[1]
                 else:
