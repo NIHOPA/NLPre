@@ -1,7 +1,7 @@
 from fabric.api import local
 
 def test():
-    local("flake8 nlpre")
+    local("flake8 nlpre --builtins basestring")
     local("nosetests --with-coverage --cover-package nlpre --cover-html")
     local("aspell check README.md")
     #local("flake8 tests")

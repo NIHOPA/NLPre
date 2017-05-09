@@ -34,7 +34,7 @@ for f in parsers:
 print(text)
 
 ''' lymphoma survivors in korea .
-    Describe the correlates of unmet needs among MeSH_Lymphoma_Non-Hodgkin
+    Describe the correlates of unmet needs among non_Hodgkin_lymphoma
     ( non_Hodgkin_lymphoma ) survivors in Korea and identify non_Hodgkin_lymphoma
     patients with an abnormal MeSH_Leukocyte_Count . '''
 ```

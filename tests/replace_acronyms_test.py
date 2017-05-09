@@ -39,7 +39,7 @@ class Parens_Replace_Test():
 
         replacer = replace_acronyms(counter)
         doc_new = replacer(doc, counter)
-        doc_right = "The Environmental Protection Agency " \
+        doc_right = "The Environmental_Protection_Agency " \
                     "( Environmental_Protection_Agency ) was created by " \
                     "Nixon .\nThe Environmental_Protection_Agency helps the " \
                     "environment"
@@ -204,6 +204,43 @@ class Parens_Replace_Test():
 
         assert_equal(doc_new, doc_right)
 
+    def tokenize_phrase_test(self):
+        doc = "The Environmental Protection Agency (EPA) was created by " \
+              "Nixon. The EPA helps the environment"
+        counter = self.phrases(doc)
+
+        replacer = replace_acronyms(counter, underscore=True)
+        doc_new = replacer(doc)
+        doc_right = "The Environmental_Protection_Agency ( Environmental_" \
+                    "Protection_Agency ) was created by Nixon .\n" \
+                    "The Environmental_Protection_Agency helps the environment"
+
+        assert_equal(doc_right, doc_new)
 
 
+    def tokenize_phrase_prefix_test(self):
+        doc = "The Environmental Protection Agency (EPA) was created by " \
+              "Nixon. The EPA helps the environment"
+        counter = self.phrases(doc)
+
+        replacer = replace_acronyms(counter, prefix='ABBR', underscore=True)
+        doc_new = replacer(doc)
+        doc_right = "The ABBR_Environmental_Protection_Agency ( ABBR_" \
+                    "Environmental_Protection_Agency ) was created by " \
+                    "Nixon .\nThe ABBR_Environmental_Protection_Agency " \
+                    "helps the environment"
+
+        assert_equal(doc_right, doc_new)
+
+    def dash_test(self):
+        doc = 'Im not saying its a great non-Hodgkins lymphoma (NHL). Its a ' \
+              'good Hodgkins'
+        counter = self.phrases(doc)
+        replacer = replace_acronyms(counter, prefix='ABBR', underscore=True)
+        doc_new = replacer(doc)
+
+        doc_right = 'Im not saying its a great ABBR_non_Hodgkins_lymphoma ' \
+                    '( ABBR_non_Hodgkins_lymphoma ) .\nIts a good Hodgkins'
+
+        assert_equal(doc_right, doc_new)
 
