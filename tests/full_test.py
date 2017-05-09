@@ -53,10 +53,8 @@ class Full_Test:
         self.big_counter = self.acronym_counter()
 
         self.replace_abbreviation = replace_acronyms(self.big_counter,
-                                                     preprocessed=True)
-
-
-        print "done"
+                                                     prefix='ABBR',
+                                                     preprocessed=False)
 
     def full_run(self, text):
         doc = text
@@ -66,16 +64,18 @@ class Full_Test:
         titlecaps_doc = self.titlecaps(dedash_doc)
 
         counter = self.parenthetical(titlecaps_doc)
-        replace_from_dict_doc = self.replace_from_dict(titlecaps_doc)
+
+        replaced_abbrv_doc = self.replace_abbreviation(titlecaps_doc,
+                                                       counter)
+
+        replace_from_dict_doc = self.replace_from_dict(replaced_abbrv_doc)
+
         separated_parenthesis_doc = self.separated_parenthesis(replace_from_dict_doc)
         token_replacement_doc = self.token_replacement(separated_parenthesis_doc)
         decaps_doc = self.decaps(token_replacement_doc)
         pos_tokenizer_doc = self.pos_tokenizer(decaps_doc)
 
-        replaced_abbrv_doc = self.replace_abbreviation(pos_tokenizer_doc.text,
-                                                       counter)
-
-        return replaced_abbrv_doc, counter
+        return pos_tokenizer_doc.text, counter
 
     def acronym_counter(self):
         doc1 = self.doc1
@@ -99,6 +99,8 @@ class Full_Test:
         counter_HRQOL = counter[(('health', 'related', 'quality', 'of',
                                   'life'), 'HRQOL')]
 
+        self.check_line_by_line(doc_new, doc_right)
+
         assert_equal(doc_new, doc_right)
         assert_equal(counter_nhl, 1)
         assert_equal(counter_HRQOL, 1)
@@ -112,5 +114,15 @@ class Full_Test:
 
         counter_sle = counter[(('systemic', 'lupus', 'erythematosus'), 'SLE')]
 
+        self.check_line_by_line(doc_new, doc_right)
+
         assert_equal(doc_new, doc_right)
         assert_equal(counter_sle, 1)
+
+    def check_line_by_line(self, doc1, doc2):
+        doc1 = doc1.split('\n')
+        doc2 = doc2.split('\n')
+
+        for x in range(len(doc1)):
+            assert_equal(doc1[x], doc2[x])
+
