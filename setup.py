@@ -25,6 +25,7 @@ setuptools.setup(
 
     # The project's main homepage.
     url="https://github.com/NIHOPA/NLPre",
+    download_url='https://github.com/NIHOPA/NLPre/archive/v1.0.0.tar.gz',
 
     # Author details
     author="Travis Hoppe",
@@ -38,8 +39,8 @@ setuptools.setup(
         # How mature is this project? Common values are
         #   3 - Alpha
         #   4 - Beta
-        #   5 - Production/Stable
-        'Development Status :: 3 - Alpha',
+        #   5  -Production/Stable
+        'Development Status :: 5 - Production/Stable',
 
         # Indicate who your project is intended for
         'Intended Audience :: Developers',
@@ -67,7 +68,4 @@ setuptools.setup(
 
     test_suite='nose.collector',
     tests_require=['nose'],
-
-    # Fill this in when ready...
-    download_url='https://github.com/NIHOPA/NLPre/archive/v1.0.0.zip',
 )
