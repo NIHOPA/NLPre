@@ -1,11 +1,7 @@
 import pattern
 import nlpre.identify_parenthetical_phrases as IPP
 import collections
-import os
 import logging
-logDir = os.path.split(os.path.dirname(__file__))[0]
-logging.config.fileConfig(logDir + '/logging.conf')
-logger = logging.getLogger("replace_acronyms")
 
 
 class replace_acronyms():
@@ -52,6 +48,7 @@ class replace_acronyms():
             preprocessed: A boolean to indicate if input text is raw,
                           or has been processed by other NLPre modules
         '''
+        self.logger = logging.getLogger(__name__)
 
         self.counter = counter
         self.prefix = prefix
@@ -230,12 +227,12 @@ class replace_acronyms():
                         highest_phrase.insert(0, self.prefix)
                     if self.underscore:
                         highest_phrase = '_'.join(highest_phrase)
-                        logger.info(
+                        self.logger.info(
                             'Replacing token %s with phrase %s' %
                             (token, highest_phrase))
                         new_sentence.append(highest_phrase)
                     else:
-                        logger.info(
+                        self.logger.info(
                             'Replacing token %s with phrase %s' %
                             (token, highest_phrase))
                         new_sentence.extend(highest_phrase)
@@ -254,7 +251,7 @@ class replace_acronyms():
                     phrase = tokenized_phrase[0]
                     if self.prefix:
                         phrase = '_'.join([self.prefix, phrase])
-                    logger.info('Tokenizing phrase %s' % phrase)
+                    self.logger.info('Tokenizing phrase %s' % phrase)
                     new_sentence.append(phrase)
                     index += tokenized_phrase[1]
                 else:

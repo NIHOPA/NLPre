@@ -39,6 +39,13 @@ print(text)
     patients with an abnormal MeSH_Leukocyte_Count . '''
 ```
 
+To see a detailed log of the changes made, set the level to `logging.INFO` or `logging.DEBUG`,
+
+```python
+import nlpre, logging
+nlpre.logger.setLevel(logging.INFO)
+```
+
 ### What's included?
 
 | Function | Description |
