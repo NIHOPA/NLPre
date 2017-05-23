@@ -69,5 +69,5 @@ setuptools.setup(
     tests_require=['nose'],
 
     # Fill this in when ready...
-    download_url='',
+    download_url='https://github.com/NIHOPA/NLPre/archive/v1.0.0.zip',
 )
