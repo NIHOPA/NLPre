@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/NIHOPA/NLPre.svg?branch=master)](https://travis-ci.org/NIHOPA/NLPre)
 [![codecov](https://codecov.io/gh/NIHOPA/NLPre/branch/master/graph/badge.svg)](https://codecov.io/gh/NIHOPA/NLPre)
-[![PyPI](https://img.shields.io/pypi/v/nlpre.svg)]()
+[![PyPI](https://img.shields.io/pypi/v/nlpre.svg)](https://pypi.python.org/pypi/nlpre)
 
 
 NLPre is a text (pre)-processing library that helps smooth some of the inconsistencies found in real-world data.
