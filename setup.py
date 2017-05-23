@@ -18,14 +18,14 @@ setuptools.setup(
     include_package_data=True,
 
     # Versions should comply with PEP440. 
-    version='1.0.0',
+    version='1.0.1',
 
     description='Natural Language Preprocessing (NLPre) utilities.',
     long_description=long_description,
 
     # The project's main homepage.
     url="https://github.com/NIHOPA/NLPre",
-    download_url='https://github.com/NIHOPA/NLPre/archive/v1.0.0.tar.gz',
+    download_url='https://github.com/NIHOPA/NLPre/archive/v1.0.1.tar.gz',
 
     # Author details
     author="Travis Hoppe",
