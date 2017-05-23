@@ -32,7 +32,7 @@ setuptools.setup(
     author_email="travis.hoppe+nlpre@gmail.com",
 
     # Choose your license
-    license='MIT',
+    license='CC0',
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
