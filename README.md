@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/NIHOPA/NLPre.svg?branch=master)](https://travis-ci.org/NIHOPA/NLPre)
 [![codecov](https://codecov.io/gh/NIHOPA/NLPre/branch/master/graph/badge.svg)](https://codecov.io/gh/NIHOPA/NLPre)
+[![PyPI](https://img.shields.io/pypi/v/nlpre.svg)](https://pypi.python.org/pypi/nlpre)
+
 
 NLPre is a text (pre)-processing library that helps smooth some of the inconsistencies found in real-world data.
 Correcting for issues like random capitalization patterns, strange hyphenations, and abbreviations are essential parts of wrangling textual data but are often left to the user.
@@ -11,6 +13,12 @@ While this library was developed by the [Office of Portfolio Analysis](https://d
 NLPre is part of the [`word2vec-pipeline`](https://github.com/NIHOPA/word2vec_pipeline).
 
 ### Installation
+
+For the latest release, use
+
+    pip install nlpre
+
+For the development version, use
 
     pip install git+git://github.com/NIHOPA/NLPre.git
 
