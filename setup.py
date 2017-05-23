@@ -18,7 +18,7 @@ setuptools.setup(
     include_package_data=True,
 
     # Versions should comply with PEP440. 
-    version='0.1.0',
+    version='1.0.0',
 
     description='Natural Language Preprocessing (NLPre) utilities.',
     long_description=long_description,
