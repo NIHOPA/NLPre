@@ -2,7 +2,6 @@ import string
 import collections
 import six
 from Grammars import parenthesis_nester
-import os
 import logging
 
 

@@ -1,6 +1,5 @@
 import pattern.en
 from tokenizers import meta_text
-import os
 import logging
 
 _POS_shorthand = {

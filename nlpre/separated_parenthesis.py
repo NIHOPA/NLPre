@@ -1,7 +1,6 @@
 import pyparsing as pypar
 import pattern.en
 import six
-import os
 import logging
 from Grammars import parenthesis_nester
 

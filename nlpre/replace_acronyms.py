@@ -1,7 +1,6 @@
 import pattern
 import nlpre.identify_parenthetical_phrases as IPP
 import collections
-import os
 import logging
 
 
