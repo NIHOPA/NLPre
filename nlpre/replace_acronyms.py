@@ -4,7 +4,7 @@ import collections
 import logging
 
 
-class replace_acronyms():
+class replace_acronyms(object):
 
     """
     Replaces acronyms and abbreviations found in a document with their
