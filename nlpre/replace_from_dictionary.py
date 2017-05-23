@@ -3,10 +3,7 @@ import collections
 import re
 import csv
 import os
-import logging.config
-logDir = os.path.split(os.path.dirname(__file__))[0]
-logging.config.fileConfig(logDir + '/logging.conf')
-logger = logging.getLogger("replace_from_dictionary")
+import logging
 
 
 class replace_from_dictionary(object):
@@ -32,15 +29,17 @@ class replace_from_dictionary(object):
             f_dict: filename, location of the replacement dictionary.
             prefix: string, text to prefix each replacement.
         '''
-
+        self.logger = logging.getLogger(__name__)
+        
         if f_dict is None:
             local_path = os.path.dirname(__file__)
             f_dict = os.path.join(local_path, self.f_MeSH)
-            logger.info('Using default dictionary: %s' % f_dict)
+            self.logger.debug('Using default dictionary: %s' % f_dict)
 
         if not os.path.exists(f_dict):
             msg = "Can't find dictionary {}".format(f_dict)
-            raise IOError(msg)
+            self.logger.error(msg)
+            raise IOError()
 
         self.rdict = {}
         with open(f_dict) as FIN:
@@ -84,7 +83,7 @@ class replace_from_dictionary(object):
                     continue
                 pattern = re.compile(re.escape(rval), re.IGNORECASE)
                 doc = pattern.sub(' {} '.format(term), doc)
-                logger.info('Replacing term %s with %s' % (rval, term))
+                self.logger.info('Replacing term %s with %s' % (rval, term))
 
         doc = ' '.join([x for x in doc.split(' ') if x])
         return doc

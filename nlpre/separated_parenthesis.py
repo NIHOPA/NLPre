@@ -1,13 +1,9 @@
 import pyparsing as pypar
 import pattern.en
 import six
-from Grammars import parenthesis_nester
 import os
-import logging.config
-logDir = os.path.split(os.path.dirname(__file__))[0]
-logging.config.fileConfig(logDir + '/logging.conf')
-logger = logging.getLogger("seperated_parenthesis")
-
+import logging
+from Grammars import parenthesis_nester
 
 class separated_parenthesis(object):
 
@@ -28,7 +24,7 @@ class separated_parenthesis(object):
 
     def __init__(self):
         """ Initialize the parser. """
-
+        self.logger = logging.getLogger(__name__)
         self.grammar = parenthesis_nester()
 
         # self.parse = lambda x:pattern.en.parse(x,chunks=False,tags=False)
@@ -140,7 +136,7 @@ class separated_parenthesis(object):
             # This allows content in nested parenthesis to be captured
             for tokes in token_parens:
                 sents = self.paren_pop_helper(tokes)
-                logger.info('Expanded parenthetical content: %s' % sents)
+                self.logger.info('Expanded parenthetical content: %s' % sents)
                 reorged_tokens.extend(sents)
 
             # Bundles outer sentence with inner parenthetical content

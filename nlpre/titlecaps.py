@@ -1,10 +1,6 @@
 from tokenizers import sentence_tokenizer
 import os
-import logging.config
-logDir = os.path.split(os.path.dirname(__file__))[0]
-logging.config.fileConfig(logDir + '/logging.conf')
-logger = logging.getLogger("titlecaps")
-
+import logging
 
 class titlecaps(object):
 
@@ -23,7 +19,7 @@ class titlecaps(object):
             min_length: Minimum sentence length, otherwise sentence is returned
                         untouched.
         '''
-
+        self.logger = logging.getLogger(__name__)
         self.min_length = min_length
 
     def __call__(self, text):
@@ -43,7 +39,7 @@ class titlecaps(object):
             if not is_any_lowercase(sent):
 
                 if len(sent) > self.min_length:
-                    logger.info("DECAPING: '{}'".format(' '.join(sent)))
+                    self.logger.info("DECAPING: '{}'".format(' '.join(sent)))
                     sent = [x.lower() for x in sent]
 
             doc2.append(' '.join(sent))

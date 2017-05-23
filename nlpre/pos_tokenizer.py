@@ -1,10 +1,7 @@
 import pattern.en
 from tokenizers import meta_text
 import os
-import logging.config
-logDir = os.path.split(os.path.dirname(__file__))[0]
-logging.config.fileConfig(logDir + '/logging.conf')
-logger = logging.getLogger("pos_tokenizer")
+import logging
 
 _POS_shorthand = {
     "adjective": "ADJ",
@@ -52,7 +49,7 @@ class pos_tokenizer(object):
         Args:
             POS_blacklist: A list of parts of speech to remove from the text.
         """
-
+        self.logger = logging.getLogger(__name__)
         self.parse = lambda x: pattern.en.parse(x, chunks=False, tags=True)
 
         POS = {
@@ -112,7 +109,7 @@ class pos_tokenizer(object):
                 # try:
                 #    pos = self.POS_map[tag]
                 # except BaseException:
-                #    logger.info("UNKNOWN POS *{}*".format(tag))
+                #    self.logger.info("UNKNOWN POS *{}*".format(tag))
                 #    pos = "unknown"
                 pos = self.POS_map[tag]
 
@@ -134,7 +131,7 @@ class pos_tokenizer(object):
 
         doc2 = '\n'.join(doc2)
 
-        logger.info('Removed words: %s' % removedWords)
+        self.logger.info('Removed words: %s' % removedWords)
 
         # The number of POS tokens should match the number of word tokens
         assert(len(pos_tags) == len(doc2.split()))
