@@ -30,7 +30,7 @@ class replace_from_dictionary(object):
             prefix: string, text to prefix each replacement.
         '''
         self.logger = logging.getLogger(__name__)
-        
+
         if f_dict is None:
             local_path = os.path.dirname(__file__)
             f_dict = os.path.join(local_path, self.f_MeSH)

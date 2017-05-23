@@ -2,6 +2,7 @@ from tokenizers import sentence_tokenizer
 import os
 import logging
 
+
 class decaps_text(object):
 
     """
@@ -16,7 +17,6 @@ class decaps_text(object):
     def __init__(self):
         """ Initialize the parser. """
         self.logger = logging.getLogger(__name__)
-        
 
     def modify_word(self, org):
         '''

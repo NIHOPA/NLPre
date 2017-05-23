@@ -2,6 +2,7 @@ from tokenizers import sentence_tokenizer
 import os
 import logging
 
+
 class titlecaps(object):
 
     """

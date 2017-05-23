@@ -5,6 +5,7 @@ import os
 import logging
 from Grammars import parenthesis_nester
 
+
 class separated_parenthesis(object):
 
     """

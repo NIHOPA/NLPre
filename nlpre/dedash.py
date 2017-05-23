@@ -6,6 +6,7 @@ __internal_wordlist = "dictionaries/english_wordlist.txt"
 __local_dir = os.path.dirname(os.path.abspath(__file__))
 _internal_wordlist = os.path.join(__local_dir, __internal_wordlist)
 
+
 class dedash(object):
 
     """
@@ -19,7 +20,7 @@ class dedash(object):
         """ Initialize the parser. Preloads a fixed English dictionary. """
         self.logger = logging.getLogger(__name__)
         self.logger.debug("Loading wordlist from %s" % _internal_wordlist)
-        
+
         self.english_words = set()
         with open(_internal_wordlist) as FIN:
             for line in FIN:
@@ -50,7 +51,7 @@ class dedash(object):
                     continue
 
                 self.logger.info("Merging tokens %s %s %s"
-                                % (tokens[i], tokens[i + 1], word))
+                                 % (tokens[i], tokens[i + 1], word))
 
                 tokens[i] = word
                 tokens[i + 1] = ''
