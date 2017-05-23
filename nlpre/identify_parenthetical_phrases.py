@@ -2,11 +2,7 @@ import string
 import collections
 import six
 from Grammars import parenthesis_nester
-import os
-import logging.config
-logDir = os.path.split(os.path.dirname(__file__))[0]
-logging.config.fileConfig(logDir + '/logging.conf')
-logger = logging.getLogger("identify_parenthetical_phrases")
+import logging
 
 
 class identify_parenthetical_phrases(object):
@@ -19,6 +15,7 @@ class identify_parenthetical_phrases(object):
     def __init__(self):
         """ Initialize the parser. """
         self.parser = parenthesis_nester()
+        self.logger = logging.getLogger(__name__)
 
     def __call__(self, text):
         '''
@@ -46,7 +43,7 @@ class identify_parenthetical_phrases(object):
                     results[(tuple(subtokens), word)] += 1
 
         if results:
-            logger.info('counter: %s' % results)
+            self.logger.info('Counter: %s' % results)
         return results
 
     def _is_valid_abbr(self, item):

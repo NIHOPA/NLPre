@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-import logging.config
-logDir = os.path.split(os.path.dirname(__file__))[0]
-logging.config.fileConfig(logDir + '/logging.conf')
-logger = logging.getLogger("dedash")
+import logging
 
 __internal_wordlist = "dictionaries/english_wordlist.txt"
 __local_dir = os.path.dirname(os.path.abspath(__file__))
@@ -21,6 +18,8 @@ class dedash(object):
 
     def __init__(self):
         """ Initialize the parser. Preloads a fixed English dictionary. """
+        self.logger = logging.getLogger(__name__)
+        self.logger.debug("Loading wordlist from %s" % _internal_wordlist)
 
         self.english_words = set()
         with open(_internal_wordlist) as FIN:
@@ -51,14 +50,13 @@ class dedash(object):
                 if test_word.lower() not in self.english_words:
                     continue
 
-                logger.info("Merging tokens %s %s %s"
-                            % (tokens[i], tokens[i + 1], word))
+                self.logger.info("Merging tokens %s %s %s"
+                                 % (tokens[i], tokens[i + 1], word))
 
                 tokens[i] = word
                 tokens[i + 1] = ''
 
         doc = ' '.join(tokens)
-
         return doc
 
 
