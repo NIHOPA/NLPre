@@ -102,7 +102,7 @@ class separated_parenthesis(object):
 
         # must convert the ParseResult to a list, otherwise adding it to a list
         # causes weird results.
-        if isinstance(parsed_tokens, pypar.ParseRxesults):
+        if isinstance(parsed_tokens, pypar.ParseResults):
             parsed_tokens = parsed_tokens.asList()
 
         content = self.paren_pop_helper(parsed_tokens)
