@@ -110,6 +110,7 @@ class pos_tokenizer(object):
                 # except BaseException:
                 #    self.logger.info("UNKNOWN POS *{}*".format(tag))
                 #    pos = "unknown"
+                
                 pos = self.POS_map[tag]
 
                 if pos in self.filtered_POS:
