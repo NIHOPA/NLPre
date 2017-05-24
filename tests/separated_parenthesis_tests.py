@@ -113,12 +113,40 @@ class Separated_Parenthesis_Tests():
 
         assert_equal(doc_right, doc_new)
 
-    # def mixed_types_test(self):
+    #def mixed_types_period_test(self):
     #    doc = 'hello world. (It {is a} beautiful day.) Goodbye world.'
     #    doc_right = 'hello world .\nIt  beautiful day .\nis a .\nGoodbye world .'
     #    doc_new = self.parser(doc)
 
     #    assert_equals(doc_right, doc_new)
+
+    #def mixed_types_no_period_test(self):
+    #    doc = 'hello world (It {is a} beautiful day) goodbye world.'
+    #    doc_right = 'hello world goodbye world .\nIt beautiful day .\nis a .'
+    #    doc_new = self.parser(doc)
+
+    #    assert_equals(doc_right, doc_new)
+
+    def travis_example_two_parenthesis_test(self):
+        doc = 'Superoxide anion (A(B?)).'
+        doc_right = 'Superoxide anion .\nA .\nB ? .'
+        doc_new = self.parser(doc)
+
+        assert_equals(doc_right, doc_new)
+
+    def travis_example_test(self):
+        doc = 'Superoxide anion (A[B?]).'
+        doc_right = 'Superoxide anion AB ?\n.'
+        doc_new = self.parser(doc)
+
+        assert_equals(doc_right, doc_new)
+
+    def travis_example_bigger_sentence_test(self):
+        doc = 'These chemicals are great. Superoxide anion (A[B?]).'
+        doc_right = 'These chemicals are great .\nSuperoxide anion AB ?\n.'
+        doc_new = self.parser(doc)
+
+        assert_equals(doc_right, doc_new)
 
     # def mixed_types_unbalanced_test(self):
     #    doc = 'hello world. (It {is a} beautiful day. Goodbye world.'
