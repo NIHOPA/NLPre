@@ -65,7 +65,6 @@ class separated_parenthesis(object):
             #    tokens = self.grammar.parseString(sent)
             # except (pypar.ParseException, RuntimeError):
             #    FLAG_valid = False
-            tokens = self.grammar.grammar.parseString(sent)
 
             if not FLAG_valid:
                 # On fail simply remove all parenthesis
@@ -81,6 +80,7 @@ class separated_parenthesis(object):
                 doc_out.append(text)
             else:
                 # Append parenthetical sentences to end of sentence
+                tokens = self.grammar.grammar.parseString(sent)
                 text = self.paren_pop(tokens)
                 doc_out.extend(text)
 
