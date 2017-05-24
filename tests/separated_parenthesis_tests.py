@@ -128,8 +128,8 @@ class Separated_Parenthesis_Tests():
         assert_equals(doc_right, doc_new)
 
     def travis_example_bigger_sentence_test(self):
-        doc = 'These chemicals are great. Superoxide anion (A[B?]).'
-        doc_right = 'These chemicals are great .\nSuperoxide anion AB ?\n.'
+        doc = 'These chemicals are (really really) great. Superoxide anion (A[B?]).'
+        doc_right = 'These chemicals are great .\nreally really .\nSuperoxide anion AB ?\n.'
         doc_new = self.parser(doc)
 
         assert_equals(doc_right, doc_new)
