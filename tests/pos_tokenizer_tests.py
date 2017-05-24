@@ -75,6 +75,13 @@ class POS_Tokenizer_Test:
 
         assert_equal(doc_right, doc_new.text)
 
+    def possesive_word_test(self):
+        doc = "I am Jack's complete lack of surprise"
+        doc_right = "be jack complete lack of surprise"
+        doc_new = pos_tokenizer(["pronoun"])(doc)
+        
+        assert_equal(doc_right, doc_new.text)        
+
     # def unknown_word_test(self):
     #    doc = 'The boy akjf45!naf the ball into the yard'
     #    doc_right = 'boy akjfnaf ball yard'
