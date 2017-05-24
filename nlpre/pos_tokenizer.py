@@ -9,6 +9,9 @@ _POS_shorthand = {
     "modal_verb": "V",
     "adverb": "RB",
     "unknown": "UNK",
+    "pronoun": "POS",
+    "connector": "CC",
+    "punctuation": "PUNC",
 }
 
 
@@ -25,7 +28,7 @@ class pos_tokenizer(object):
             "cardinal": ["CD", "LS"],
             "adjective": ["JJ", "JJR", "JJS"],
             "noun": ["NN", "NNS", "NNP", "NNPS"],
-            "pronoun": ["PRP", "PRP$"],
+            "pronoun": ["PRP", "PRP$", "PRO"],
             "adverb": ["RB", "RBR", "RBS", "RP"],
             "symbol": ["SYM", '$', ],
             "punctuation": [".", ",", ":", ')', '('],
@@ -56,7 +59,7 @@ class pos_tokenizer(object):
             "cardinal": ["CD", "LS"],
             "adjective": ["JJ", "JJR", "JJS"],
             "noun": ["NN", "NNS", "NNP", "NNPS"],
-            "pronoun": ["PRP", "PRP$"],
+            "pronoun": ["PRP", "PRP$", "POS"],
             "adverb": ["RB", "RBR", "RBS", "RP"],
             "symbol": ["SYM", '$', ],
             "punctuation": [".", ",", ":", ')', '('],
@@ -110,7 +113,7 @@ class pos_tokenizer(object):
                 # except BaseException:
                 #    self.logger.info("UNKNOWN POS *{}*".format(tag))
                 #    pos = "unknown"
-                
+
                 pos = self.POS_map[tag]
 
                 if pos in self.filtered_POS:
