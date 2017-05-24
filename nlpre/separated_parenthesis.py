@@ -42,6 +42,9 @@ class separated_parenthesis(object):
             text: A string document with parenthetical content processed
         '''
 
+        # Known issue - pattern will split on punctuation, even when found in
+        # parenthetical content. So, the sentence "A A V (C D. A B) A." would
+        # be split into sentences "A A V (C D." and " A B) A."
         sentences = self.parse(text)
         doc_out = []
         for sent in sentences:
@@ -61,12 +64,6 @@ class separated_parenthesis(object):
             FLAG_valid = (LP_Paran == RP_Paran) and (
                 LP_Bracket == RP_Bracket) and (LP_Curl == RP_Curl)
 
-            # try:
-            #    tokens = self.grammar.parseString(sent)
-            # except (pypar.ParseException, RuntimeError):
-            #    FLAG_valid = False
-            tokens = self.grammar.grammar.parseString(sent)
-
             if not FLAG_valid:
                 # On fail simply remove all parenthesis
                 sent = sent.replace('(', '')
@@ -81,10 +78,18 @@ class separated_parenthesis(object):
                 doc_out.append(text)
             else:
                 # Append parenthetical sentences to end of sentence
+                # try:
+                #    tokens = self.grammar.parseString(sent)
+                # except (pypar.ParseException, RuntimeError):
+                #    FLAG_valid = False
+
+                # Known issue - pyparsing will not recognize nested
+                # parenthesis if they are different types, ie "([])"
+
+                tokens = self.grammar.grammar.parseString(sent)
                 text = self.paren_pop(tokens)
                 doc_out.extend(text)
 
-        # doc_out.extend(content_list)
         return '\n'.join(doc_out)
 
     def paren_pop(self, parsed_tokens):
