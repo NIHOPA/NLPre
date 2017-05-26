@@ -82,8 +82,10 @@ class identify_parenthetical_phrases(object):
         '''
 
         # Identify the capital letters
-        caps = [let for let in word if
-                let in string.ascii_uppercase.upper()]
+        #caps = [let for let in word if
+        #        let in string.ascii_uppercase.upper()]
+
+        caps = [let for let in word]
 
         # Don't try to match with only a single letter (too noisy!)
         if len(caps) < 2:
