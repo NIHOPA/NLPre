@@ -1,8 +1,8 @@
-import string
 import collections
 import six
 from Grammars import parenthesis_nester
 import logging
+import string
 
 
 class identify_parenthetical_phrases(object):
@@ -82,10 +82,8 @@ class identify_parenthetical_phrases(object):
         '''
 
         # Identify the capital letters
-        #caps = [let for let in word if
-        #        let in string.ascii_uppercase.upper()]
-
-        caps = [let for let in word]
+        caps = [let for let in word if
+                let in string.ascii_uppercase.upper()]
 
         # Don't try to match with only a single letter (too noisy!)
         if len(caps) < 2:
@@ -127,8 +125,10 @@ class identify_parenthetical_phrases(object):
                     return False
                 token = tokens[x]
                 subtokens.insert(0, token)
-                subtoken_let = [let.upper()[0] for let in subtokens
-                                if let not in tokens_to_remove and isinstance(let, basestring)]
+                subtoken_let = [
+                    let.upper()[0] for let in subtokens if
+                    let not in tokens_to_remove and
+                    isinstance(let, basestring)]
                 x -= 1
 
         return tuple(subtokens)
