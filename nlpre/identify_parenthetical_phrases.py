@@ -120,8 +120,9 @@ class identify_parenthetical_phrases(object):
                 'to']
             subtokens = []
             x = k - 1
+            cutoff = x - len(caps) * 2
             while subtoken_let != caps:
-                if x < 0:
+                if x < 0 or x < cutoff:
                     return False
                 token = tokens[x]
                 subtokens.insert(0, token)
