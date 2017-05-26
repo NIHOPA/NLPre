@@ -126,7 +126,7 @@ class identify_parenthetical_phrases(object):
                 token = tokens[x]
                 subtokens.insert(0, token)
                 subtoken_let = [let.upper()[0] for let in subtokens
-                                if let not in tokens_to_remove]
+                                if let not in tokens_to_remove and isinstance(let, basestring)]
                 x -= 1
 
         return tuple(subtokens)
