@@ -244,3 +244,32 @@ class Parens_Replace_Test():
 
         assert_equal(doc_right, doc_new)
 
+    def travis_test(self):
+        doc = 'A large region upstream ( ~ 30 kb ) of GATA 4. ' \
+              'Small interfering RNA (siRNA) mediated depletion of EZH2.'
+        counter = self.phrases(doc)
+        replacer = replace_acronyms(counter, prefix='ABBR', underscore=True)
+        doc_new = replacer(doc)
+
+        doc_right = 'A large region upstream ( ~ 30 kb ) of GATA 4 .\n' \
+              'Small interfering RNA ( siRNA ) mediated depletion of EZH2 .'
+
+        assert_equal(doc_new, doc_right)
+
+    def travis_a_test(self):
+        doc = 'A large region upstream (~30 kb) of GATA 4.'
+        counter = self.phrases(doc)
+        replacer = replace_acronyms(counter, prefix='ABBR', underscore=True)
+        doc_new = replacer(doc)
+
+        doc_right = 'A large region upstream ( ~ 30 kb ) of GATA 4 .'
+        assert_equal(doc_new, doc_right)
+
+    def travis_b_test(self):
+        doc = 'Small interfering RNA (siRNA) mediated depletion of EZH2.'
+        counter = self.phrases(doc)
+        replacer = replace_acronyms(counter, prefix='ABBR', underscore=True)
+        doc_new = replacer(doc)
+
+        doc_right = 'Small interfering RNA ( siRNA ) mediated depletion of EZH2 .'
+        assert_equal(doc_new, doc_right)
