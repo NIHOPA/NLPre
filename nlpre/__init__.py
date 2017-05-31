@@ -21,6 +21,7 @@ __all__ = [
     'identify_parenthetical_phrases',
     'unidecoder',
     'replace_acronyms',
+    'remove_footnotes'
 ]
 
 logger = logging.getLogger(__name__)
