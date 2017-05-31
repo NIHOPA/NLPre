@@ -61,11 +61,14 @@ class Remove_Footnotes:
                     except BaseException:
                         # Check if the word is of the form word.2,3,4
                         try:
-                            parse_return = self.number_then_punctuation.parseString(token)
+                            parse_return = \
+                                self.number_then_punctuation.parseString(
+                                token)
                         except BaseException:
                             # Check if the word is of the form word2,3,4
                             try:
-                                parse_return = self.punctuation_then_number.parseString(
+                                parse_return = \
+                                    self.punctuation_then_number.parseString(
                                     token)
                             # if not, append word to the new sentence
                             except BaseException:
