@@ -82,8 +82,8 @@ class Footnotes_Test:
         assert_equal(doc_right, doc_new)
 
     def word_that_begins_with_number_test(self):
-        doc = "How is the 4XasdL1 going. Pretty well"
-        doc_right = "How is the 4XasdL1 going . Pretty well"
+        doc = "How is the 4XasdL going. Pretty well"
+        doc_right = "How is the 4XasdL going . Pretty well"
         doc_new = self.footnotes(doc)
 
         assert_equal(doc_right, doc_new)
