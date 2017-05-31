@@ -115,7 +115,7 @@ class Separated_Parenthesis_Tests():
 
     def travis_example_two_parenthesis_test(self):
         doc = 'Superoxide anion (A(B?)).'
-        doc_right = 'Superoxide anion .\nA .\nB ? .'
+        doc_right = 'Superoxide anion .\nA .\nB ?'
         doc_new = self.parser(doc)
 
         assert_equals(doc_right, doc_new)
