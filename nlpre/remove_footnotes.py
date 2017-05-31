@@ -9,7 +9,7 @@ __local_dir = os.path.dirname(os.path.abspath(__file__))
 _internal_wordlist = os.path.join(__local_dir, __internal_wordlist)
 
 
-class Remove_Footnotes:
+class remove_footnotes:
     def __init__(self):
         self.english_words = set()
         with open(_internal_wordlist) as FIN:
@@ -42,7 +42,7 @@ class Remove_Footnotes:
                 # Check if a word is of the form word-4, which does not
                 # indicate a footnote
                 try:
-                    parse_return = self.dash_word.parseString(token)
+                    self.dash_word.parseString(token)
                     new_sentence.append(token)
                     continue
                 except BaseException:
@@ -50,7 +50,7 @@ class Remove_Footnotes:
                     # case, because there could be words that end in a number
                     # that don't represent a footnote, as is the case for
                     # chemicals. The code looks up the characters that make
-                    # up a word, and if they are not found in the dictinoary,
+                    # up a word, and if they are not found in the dictionary,
                     # it is assumed it is a chemical name and the number is
                     # not pruned.
                     try:

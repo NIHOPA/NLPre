@@ -1,15 +1,13 @@
 from nose.tools import *
 import pattern.en
-from nlpre.remove_footnotes import Remove_Footnotes
+from nlpre.remove_footnotes import remove_footnotes
 
 class Footnotes_Test:
     def __init__(self):
         self.parse = lambda x: pattern.en.tokenize(
             x)
 
-        self.footnotes = Remove_Footnotes()
-
-
+        self.footnotes = remove_footnotes()
 
     def number_test(self):
         doc = "How is the treatment4 going. Pretty well"
