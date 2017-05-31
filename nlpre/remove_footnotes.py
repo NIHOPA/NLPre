@@ -21,11 +21,12 @@ class Remove_Footnotes:
         second_punctuation = Word('.!?:,;-')
         nums = Word(pyparsing.nums)
 
-        self.single_number = real_word + nums + WordEnd()
-        self.number_then_punctuation = real_word + nums + second_punctuation + nums
-        self.punctuation_then_number = real_word + first_punctuation + nums
-        self.dash_word = real_word + Word('-') + nums
 
+        self.dash_word = real_word + Word('-') + nums + WordEnd()
+        self.single_number = real_word + nums + WordEnd()
+
+        self.number_then_punctuation = real_word + pyparsing.OneOrMore(nums | second_punctuation) + WordEnd()
+        self.punctuation_then_number = real_word + pyparsing.OneOrMore(first_punctuation | nums) + WordEnd()
 
         self.parse = lambda x: pattern.en.tokenize(
             x)

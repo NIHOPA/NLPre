@@ -87,3 +87,18 @@ class Footnotes_Test:
         doc_new = self.footnotes(doc)
 
         assert_equal(doc_right, doc_new)
+
+    def pattern_in_middle_of_word_test(self):
+        doc = "How is the CAMK2-2-dependent going. Pretty well"
+        doc_right = "How is the CAMK2-2-dependent going . Pretty well"
+        doc_new = self.footnotes(doc)
+
+        assert_equal(doc_right, doc_new)
+
+
+    def non_word_with_footnotes(self):
+        doc = "How is the CVD.70-73 going. Pretty well"
+        doc_right = "How is the CVD going . Pretty well"
+        doc_new = self.footnotes(doc)
+
+        assert_equal(doc_right, doc_new)
