@@ -17,11 +17,14 @@ class Remove_Footnotes:
 
 
         real_word = Word(pyparsing.alphas)
-        second_punctuation = Word('.!?:,;')
+        first_punctuation = Word('.!?:,;')
+        second_punctuation = Word('.!?:,;-')
         nums = Word(pyparsing.nums)
 
-        self.basic_case = real_word + nums
-        self.foot_case = real_word + second_punctuation + nums
+        self.single_number = real_word + nums + WordEnd()
+        self.number_then_punctuation = real_word + nums + second_punctuation + nums
+        self.punctuation_then_number = real_word + first_punctuation + nums
+        self.dash_word = real_word + Word('-') + nums
 
 
         self.parse = lambda x: pattern.en.tokenize(
@@ -35,17 +38,26 @@ class Remove_Footnotes:
             new_sentence = []
             for token in sentence.split():
                 try:
-                    x = self.basic_case.parseString(token)
-                    if x[0] not in self.english_words:
-                        new_sentence.append(token)
-                        continue
+                    x = self.dash_word.parseString(token)
+                    new_sentence.append(token)
+                    continue
                 except:
                     try:
-                        x = self.foot_case.parseString(token)
-                        print
+                        x = self.single_number.parseString(token)
+                        if x[0] not in self.english_words:
+                            new_sentence.append(token)
+                            continue
                     except:
-                        new_sentence.append(token)
-                        continue
+                        try:
+                            x = self.number_then_punctuation.parseString(token)
+                            print
+                        except:
+                            try:
+                                x = self.punctuation_then_number.parseString(token)
+                                print
+                            except:
+                                new_sentence.append(token)
+                                continue
                 new_sentence.append(x[0])
             join_sentence = ' '.join(new_sentence)
             new_doc.append(join_sentence)
