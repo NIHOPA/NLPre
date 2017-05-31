@@ -25,6 +25,13 @@ class Footnotes_Test:
 
         assert_equal(doc_right, doc_new)
 
+    def period_one_number_test(self):
+        doc = "How is the treatment.5 going. Pretty well"
+        doc_right = "How is the treatment going . Pretty well"
+        doc_new = self.footnotes(doc)
+
+        assert_equal(doc_right, doc_new)
+
     def dash_test(self):
         doc = "How is the treatment4-5 going. Pretty well"
         doc_right = "How is the treatment going . Pretty well"
@@ -65,4 +72,18 @@ class Footnotes_Test:
         doc_right = "How is the interlukin-1 going . Pretty well"
         doc_new = self.footnotes(doc)
 
-        assert_equal(doc_right, doc_new) 
+        assert_equal(doc_right, doc_new)
+
+    def word_that_should_end_with_number_test(self):
+        doc = "How is the XasdL1 going. Pretty well"
+        doc_right = "How is the XasdL1 going . Pretty well"
+        doc_new = self.footnotes(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def word_that_begins_with_number_test(self):
+        doc = "How is the 4XasdL1 going. Pretty well"
+        doc_right = "How is the 4XasdL1 going . Pretty well"
+        doc_new = self.footnotes(doc)
+
+        assert_equal(doc_right, doc_new)
