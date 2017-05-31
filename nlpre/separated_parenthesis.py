@@ -130,7 +130,7 @@ class separated_parenthesis(object):
 
         # If tokens don't include parenthetical content, return as string
         if len(token_words) == len(tokens):
-            if token_words[-1] != '.':
+            if token_words[-1] not in ['.', '!', '?']:
                 token_words.append('.')
             return [' '.join(token_words)]
         else:
@@ -146,7 +146,7 @@ class separated_parenthesis(object):
 
             # Bundles outer sentence with inner parenthetical content
             if token_words:
-                if token_words[-1] != '.':
+                if token_words[-1] not in ['.', '!', '?']:
                     token_words.append('.')
                 new_tokens.append(' '.join(token_words))
             new_tokens.extend(reorged_tokens)
