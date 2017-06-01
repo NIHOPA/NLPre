@@ -80,7 +80,22 @@ class POS_Tokenizer_Test:
         doc_right = "be jack complete lack of surprise"
         doc_new = pos_tokenizer(["pronoun"])(doc)
         
-        assert_equal(doc_right, doc_new.text)        
+        assert_equal(doc_right, doc_new.text)
+
+    def cardinal_word_test(self):
+        doc = "There are two phases."
+        doc_right = "There be phase ."
+        doc_new = pos_tokenizer(["cardinal"])(doc)
+        
+        assert_equal(doc_right, doc_new.text)
+
+    def w_word_test(self):
+        doc = "Transcriptions that are observed."
+        doc_right = "Transcription be observe ."
+        doc_new = pos_tokenizer(["w_word"])(doc)
+        
+        assert_equal(doc_right, doc_new.text)
+        
 
     # def unknown_word_test(self):
     #    doc = 'The boy akjf45!naf the ball into the yard'

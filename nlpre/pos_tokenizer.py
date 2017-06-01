@@ -12,6 +12,8 @@ _POS_shorthand = {
     "pronoun": "POS",
     "connector": "CC",
     "punctuation": "PUNC",
+    "cardinal": "CD",
+    "w_word": "WV",
 }
 
 
@@ -40,7 +42,7 @@ class pos_tokenizer(object):
 
     connectors -> conjunction, determiner, infinitival to,
                   interjection, predeterminer
-    w_word     -> which, what, who, whose, when, where, there, ...
+    w_word     -> which, what, who, whose, when, where, there, that, ...
 
     """
 
