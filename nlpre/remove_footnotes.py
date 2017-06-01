@@ -92,22 +92,25 @@ class remove_footnotes_word:
 
 
 class remove_footnotes_punc:
-    def __init__(self):
+    def __init__(self, reference_token=False):
         self.english_words = set()
         with open(_internal_wordlist) as FIN:
             for line in FIN:
                 self.english_words.add(line.strip())
 
+        self.reference_token = reference_token
+
         real_word = Word(pyparsing.alphas)
         first_punctuation = Word('.!?:,;')
         second_punctuation = Word('.!?:,;-')
         nums = Word(pyparsing.nums)
+        letter = Word(pyparsing.alphas, exact=1)
 
         self.dash_word = WordStart() + real_word + Word('-') + nums + WordEnd()
         self.single_number = WordStart() + real_word + nums + WordEnd()
 
-        self.number_then_punctuation = WordStart() + real_word + nums + second_punctuation + pyparsing.ZeroOrMore(nums | second_punctuation) + WordEnd()
-        self.punctuation_then_number = WordStart() + real_word + first_punctuation + nums + pyparsing.ZeroOrMore(second_punctuation | nums) + WordEnd()
+        self.number_then_punctuation = letter + nums + second_punctuation + pyparsing.ZeroOrMore(nums | second_punctuation) + WordEnd()
+        self.punctuation_then_number = letter + first_punctuation + nums + pyparsing.ZeroOrMore(second_punctuation | nums) + WordEnd()
 
         self.parse = lambda x: pattern.en.tokenize(
             x)
@@ -131,28 +134,45 @@ class remove_footnotes_punc:
                     if parse_return[0] not in self.english_words:
                         new_sentence.append(token)
                     else:
+                        word = parse_return[0]
+                        reference = parse_return[1]
+
                         new_sentence.append(parse_return[0])
+
+                        if self.reference_token:
+                            new_sentence.append("REF_"+reference)
                     continue
                 except BaseException:
                     pass
 
                 # Check if the word is of the form word2,3,4
-                try:
-                    parse_return = \
-                        self.number_then_punctuation.parseString(token)
-                    new_sentence.append(parse_return[0])
-                    continue
-                except BaseException:
-                    pass
 
-                # Check if the word is of the form word.2,3,4
-                try:
-                    parse_return = \
-                        self.punctuation_then_number.parseString(token)
-                    new_sentence.append(parse_return[0])
+                parse_return = \
+                        self.punctuation_then_number.searchString(token)
+                if parse_return:
+                    substring = ''.join(parse_return[0][1:])
+                    index = token.find(substring)
+                    word = token[:index]
+                    reference = token[index:]
+                    new_sentence.append(word)
+
+                    if self.reference_token:
+                        ref_token = "REF_" + reference
+                        new_sentence.append(ref_token)
                     continue
-                except BaseException:
-                    pass
+
+                parse_return = \
+                        self.number_then_punctuation.searchString(token)
+                if parse_return:
+                    substring = ''.join(parse_return[0][1:])
+                    index = token.find(substring)
+                    word = token[:index]
+                    reference = token[index:]
+                    new_sentence.append(word)
+
+                    if self.reference_token:
+                        new_sentence.append("REF_" + reference)
+                    continue
 
                 # if not, append word to the new sentence
                 new_sentence.append(token)
@@ -172,12 +192,12 @@ if __name__ == '__main__':
     dash_word = WordStart() + real_word + Word('-') + nums + WordEnd()
     single_number = WordStart() + real_word + nums + WordEnd()
 
-    number_then_punctuation = Combine(nums + second_punctuation + pyparsing.ZeroOrMore(nums | second_punctuation) + WordEnd())
+    number_then_punctuation = nums + second_punctuation + pyparsing.ZeroOrMore(nums | second_punctuation) + WordEnd()
     punctuation_then_number = WordStart() + real_word + first_punctuation + nums + pyparsing.ZeroOrMore(
         second_punctuation | nums) + WordEnd()
 
     string_test = 'treatment4-5'
-    x = number_then_punctuation.searchString(string_test).asList()[0][0]
+    x = number_then_punctuation.searchString(string_test)
     index = string_test.find(x)
     split = [string_test[:index], string_test[index:]]
     pass

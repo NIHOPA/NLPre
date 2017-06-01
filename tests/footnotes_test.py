@@ -16,10 +16,26 @@ class Footnotes_Test:
 
         assert_equal(doc_right, doc_new)
 
+    def number_reference_token_test(self):
+        footnotes = remove_footnotes_punc(reference_token=True)
+        doc = "How is the treatment4 going. Pretty well"
+        doc_right = "How is the treatment REF_4 going . Pretty well"
+        doc_new = footnotes(doc)
+
+        assert_equal(doc_right, doc_new)
+
     def period_test(self):
         doc = "How is the treatment4.5 going. Pretty well"
         doc_right = "How is the treatment going . Pretty well"
         doc_new = self.footnotes(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def period_reference_token_test(self):
+        footnotes = remove_footnotes_punc(reference_token=True)
+        doc = "How is the treatment4.5 going. Pretty well"
+        doc_right = "How is the treatment REF_4.5 going . Pretty well"
+        doc_new = footnotes(doc)
 
         assert_equal(doc_right, doc_new)
 
@@ -30,12 +46,12 @@ class Footnotes_Test:
 
         assert_equal(doc_right, doc_new)
 
-    #def dashed_word_period_one_number_test(self):
-    #    doc = "How is the treat-ment.5 going. Pretty well"
-    #    doc_right = "How is the treatment going . Pretty well"
-    #    doc_new = self.footnotes(doc)
+    def dashed_word_period_one_number_test(self):
+        doc = "How is the treat-ment.5 going. Pretty well"
+        doc_right = "How is the treat-ment going . Pretty well"
+        doc_new = self.footnotes(doc)
 
-    #    assert_equal(doc_right, doc_new)
+        assert_equal(doc_right, doc_new)
 
     def dash_test(self):
         doc = "How is the treatment4-5 going. Pretty well"
@@ -62,6 +78,15 @@ class Footnotes_Test:
         doc = "How is the treatment.4-5 going. Pretty well"
         doc_right = "How is the treatment going . Pretty well"
         doc_new = self.footnotes(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def period_dash_reference_token_test(self):
+        footnotes = remove_footnotes_punc(reference_token=True)
+
+        doc = "How is the treatment.4-5 going. Pretty well"
+        doc_right = "How is the treatment REF_.4-5 going . Pretty well"
+        doc_new = footnotes(doc)
 
         assert_equal(doc_right, doc_new)
 
