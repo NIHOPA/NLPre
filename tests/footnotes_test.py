@@ -1,13 +1,13 @@
 from nose.tools import *
 import pattern.en
-from nlpre.remove_footnotes import remove_footnotes
+from nlpre.remove_footnotes import remove_footnotes_punc
 
 class Footnotes_Test:
     def __init__(self):
         self.parse = lambda x: pattern.en.tokenize(
             x)
 
-        self.footnotes = remove_footnotes()
+        self.footnotes = remove_footnotes_punc()
 
     def number_test(self):
         doc = "How is the treatment4 going. Pretty well"
@@ -29,6 +29,13 @@ class Footnotes_Test:
         doc_new = self.footnotes(doc)
 
         assert_equal(doc_right, doc_new)
+
+    #def dashed_word_period_one_number_test(self):
+    #    doc = "How is the treat-ment.5 going. Pretty well"
+    #    doc_right = "How is the treatment going . Pretty well"
+    #    doc_new = self.footnotes(doc)
+
+    #    assert_equal(doc_right, doc_new)
 
     def dash_test(self):
         doc = "How is the treatment4-5 going. Pretty well"
@@ -94,7 +101,7 @@ class Footnotes_Test:
         assert_equal(doc_right, doc_new)
 
 
-    def non_word_with_footnotes(self):
+    def non_word_with_footnotes_test(self):
         doc = "How is the CVD.70-73 going. Pretty well"
         doc_right = "How is the CVD going . Pretty well"
         doc_new = self.footnotes(doc)

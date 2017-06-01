@@ -9,7 +9,7 @@ from .unidecoder import unidecoder
 from .titlecaps import titlecaps
 from .replace_acronyms import replace_acronyms
 from .identify_parenthetical_phrases import identify_parenthetical_phrases
-from .remove_footnotes import remove_footnotes
+from .remove_footnotes import remove_footnotes_punc
 
 __all__ = [
     'separated_parenthesis',
