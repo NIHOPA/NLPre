@@ -113,23 +113,31 @@ class Separated_Parenthesis_Tests():
 
         assert_equal(doc_right, doc_new)
 
-    def travis_example_two_parenthesis_test(self):
+    def two_parenthesis_with_punctuation_test(self):
         doc = 'Superoxide anion (A(B?)).'
         doc_right = 'Superoxide anion .\nA .\nB ?'
         doc_new = self.parser(doc)
 
         assert_equals(doc_right, doc_new)
 
-    def travis_example_test(self):
+    def mixed_parens_with_punctuation_test(self):
         doc = 'Superoxide anion (A[B?]).'
         doc_right = 'Superoxide anion AB ?\n.'
         doc_new = self.parser(doc)
 
         assert_equals(doc_right, doc_new)
 
-    def travis_example_bigger_sentence_test(self):
+    def mixed_parens_with_punctuation_expanded_test(self):
         doc = 'These chemicals are (really really) great. Superoxide anion (A[B?]).'
         doc_right = 'These chemicals are great .\nreally really .\nSuperoxide anion AB ?\n.'
+        doc_new = self.parser(doc)
+
+        assert_equals(doc_right, doc_new)
+
+    def multiple_mixed_parens_with_punctuation_test(self):
+        doc = 'Low-activity state ([?]19 DIV) followed by ([?]20 DIV)'
+        doc_right = 'Low-activity state ?\n19 DIV followed by ?\n20 DIV'
+
         doc_new = self.parser(doc)
 
         assert_equals(doc_right, doc_new)
