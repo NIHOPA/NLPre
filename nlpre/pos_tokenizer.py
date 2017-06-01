@@ -15,6 +15,7 @@ _POS_shorthand = {
     "cardinal": "CD",
     "w_word": "WV",
     'quote': "QUOTE",
+    "symbol": "SYM",
 }
 
 
@@ -33,7 +34,7 @@ class pos_tokenizer(object):
             "noun": ["NN", "NNS", "NNP", "NNPS"],
             "pronoun": ["PRP", "PRP$", "PRO"],
             "adverb": ["RB", "RBR", "RBS", "RP"],
-            "symbol": ["SYM", '$', ],
+            "symbol": ["SYM", '$', '#'],
             "punctuation": [".", ",", ":", ')', '('],
             "modal_verb": ["MD"],
             "verb": ["VB", "VBZ", "VBP", "VBD", "VBG", "VBN"],
@@ -65,7 +66,7 @@ class pos_tokenizer(object):
             "noun": ["NN", "NNS", "NNP", "NNPS"],
             "pronoun": ["PRP", "PRP$", "POS"],
             "adverb": ["RB", "RBR", "RBS", "RP"],
-            "symbol": ["SYM", '$', ],
+            "symbol": ["SYM", '$', '#'],
             "punctuation": [".", ",", ":", ')', '('],
             "modal_verb": ["MD"],
             "verb": ["VB", "VBZ", "VBP", "VBD", "VBG", "VBN"],
