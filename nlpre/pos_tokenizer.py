@@ -14,6 +14,7 @@ _POS_shorthand = {
     "punctuation": "PUNC",
     "cardinal": "CD",
     "w_word": "WV",
+    'quote': "QUOTE",
 }
 
 
@@ -37,6 +38,7 @@ class pos_tokenizer(object):
             "modal_verb": ["MD"],
             "verb": ["VB", "VBZ", "VBP", "VBD", "VBG", "VBN"],
             "w_word": ["WDT", "WP", "WP$", "WRB", "EX"],
+            "quote": ['"', "'", "``", "''"],
             "unknown": ["FW", "``"],
         }
 
@@ -68,7 +70,8 @@ class pos_tokenizer(object):
             "modal_verb": ["MD"],
             "verb": ["VB", "VBZ", "VBP", "VBD", "VBG", "VBN"],
             "w_word": ["WDT", "WP", "WP$", "WRB", "EX"],
-            "unknown": ["FW", "``"],
+            "quote": ['"', "'", "``", "''"],
+            "unknown": ["FW", ],
         }
 
         self.filtered_POS = POS_blacklist

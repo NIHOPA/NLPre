@@ -95,7 +95,13 @@ class POS_Tokenizer_Test:
         doc_new = pos_tokenizer(["w_word"])(doc)
         
         assert_equal(doc_right, doc_new.text)
+
+    def quoted_word_test(self):
+        doc = '''We find the answer is "not quite".'''
+        doc_right = "We find the answer be not quite ."
+        doc_new = pos_tokenizer(["quote"])(doc)
         
+        assert_equal(doc_right, doc_new.text)    
 
     # def unknown_word_test(self):
     #    doc = 'The boy akjf45!naf the ball into the yard'
