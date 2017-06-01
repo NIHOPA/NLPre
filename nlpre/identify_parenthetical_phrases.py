@@ -97,7 +97,8 @@ class identify_parenthetical_phrases(object):
         # except:
         #    return False
         subtokens = tokens[k - len(caps):k]
-        subtoken_let = [let.upper()[0] for let in subtokens]
+        subtoken_let = [let.upper()[0]
+                        for let in subtokens if isinstance(let, basestring)]
 
         '''
         If the subtokens don't provide a perfect match of the abbreviation,
