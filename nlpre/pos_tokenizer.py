@@ -12,6 +12,9 @@ _POS_shorthand = {
     "pronoun": "POS",
     "connector": "CC",
     "punctuation": "PUNC",
+    "cardinal": "CD",
+    "w_word": "WV",
+    'quote': "QUOTE",
 }
 
 
@@ -35,12 +38,13 @@ class pos_tokenizer(object):
             "modal_verb": ["MD"],
             "verb": ["VB", "VBZ", "VBP", "VBD", "VBG", "VBN"],
             "w_word": ["WDT", "WP", "WP$", "WRB", "EX"],
+            "quote": ['"', "'", "``", "''"],
             "unknown": ["FW", "``"],
         }
 
     connectors -> conjunction, determiner, infinitival to,
                   interjection, predeterminer
-    w_word     -> which, what, who, whose, when, where, there, ...
+    w_word     -> which, what, who, whose, when, where, there, that, ...
 
     """
 
@@ -66,7 +70,8 @@ class pos_tokenizer(object):
             "modal_verb": ["MD"],
             "verb": ["VB", "VBZ", "VBP", "VBD", "VBG", "VBN"],
             "w_word": ["WDT", "WP", "WP$", "WRB", "EX"],
-            "unknown": ["FW", "``"],
+            "quote": ['"', "'", "``", "''"],
+            "unknown": ["FW", ],
         }
 
         self.filtered_POS = POS_blacklist
