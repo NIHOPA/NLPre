@@ -101,6 +101,13 @@ class POS_Tokenizer_Test:
         doc_right = "We find the answer be not quite ."
         doc_new = pos_tokenizer(["quote"])(doc)
         
+        assert_equal(doc_right, doc_new.text)
+
+    def symbol_test(self):
+        doc = '''I am #1.'''
+        doc_right = "I be 1 ."
+        doc_new = pos_tokenizer(["symbol"])(doc)
+        
         assert_equal(doc_right, doc_new.text)    
 
     # def unknown_word_test(self):
