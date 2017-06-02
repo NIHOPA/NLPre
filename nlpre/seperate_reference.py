@@ -1,8 +1,7 @@
-from pyparsing import Word, WordEnd, WordStart, NoMatch, SkipTo, Combine
+from pyparsing import Word, WordEnd, WordStart
 import pyparsing
 import pattern.en
 import os
-import re
 
 __internal_wordlist = "dictionaries/english_wordlist.txt"
 __local_dir = os.path.dirname(os.path.abspath(__file__))
@@ -33,22 +32,18 @@ class seperate_reference:
         letter = Word(pyparsing.alphas, exact=1)
 
         self.dash_word = WordStart() + real_word + Word('-') + nums + WordEnd()
-        self.single_number = WordStart() + real_word + pyparsing.OneOrMore(nums | nest_grammar | space) + WordEnd()
+        self.single_number = WordStart() + real_word + \
+            pyparsing.OneOrMore(nums | nest_grammar | space) \
+            + WordEnd()
 
-        self.number_then_punctuation = letter + nums + second_punctuation + pyparsing.ZeroOrMore(nums | second_punctuation) + WordEnd()
-        self.punctuation_then_number = letter + first_punctuation + nums + pyparsing.ZeroOrMore(second_punctuation | nums) + WordEnd()
-
-        self.parse = lambda x, punctuation: pattern.en.tokenize(
-            x, punctuation)
+        self.number_then_punctuation = letter + nums + second_punctuation + \
+            pyparsing.ZeroOrMore(nums | second_punctuation) + WordEnd()
+        self.punctuation_then_number = letter + first_punctuation + nums + \
+            pyparsing.ZeroOrMore(second_punctuation | nums) + WordEnd()
 
     def __call__(self, doc):
-        #sentences = self.parse(doc, ".,;:!?`''\"@#$^&*+-|=~_")
         sentences = pattern.en.tokenize(
             doc, punctuation=".,;:!?`''\"@#$^&*+-|=~_")
-        #d = "."
-        #for line in all_lines:
-        #sentences = [e + ' '+d for e in doc.split(d) if e]
-        #sentences = re.split('(\.)', doc)
 
         new_doc = []
         for sentence in sentences:
@@ -72,7 +67,7 @@ class seperate_reference:
                         new_sentence.append(parse_return[0])
 
                         if self.reference_token:
-                            new_sentence.append("REF_"+reference)
+                            new_sentence.append("REF_" + reference)
                     continue
                 except BaseException:
                     pass
@@ -80,7 +75,7 @@ class seperate_reference:
                 # Check if the word is of the form word2,3,4
 
                 parse_return = \
-                        self.punctuation_then_number.searchString(token)
+                    self.punctuation_then_number.searchString(token)
                 if parse_return:
                     substring = ''.join(parse_return[0][1:])
                     index = token.find(substring)
@@ -94,7 +89,7 @@ class seperate_reference:
                     continue
 
                 parse_return = \
-                        self.number_then_punctuation.searchString(token)
+                    self.number_then_punctuation.searchString(token)
                 if parse_return:
                     substring = ''.join(parse_return[0][1:])
                     index = token.find(substring)
@@ -114,22 +109,3 @@ class seperate_reference:
 
         return_doc = ' '.join(new_doc)
         return return_doc
-
-if __name__ == '__main__':
-    real_word = Word(pyparsing.alphas)
-    first_punctuation = Word('.!?:,;')
-    second_punctuation = Word('.!?:,;-')
-    nums = Word(pyparsing.nums)
-
-    dash_word = WordStart() + real_word + Word('-') + nums + WordEnd()
-    single_number = WordStart() + real_word + nums + WordEnd()
-
-    number_then_punctuation = nums + second_punctuation + pyparsing.ZeroOrMore(nums | second_punctuation) + WordEnd()
-    punctuation_then_number = WordStart() + real_word + first_punctuation + nums + pyparsing.ZeroOrMore(
-        second_punctuation | nums) + WordEnd()
-
-    string_test = 'treatment4-5'
-    x = number_then_punctuation.searchString(string_test)
-    index = string_test.find(x)
-    split = [string_test[:index], string_test[index:]]
-    pass
