@@ -256,3 +256,18 @@ class Parens_Replace_Test():
         # assert_equal(doc_new, doc_right)
 
 
+    def parsing_parenthesis_test(self):
+        doc = 'BEACH (beige and Chediak Higashi) domain containing proteins (BDCPs) ' \
+              'are a highly conserved protein family in eukaryotes.'
+        ABBR = {(('BEACH', 'domain', 'containing', 'proteins'), 'BDCPs'): 1}
+        P1 = replace_acronyms(ABBR)
+        doc_new = P1(doc)
+
+        doc_right = 'BEACH ( beige and Chediak Higashi ) domain containing proteins ' \
+                    '( BEACH_domain_containing_proteins ) are a highly conserved protein family in eukaryotes .'
+
+        assert_equal(doc_new, doc_right)
+
+        print
+
+
