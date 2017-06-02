@@ -1,4 +1,5 @@
 import logging
+from _version import __version__
 from .replace_from_dictionary import replace_from_dictionary
 from .separated_parenthesis import separated_parenthesis
 from .token_replacement import token_replacement
@@ -22,7 +23,8 @@ __all__ = [
     'identify_parenthetical_phrases',
     'unidecoder',
     'replace_acronyms',
-    'seperate_reference'
+    'seperate_reference',
+    '__version__',
 ]
 
 logger = logging.getLogger(__name__)

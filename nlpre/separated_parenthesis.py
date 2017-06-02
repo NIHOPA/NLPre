@@ -64,6 +64,11 @@ class separated_parenthesis(object):
             FLAG_valid = (LP_Paran == RP_Paran) and (
                 LP_Bracket == RP_Bracket) and (LP_Curl == RP_Curl)
 
+            try:
+                tokens = self.grammar.grammar.parseString(sent)
+            except (pypar.ParseException, RuntimeError):
+                FLAG_valid = False
+
             if not FLAG_valid:
                 # On fail simply remove all parenthesis
                 sent = sent.replace('(', '')
@@ -77,16 +82,7 @@ class separated_parenthesis(object):
                 text = ' '.join(tokens)
                 doc_out.append(text)
             else:
-                # Append parenthetical sentences to end of sentence
-                # try:
-                #    tokens = self.grammar.parseString(sent)
-                # except (pypar.ParseException, RuntimeError):
-                #    FLAG_valid = False
 
-                # Known issue - pyparsing will not recognize nested
-                # parenthesis if they are different types, ie "([])"
-
-                tokens = self.grammar.grammar.parseString(sent)
                 text = self.paren_pop(tokens)
                 doc_out.extend(text)
 
@@ -130,7 +126,7 @@ class separated_parenthesis(object):
 
         # If tokens don't include parenthetical content, return as string
         if len(token_words) == len(tokens):
-            if token_words[-1] != '.':
+            if token_words[-1] not in ['.', '!', '?']:
                 token_words.append('.')
             return [' '.join(token_words)]
         else:
@@ -146,7 +142,7 @@ class separated_parenthesis(object):
 
             # Bundles outer sentence with inner parenthetical content
             if token_words:
-                if token_words[-1] != '.':
+                if token_words[-1] not in ['.', '!', '?']:
                     token_words.append('.')
                 new_tokens.append(' '.join(token_words))
             new_tokens.extend(reorged_tokens)

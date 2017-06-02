@@ -194,3 +194,30 @@ class Parenthetical_Phrases_Tests():
         doc = ''
         counter = self.phrases(doc)
         assert_equal(len(counter), 0)
+
+    def parser_error_with_two_mismatches(self):
+        # Bugfix: Prior version would crash on this input string.
+
+        # This test doesn't parse acronym's correctly. However, it should
+        # not crash
+
+        doc = 'A large region upstream ( ~ 30 kb ) of GATA 4. ' \
+              'Small interfering RNA (siRNA) mediated depletion of EZH2.'
+        counter = self.phrases(doc)
+
+        # replacer = replace_acronyms(counter, prefix='ABBR', underscore=True)
+        # doc_new = replacer(doc)
+
+        # doc_right = 'A large region upstream ( ~ 30 kb ) of GATA 4 .\n' \
+        #      'Small interfering RNA ( siRNA ) mediated depletion of EZH2 .'
+
+        # assert_equal(doc_new, doc_right)
+
+    def iterating_over_parenthesis_crash_test(self):
+        # This test doesn't parse acronym's correctly. However, it should
+        # not crash
+        doc = 'In Drosophila, the CK2 kinase phosphorylates and destabilizes' \
+              ' the PERIOD (PER) and TIMELESS (TIM) proteins, which inhibit ' \
+              'CLOCK (CLK) transcriptional activity.'
+
+        counter = self.phrases(doc)

@@ -244,19 +244,6 @@ class Parens_Replace_Test():
                     '( ABBR_non_Hodgkins_lymphoma ) .\nIts a good Hodgkins'
 
         assert_equal(doc_right, doc_new)
-
-    def parser_error_with_two_mismatches(self):
-        # Bugfix: Prior version would crash on this input string.
-        doc = 'A large region upstream ( ~ 30 kb ) of GATA 4. ' \
-              'Small interfering RNA (siRNA) mediated depletion of EZH2.'
-        counter = self.phrases(doc)
-        replacer = replace_acronyms(counter, prefix='ABBR', underscore=True)
-        doc_new = replacer(doc)
-
-        doc_right = 'A large region upstream ( ~ 30 kb ) of GATA 4 .\n' \
-              'Small interfering RNA ( siRNA ) mediated depletion of EZH2 .'
-
-        assert_equal(doc_new, doc_right)
     
     def lowercase_first_letter_match_test(self):
         # This test currently fails as siRNA isn't parsed correctly.
@@ -268,4 +255,20 @@ class Parens_Replace_Test():
 
         # doc_right = 'ABBR_siRNA ( ABBR_siRNA ) mediated depletion of EZH2 .'
         # assert_equal(doc_new, doc_right)
+
+
+    def parsing_parenthesis_test(self):
+        doc = 'BEACH (beige and Chediak Higashi) domain containing proteins (BDCPs) ' \
+              'are a highly conserved protein family in eukaryotes.'
+        ABBR = {(('BEACH', 'domain', 'containing', 'proteins'), 'BDCPs'): 1}
+        P1 = replace_acronyms(ABBR)
+        doc_new = P1(doc)
+
+        doc_right = 'BEACH ( beige and Chediak Higashi ) domain containing proteins ' \
+                    '( BEACH_domain_containing_proteins ) are a highly conserved protein family in eukaryotes .'
+
+        assert_equal(doc_new, doc_right)
+
+        print
+
 

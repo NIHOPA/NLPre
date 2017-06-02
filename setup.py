@@ -3,6 +3,9 @@ import os
 
 __local__ = os.path.abspath(os.path.dirname(__file__))
 
+f_version = os.path.join(__local__, 'nlpre', '_version.py')
+exec(open(f_version).read())
+
 # Get the long description from the relevant file
 long_description = '''NLPre
 =================================
@@ -19,13 +22,11 @@ setuptools.setup(
 
     description='Natural Language Preprocessing (NLPre) utilities.',
     long_description=long_description,
-
-    # Versions should comply with PEP440. 
-    version='1.0.2',
+    version=__version__,
 
     # The project's main homepage.
     url="https://github.com/NIHOPA/NLPre",
-    download_url='https://github.com/NIHOPA/NLPre/archive/v1.0.2.tar.gz',
+    download_url='https://github.com/NIHOPA/NLPre/archive/v1.0.3.tar.gz',
 
     # Author details
     author="Travis Hoppe",

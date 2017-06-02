@@ -97,7 +97,8 @@ class identify_parenthetical_phrases(object):
         # except:
         #    return False
         subtokens = tokens[k - len(caps):k]
-        subtoken_let = [let.upper()[0] for let in subtokens]
+        subtoken_let = [let.upper()[0]
+                        for let in subtokens if isinstance(let, basestring)]
 
         '''
         If the subtokens don't provide a perfect match of the abbreviation,
@@ -125,12 +126,16 @@ class identify_parenthetical_phrases(object):
                 if x < 0 or x < cutoff:
                     return False
                 token = tokens[x]
-                subtokens.insert(0, token)
-                subtoken_let = [
-                    let.upper()[0] for let in subtokens if
-                    let not in tokens_to_remove and
-                    isinstance(let, basestring)]
-                x -= 1
+                if isinstance(token, basestring):
+                    subtokens.insert(0, token)
+                    subtoken_let = [
+                        let.upper()[0] for let in subtokens if
+                        let not in tokens_to_remove]
+                    x -= 1
+                else:
+                    x -= 1
+                    cutoff -= 1
+                    continue
 
         return tuple(subtokens)
 
