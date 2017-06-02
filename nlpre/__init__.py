@@ -9,7 +9,7 @@ from .unidecoder import unidecoder
 from .titlecaps import titlecaps
 from .replace_acronyms import replace_acronyms
 from .identify_parenthetical_phrases import identify_parenthetical_phrases
-from .remove_footnotes import remove_footnotes_punc
+from .seperate_reference import seperate_reference
 
 __all__ = [
     'separated_parenthesis',
@@ -22,7 +22,7 @@ __all__ = [
     'identify_parenthetical_phrases',
     'unidecoder',
     'replace_acronyms',
-    'remove_footnotes'
+    'seperate_reference'
 ]
 
 logger = logging.getLogger(__name__)

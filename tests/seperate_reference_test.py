@@ -1,13 +1,13 @@
 from nose.tools import *
 import pattern.en
-from nlpre.remove_footnotes import remove_footnotes_punc
+from nlpre.seperate_reference import seperate_reference
 
 class Footnotes_Test:
     def __init__(self):
         self.parse = lambda x: pattern.en.tokenize(
             x)
 
-        self.footnotes = remove_footnotes_punc()
+        self.footnotes = seperate_reference()
 
     def number_test(self):
         doc = "How is the treatment4 going. Pretty well"
@@ -17,7 +17,7 @@ class Footnotes_Test:
         assert_equal(doc_right, doc_new)
 
     def number_reference_token_test(self):
-        footnotes = remove_footnotes_punc(reference_token=True)
+        footnotes = seperate_reference(reference_token=True)
         doc = "How is the treatment4 going. Pretty well"
         doc_right = "How is the treatment REF_4 going . Pretty well"
         doc_new = footnotes(doc)
@@ -32,7 +32,7 @@ class Footnotes_Test:
         assert_equal(doc_right, doc_new)
 
     def period_reference_token_test(self):
-        footnotes = remove_footnotes_punc(reference_token=True)
+        footnotes = seperate_reference(reference_token=True)
         doc = "How is the treatment4.5 going. Pretty well"
         doc_right = "How is the treatment REF_4.5 going . Pretty well"
         doc_new = footnotes(doc)
@@ -82,7 +82,7 @@ class Footnotes_Test:
         assert_equal(doc_right, doc_new)
 
     def period_dash_reference_token_test(self):
-        footnotes = remove_footnotes_punc(reference_token=True)
+        footnotes = seperate_reference(reference_token=True)
 
         doc = "How is the treatment.4-5 going. Pretty well"
         doc_right = "How is the treatment REF_.4-5 going . Pretty well"
@@ -129,6 +129,22 @@ class Footnotes_Test:
     def non_word_with_footnotes_test(self):
         doc = "How is the CVD.70-73 going. Pretty well"
         doc_right = "How is the CVD going . Pretty well"
+        doc_new = self.footnotes(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def reference_in_parenthesis_test(self):
+        doc = 'key feature in Drosophila3-5 and elegans(7).'
+        doc_right = 'key feature in Drosophila and elegans .'
+
+        doc_new = self.footnotes(doc)
+
+        #assert_equal(doc_right, doc_new)
+
+    def standard_word_in_reference_in_parenthesis_test(self):
+        doc = 'key feature in Drosophila3-5 and trees(7).'
+        doc_right = 'key feature in Drosophila and trees .'
+
         doc_new = self.footnotes(doc)
 
         assert_equal(doc_right, doc_new)
