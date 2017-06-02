@@ -130,8 +130,7 @@ class identify_parenthetical_phrases(object):
                     subtokens.insert(0, token)
                     subtoken_let = [
                         let.upper()[0] for let in subtokens if
-                        let not in tokens_to_remove and
-                        isinstance(let, basestring)]
+                        let not in tokens_to_remove]
                     x -= 1
                 else:
                     x -= 1
