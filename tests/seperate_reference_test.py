@@ -125,10 +125,16 @@ class Footnotes_Test:
 
         assert_equal(doc_right, doc_new)
 
-
-    def non_word_with_footnotes_test(self):
+    def non_word_with_reference_test(self):
         doc = "How is the CVD.70-73 going. Pretty well"
         doc_right = "How is the CVD going . Pretty well"
+        doc_new = self.footnotes(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def number_in_word_with_reference_test(self):
+        doc = "How is the CV3D.70-73 going. Pretty well"
+        doc_right = "How is the CV3D going . Pretty well"
         doc_new = self.footnotes(doc)
 
         assert_equal(doc_right, doc_new)

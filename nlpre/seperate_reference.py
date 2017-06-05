@@ -86,6 +86,11 @@ class seperate_reference:
                     if self.reference_token:
                         ref_token = "REF_" + reference
                         new_sentence.append(ref_token)
+                    # for whatever reason, the continue statement below will
+                    # not be reached by coverage unless there is code
+                    # separating it and the if statement.
+                    x = 1
+                    x += 1
                     continue
 
                 parse_return = \
@@ -99,6 +104,8 @@ class seperate_reference:
 
                     if self.reference_token:
                         new_sentence.append("REF_" + reference)
+                    x = 1
+                    x += 1
                     continue
 
                 # if not, append word to the new sentence
