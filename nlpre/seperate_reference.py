@@ -104,14 +104,15 @@ class seperate_reference:
                     pass
 
                 # Check if the word is of the form word.2,3,4
-                new_tokens = self.punctuation_then_number_pattern(token)
-
+                new_tokens = self.identify_reference_punctuation_pattern(
+                    token, self.punctuation_then_number)
                 if new_tokens:
                     new_sentence.extend(new_tokens)
                     continue
 
                 # Check if the word is of the form word2,3,4
-                new_tokens = self.number_then_punctuation_pattern(token)
+                new_tokens = self.identify_reference_punctuation_pattern(
+                    token, self.number_then_punctuation)
                 if new_tokens:
                     new_sentence.extend(new_tokens)
                     continue
@@ -154,10 +155,10 @@ class seperate_reference:
 
         return output
 
-    def punctuation_then_number_pattern(self, token):
+    def identify_reference_punctuation_pattern(self, token, pattern):
         output = []
         parse_return = \
-            self.punctuation_then_number.searchString(token)
+            pattern.searchString(token)
         if parse_return:
             substring = ''.join(parse_return[0][1:])
             index = token.find(substring)
@@ -171,25 +172,6 @@ class seperate_reference:
 
             if substring[0] == '.':
                 output.append('.')
-        else:
-            output = False
-
-        return output
-
-    def number_then_punctuation_pattern(self, token):
-        output = []
-        parse_return = \
-            self.number_then_punctuation.searchString(token)
-        if parse_return:
-            substring = ''.join(parse_return[0][1:])
-            index = token.find(substring)
-            word = token[:index]
-            reference = token[index:]
-            output.append(word)
-
-            if self.reference_token:
-                output.append("REF_" + reference)
-
         else:
             output = False
 
