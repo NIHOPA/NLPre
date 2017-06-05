@@ -1,22 +1,26 @@
 import pyparsing
-from pyparsing import Word, WordStart, WordEnd
+from pyparsing import Word, WordStart, WordEnd, ZeroOrMore, Optional
 
 
 class reference_patterns:
     def __init__(self):
         real_word = Word(pyparsing.alphas)
-        first_punctuation = Word('.!?:,;')
-        second_punctuation = Word('.!?:,;-')
+        punctuation = Word('.!?:,;')
+        punctuation_no_dash = Word('.!?:,;-')
+        punctuation_reference_letter = Word('.:,;-')
+
         space = Word(' ')
-        nums = Word(pyparsing.nums)
+        letter = Word(pyparsing.alphas, exact=1)
+        letter_reference = punctuation_reference_letter + letter
+
+        nums = Word(pyparsing.nums) + Optional(letter) + \
+            ZeroOrMore(letter_reference)
 
         nest = pyparsing.nestedExpr
         nestedParens = nest('(', ')')
         nestedBrackets = nest('[', ']')
         nestedCurlies = nest('{', '}')
         nest_grammar = nestedParens | nestedBrackets | nestedCurlies
-
-        letter = Word(pyparsing.alphas, exact=1)
 
         self.dash_word = WordStart() + real_word + Word('-') + nums + WordEnd()
 
@@ -26,8 +30,8 @@ class reference_patterns:
             pyparsing.OneOrMore(nums | nest_grammar | space) \
             + WordEnd()
 
-        self.number_then_punctuation = letter + nums + second_punctuation + \
-            pyparsing.ZeroOrMore(nums | second_punctuation) + WordEnd()
+        self.number_then_punctuation = letter + nums + punctuation_no_dash + \
+            pyparsing.ZeroOrMore(nums | punctuation_no_dash) + WordEnd()
 
-        self.punctuation_then_number = letter + first_punctuation + nums + \
-            pyparsing.ZeroOrMore(second_punctuation | nums) + WordEnd()
+        self.punctuation_then_number = letter + punctuation + nums + \
+            pyparsing.ZeroOrMore(punctuation_no_dash | nums) + WordEnd()

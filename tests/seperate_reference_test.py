@@ -16,6 +16,20 @@ class Footnotes_Test:
 
         assert_equal(doc_right, doc_new)
 
+    def number_with_letter_test(self):
+        doc = "How is the treatment4a going. Pretty well"
+        doc_right = "How is the treatment going . Pretty well"
+        doc_new = self.footnotes(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def number_with_multiple_letter_test(self):
+        doc = "How is the treatment4a,b going. Pretty well"
+        doc_right = "How is the treatment going . Pretty well"
+        doc_new = self.footnotes(doc)
+
+        assert_equal(doc_right, doc_new)
+
     def number_reference_token_test(self):
         footnotes = seperate_reference(reference_token=True)
         doc = "How is the treatment4 going. Pretty well"
@@ -24,6 +38,7 @@ class Footnotes_Test:
 
         assert_equal(doc_right, doc_new)
 
+    # look into if reference numbers ever concatenated like this
     def period_test(self):
         doc = "How is the treatment4.5 pretty well"
         doc_right = "How is the treatment pretty well"
@@ -31,7 +46,6 @@ class Footnotes_Test:
 
         assert_equal(doc_right, doc_new)
 
-    # look into if reference numbers ever concatenated like this
     def period_reference_token_test(self):
         footnotes = seperate_reference(reference_token=True)
         doc = "How is the treatment4.5 pretty well"
@@ -56,6 +70,13 @@ class Footnotes_Test:
 
     def dash_test(self):
         doc = "How is the treatment4-5 going. Pretty well"
+        doc_right = "How is the treatment going . Pretty well"
+        doc_new = self.footnotes(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def dash_with_letters_test(self):
+        doc = "How is the treatment4a-5 going. Pretty well"
         doc_right = "How is the treatment going . Pretty well"
         doc_new = self.footnotes(doc)
 
