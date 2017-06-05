@@ -1,7 +1,6 @@
-from pyparsing import Word, WordEnd, WordStart
-import pyparsing
 import pattern.en
 import os
+from Grammars import reference_patterns
 
 __internal_wordlist = "dictionaries/english_wordlist.txt"
 __local_dir = os.path.dirname(os.path.abspath(__file__))
@@ -37,6 +36,9 @@ class seperate_reference:
 
         self.reference_token = reference_token
 
+        self.reference_pattern = reference_patterns()
+
+        """
         real_word = Word(pyparsing.alphas)
         first_punctuation = Word('.!?:,;')
         second_punctuation = Word('.!?:,;-')
@@ -63,7 +65,7 @@ class seperate_reference:
             pyparsing.ZeroOrMore(nums | second_punctuation) + WordEnd()
         self.punctuation_then_number = letter + first_punctuation + nums + \
             pyparsing.ZeroOrMore(second_punctuation | nums) + WordEnd()
-
+        """
     def __call__(self, text):
         '''
         call the parser
@@ -105,14 +107,14 @@ class seperate_reference:
 
                 # Check if the word is of the form word.2,3,4
                 new_tokens = self.identify_reference_punctuation_pattern(
-                    token, self.punctuation_then_number)
+                    token, self.reference_pattern.punctuation_then_number)
                 if new_tokens:
                     new_sentence.extend(new_tokens)
                     continue
 
                 # Check if the word is of the form word2,3,4
                 new_tokens = self.identify_reference_punctuation_pattern(
-                    token, self.number_then_punctuation)
+                    token, self.reference_pattern.number_then_punctuation)
                 if new_tokens:
                     new_sentence.extend(new_tokens)
                     continue
@@ -128,7 +130,7 @@ class seperate_reference:
 
     def single_number_pattern(self, token):
         output = []
-        parse_return = self.single_number.parseString(token)
+        parse_return = self.reference_pattern.single_number.parseString(token)
 
         if parse_return[0] not in self.english_words:
             output.append(token)
@@ -144,7 +146,8 @@ class seperate_reference:
 
     def single_number_parens_pattern(self, token):
         output = []
-        parse_return = self.single_number_parens.parseString(token)
+        parse_return = self.reference_pattern.single_number_parens.\
+            parseString(token)
         word = parse_return[0]
         reference = parse_return[1][0]
 
