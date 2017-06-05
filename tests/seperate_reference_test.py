@@ -31,7 +31,8 @@ class Footnotes_Test:
 
         assert_equal(doc_right, doc_new)
 
-    def period_reference_token_test(self):      ###Look into this
+    # look into if reference numbers ever concatenated like this
+    def period_reference_token_test(self):
         footnotes = seperate_reference(reference_token=True)
         doc = "How is the treatment4.5 pretty well"
         doc_right = "How is the treatment REF_4.5 pretty well"
@@ -84,8 +85,8 @@ class Footnotes_Test:
     def period_dash_reference_token_test(self):
         footnotes = seperate_reference(reference_token=True)
 
-        doc = "How is the treatment.4-5 pretty well"
-        doc_right = "How is the treatment REF_.4-5 . pretty well"
+        doc = "How is the treatment going.4-5 Pretty well"
+        doc_right = "How is the treatment going REF_.4-5 . Pretty well"
         doc_new = footnotes(doc)
 
         assert_equal(doc_right, doc_new)

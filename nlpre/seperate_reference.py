@@ -9,7 +9,27 @@ _internal_wordlist = os.path.join(__local_dir, __internal_wordlist)
 
 
 class seperate_reference:
+    """
+    Detects if a reference number has been mistakenly concatenated to words in
+    a document. This module will remove reference numbers, with the option
+    to include them as a token representing the reference number. If these
+    reference numbers wrap around a period at the end of the sentence, the
+    module will identify this and properly split the sentences.
+
+
+    Example:
+        input: 'How is the treatment going.4-5 Pretty well'
+        output: 'How is the treatment going . Pretty well'
+    """
+
     def __init__(self, reference_token=False):
+        '''
+        Initialize the parser
+
+        Args:
+            reference_token: boolean, flag to decide to tokenize removed
+                reference content
+        '''
         self.english_words = set()
         with open(_internal_wordlist) as FIN:
             for line in FIN:
@@ -44,9 +64,18 @@ class seperate_reference:
         self.punctuation_then_number = letter + first_punctuation + nums + \
             pyparsing.ZeroOrMore(second_punctuation | nums) + WordEnd()
 
-    def __call__(self, doc):
+    def __call__(self, text):
+        '''
+        call the parser
+
+        Args:
+            text: a document string
+
+        Returns:
+             return_doc: a document string
+        '''
         sentences = pattern.en.tokenize(
-            doc, punctuation=".,;:!?`''\"@#$^&*+-|=~_")
+            text, punctuation=".,;:!?`''\"@#$^&*+-|=~_")
 
         new_doc = []
         for sentence in sentences:
@@ -60,72 +89,34 @@ class seperate_reference:
                 # it is assumed it is a chemical name and the number is
                 # not pruned.
                 try:
-                    parse_return = self.single_number.parseString(token)
-                    if parse_return[0] not in self.english_words:
-                        new_sentence.append(token)
-                    else:
-                        word = parse_return[0]
-                        reference = parse_return[1]
-
-                        new_sentence.append(word)
-
-                        if self.reference_token:
-                            new_sentence.append("REF_" + reference)
+                    new_tokens = self.single_number_pattern(token)
+                    new_sentence.extend(new_tokens)
                     continue
                 except BaseException:
                     pass
 
                 # check if word is of the form word(4)
                 try:
-                    parse_return = self.single_number_parens.parseString(token)
-                    word = parse_return[0]
-                    reference = parse_return[1][0]
-
-                    new_sentence.append(word)
-
-                    if self.reference_token:
-                        new_sentence.append("REF_" + reference)
+                    new_tokens = self.single_number_parens_pattern(token)
+                    new_sentence.extend(new_tokens)
                     continue
                 except BaseException:
                     pass
 
                 # Check if the word is of the form word.2,3,4
+                new_tokens = self.punctuation_then_number_pattern(token)
 
-                parse_return = \
-                    self.punctuation_then_number.searchString(token)
-                if parse_return:
-                    substring = ''.join(parse_return[0][1:])
-                    index = token.find(substring)
-                    word = token[:index]
-                    reference = token[index:]
-                    new_sentence.append(word)
-
-                    if self.reference_token:
-                        ref_token = "REF_" + reference
-                        new_sentence.append(ref_token)
-
-                    if substring[0] == '.':
-                        join_sentence = ' '.join(new_sentence) + ' .'
-                        new_doc.append(join_sentence)
-                        new_sentence = []
+                if new_tokens:
+                    new_sentence.extend(new_tokens)
                     continue
 
                 # Check if the word is of the form word2,3,4
-
-                parse_return = \
-                    self.number_then_punctuation.searchString(token)
-                if parse_return:
-                    substring = ''.join(parse_return[0][1:])
-                    index = token.find(substring)
-                    word = token[:index]
-                    reference = token[index:]
-                    new_sentence.append(word)
-
-                    if self.reference_token:
-                        new_sentence.append("REF_" + reference)
+                new_tokens = self.number_then_punctuation_pattern(token)
+                if new_tokens:
+                    new_sentence.extend(new_tokens)
                     continue
 
-                # if not, append word to the new sentence
+                # if no reference detected, append word to the new sentence
                 new_sentence.append(token)
 
             join_sentence = ' '.join(new_sentence)
@@ -133,3 +124,73 @@ class seperate_reference:
 
         return_doc = ' '.join(new_doc)
         return return_doc
+
+    def single_number_pattern(self, token):
+        output = []
+        parse_return = self.single_number.parseString(token)
+
+        if parse_return[0] not in self.english_words:
+            output.append(token)
+        else:
+            word = parse_return[0]
+            reference = parse_return[1]
+
+            output.append(word)
+
+            if self.reference_token:
+                output.append("REF_" + reference)
+        return output
+
+    def single_number_parens_pattern(self, token):
+        output = []
+        parse_return = self.single_number_parens.parseString(token)
+        word = parse_return[0]
+        reference = parse_return[1][0]
+
+        output.append(word)
+
+        if self.reference_token:
+            output.append("REF_" + reference)
+
+        return output
+
+    def punctuation_then_number_pattern(self, token):
+        output = []
+        parse_return = \
+            self.punctuation_then_number.searchString(token)
+        if parse_return:
+            substring = ''.join(parse_return[0][1:])
+            index = token.find(substring)
+            word = token[:index]
+            reference = token[index:]
+            output.append(word)
+
+            if self.reference_token:
+                ref_token = "REF_" + reference
+                output.append(ref_token)
+
+            if substring[0] == '.':
+                output.append('.')
+        else:
+            output = False
+
+        return output
+
+    def number_then_punctuation_pattern(self, token):
+        output = []
+        parse_return = \
+            self.number_then_punctuation.searchString(token)
+        if parse_return:
+            substring = ''.join(parse_return[0][1:])
+            index = token.find(substring)
+            word = token[:index]
+            reference = token[index:]
+            output.append(word)
+
+            if self.reference_token:
+                output.append("REF_" + reference)
+
+        else:
+            output = False
+
+        return output
