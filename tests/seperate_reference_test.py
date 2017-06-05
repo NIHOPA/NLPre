@@ -145,12 +145,22 @@ class Footnotes_Test:
 
         doc_new = self.footnotes(doc)
 
-        #assert_equal(doc_right, doc_new)
+        assert_equal(doc_right, doc_new)
 
     def standard_word_in_reference_in_parenthesis_test(self):
         doc = 'key feature in Drosophila3-5 and trees(7).'
         doc_right = 'key feature in Drosophila and trees .'
 
         doc_new = self.footnotes(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def standard_word_in_reference_in_parenthesis_token_test(self):
+        footnotes = seperate_reference(reference_token=True)
+
+        doc = 'key feature in Drosophila3-5 and trees(7).'
+        doc_right = 'key feature in Drosophila REF_3-5 and trees REF_7 .'
+
+        doc_new = footnotes(doc)
 
         assert_equal(doc_right, doc_new)

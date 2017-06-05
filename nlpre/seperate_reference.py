@@ -32,7 +32,10 @@ class seperate_reference:
         letter = Word(pyparsing.alphas, exact=1)
 
         self.dash_word = WordStart() + real_word + Word('-') + nums + WordEnd()
-        self.single_number = WordStart() + real_word + \
+
+        self.single_number = WordStart() + real_word + nums + WordEnd()
+
+        self.single_number_parens = WordStart() + real_word + \
             pyparsing.OneOrMore(nums | nest_grammar | space) \
             + WordEnd()
 
@@ -64,10 +67,24 @@ class seperate_reference:
                         word = parse_return[0]
                         reference = parse_return[1]
 
-                        new_sentence.append(parse_return[0])
+                        new_sentence.append(word)
 
                         if self.reference_token:
                             new_sentence.append("REF_" + reference)
+                    continue
+                except BaseException:
+                    pass
+
+                # check if word is of the form word(4)
+                try:
+                    parse_return = self.single_number_parens.parseString(token)
+                    word = parse_return[0]
+                    reference = parse_return[1][0]
+
+                    new_sentence.append(word)
+
+                    if self.reference_token:
+                        new_sentence.append("REF_" + reference)
                     continue
                 except BaseException:
                     pass
