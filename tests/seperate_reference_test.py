@@ -82,6 +82,13 @@ class Footnotes_Test:
 
         assert_equal(doc_right, doc_new)
 
+    def dash_with_letters_period_test(self):
+        doc = "How is the treatment.4a-5 Pretty well"
+        doc_right = "How is the treatment . Pretty well"
+        doc_new = self.footnotes(doc)
+
+        assert_equal(doc_right, doc_new)
+
     def comma_test(self):
         doc = "How is the treatment4,5 going. Pretty well"
         doc_right = "How is the treatment going . Pretty well"
@@ -186,3 +193,11 @@ class Footnotes_Test:
         doc_new = footnotes(doc)
 
         assert_equal(doc_right, doc_new)
+
+    # Will this case ever occur?
+    # def dash_with_numbers_following_test(self):
+    #    doc = "How is the apple-4,5,6"
+    #    doc_right = "How is the apple"
+    #    doc_new = self.footnotes(doc)
+
+    #    assert_equal(doc_right, doc_new)

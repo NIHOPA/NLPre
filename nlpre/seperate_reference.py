@@ -58,14 +58,12 @@ class seperate_reference:
         for sentence in sentences:
             new_sentence = []
             for token in sentence.split():
-                # Check if word is of the form word4. This is an ambiguous
-                # case, because there could be words that end in a number
-                # that don't represent a footnote, as is the case for
-                # chemicals. The code looks up the characters that make
-                # up a word, and if they are not found in the dictionary,
-                # it is assumed it is a chemical name and the number is
-                # not pruned.
+                new_tokens = self.dash_number_pattern(token)
+                if new_tokens:
+                    new_sentence.append(new_tokens)
+                    continue
 
+                # Check if word is of the form word4.
                 new_tokens = self.single_number_pattern(token)
                 if new_tokens:
                     new_sentence.extend(new_tokens)
@@ -99,6 +97,22 @@ class seperate_reference:
 
         return_doc = ' '.join(new_doc)
         return return_doc
+
+    def dash_number_pattern(self, token):
+        output = False
+        try:
+            parse_return = self.reference_pattern.dash_word.parseString(token)
+            if parse_return:
+                output = token
+        except BaseException:
+            pass
+        return output
+
+    # This is an ambiguous  case, because there could be words that end in a
+    # number that don't represent a footnote, as is the case for chemicals.
+    # The code looks up the characters that make up a word, and if they are
+    # not found in the dictionary, it is assumed it is a chemical name and
+    # the number is not pruned.
 
     def single_number_pattern(self, token):
         output = []
