@@ -27,14 +27,19 @@ class reference_patterns:
 
         self.single_number = WordStart() + real_word + nums + WordEnd()
 
-        self.single_number_parens = WordStart() + real_word + Optional(punctuation_no_dash) + \
-            pyparsing.OneOrMore(nums | nest_grammar | space) \
-            + WordEnd()
+        self.single_number_parens = (
+            WordStart() +
+            real_word +
+            Optional(punctuation_no_dash) +
+            pyparsing.OneOrMore(nums | nest_grammar | space) +
+            WordEnd()
+        )
 
-        #self.single_number_parens = letter + Optional(
-        #    punctuation_no_dash) + pyparsing.OneOrMore(
-        #    nums | nest_grammar | space) + WordEnd()
-
+        '''
+        self.single_number_parens = letter + Optional(
+            punctuation_no_dash) + pyparsing.OneOrMore(
+            nums | nest_grammar | space) + WordEnd()
+        '''
 
         self.number_then_punctuation = letter + nums + punctuation + \
             pyparsing.ZeroOrMore(nums | punctuation) + WordEnd()

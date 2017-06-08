@@ -11,6 +11,7 @@ _internal_wordlist = os.path.join(__local_dir, __internal_wordlist)
 
 
 class seperate_reference:
+
     """
     Detects if a reference number has been mistakenly concatenated to words in
     a document. This module will remove reference numbers, with the option
@@ -139,7 +140,6 @@ class seperate_reference:
 
         return output
 
-
     def single_number_parens_pattern(self, token):
         output = []
         try:
@@ -183,6 +183,7 @@ class seperate_reference:
 
         return output
     """
+
     def identify_reference_punctuation_pattern(self, token, pattern):
         output = []
         parse_return = \
