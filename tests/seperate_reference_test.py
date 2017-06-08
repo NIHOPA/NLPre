@@ -194,6 +194,26 @@ class Footnotes_Test:
 
         assert_equal(doc_right, doc_new)
 
+    def bracket_test(self):
+        doc = 'There are at least eight distinct types of modifications found' \
+              ' on histones (see the legend box on the top left of the ' \
+              'figure). Enzymes have been identified for acetylation,[2] ' \
+              'methylation,[3] demethylation,[4] phosphorylation,[5] ' \
+              'ubiquitination,[6] sumoylation,[7] ADP-ribosylation,[8] ' \
+              'deimination,[9][10] and proline isomerization.[11]'
+
+        doc_right = 'There are at least eight distinct types of ' \
+                    'modifications found on histones ( see the legend box on' \
+                    ' the top left of the figure ) . Enzymes have been ' \
+                    'identified for acetylation , methylation , ' \
+                    'demethylation , phosphorylation , ubiquitination , ' \
+                    'sumoylation , ADP-ribosylation , ' \
+                    'deimination , and proline isomerization .'
+
+        doc_new = self.footnotes(doc)
+
+        assert_equal(doc_right, doc_new)
+
     # Will this case ever occur?
     # def dash_with_numbers_following_test(self):
     #    doc = "How is the apple-4,5,6"

@@ -2,6 +2,8 @@ import pattern.en
 import os
 from Grammars import reference_patterns
 import logging
+import pyparsing
+
 
 __internal_wordlist = "dictionaries/english_wordlist.txt"
 __local_dir = os.path.dirname(os.path.abspath(__file__))
@@ -137,12 +139,14 @@ class seperate_reference:
 
         return output
 
+
     def single_number_parens_pattern(self, token):
         output = []
         try:
             parse_return = self.reference_pattern.single_number_parens.\
                 parseString(token)
             word = parse_return[0]
+            assert isinstance(parse_return[-1], pyparsing.ParseResults)
             reference = parse_return[1][0]
 
             output.append(word)
@@ -155,7 +159,30 @@ class seperate_reference:
             output = False
 
         return output
+    """
 
+    def single_number_parens_pattern(self, token):
+        output = []
+        try:
+            parse_return = self.reference_pattern.single_number_parens. \
+                searchString(token)
+            y = parse_return[0][1].asList()
+            substring = ''.join(parse_return[0][1])
+            index = token.find(substring)
+            word = token[:index]
+            reference = token[index:]
+            output.append(word)
+
+            self.logger.info('Removing references %s from token %s' %
+                             (reference, token))
+
+            if self.reference_token:
+                output.append("REF_" + reference)
+        except BaseException:
+            output = False
+
+        return output
+    """
     def identify_reference_punctuation_pattern(self, token, pattern):
         output = []
         parse_return = \
