@@ -10,7 +10,7 @@ __local_dir = os.path.dirname(os.path.abspath(__file__))
 _internal_wordlist = os.path.join(__local_dir, __internal_wordlist)
 
 
-class seperate_reference:
+class separate_reference:
 
     """
     Detects if a reference number has been mistakenly concatenated to words in
