@@ -68,6 +68,7 @@ nlpre.logger.setLevel(logging.INFO)
 | [**decaps_text**](nlpre/decaps_text.py) | We presume that case is important, but only when it differs from title case. This class normalizes capitalization patterns. <br> `James and Sally had a fMRI` <br> `james and sally had a fMRI` |
 | [**titlecaps**](nlpre/titlecaps.py) | Documents sometimes have sentences that are entirely in uppercase (commonly found in titles and abstracts of older documents). This parser identifies sentences where every word is uppercase, and returns the document with these sentences converted to lowercase. <br> `ON THE STRUCTURE OF WATER.` <br> `On the structure of water .` |
 | [**token_replacement**](nlpre/token_replacement.py) | Simple token replacement. <br> `Observed > 20%` <br> `Observed greater-than 20 percent` |
+| [**separate_reference**](nlpre/seperate_reference.py) | Separates and optionally removes references that have been concatenated onto words. <br> `Hello (it is a beautiful day) world.` <br>`Key feature of interleukin-1 in Drosophila3-5 and elegans(7).<br>Key feature of interleukin-1 in Drosophila and elegans .` |
 
 ### Parallel processing
 
