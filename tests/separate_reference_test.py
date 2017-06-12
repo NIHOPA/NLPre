@@ -118,8 +118,8 @@ class References_Test:
         assert_equal(doc_right, doc_new)
 
     def comma_dash_test(self):
-        doc = "How is the treatment,4-5 going. Pretty well"
-        doc_right = "How is the treatment going . Pretty well"
+        doc = "How is the treatment,4-5 my man"
+        doc_right = "How is the treatment , my man"
         doc_new = self.references(doc)
 
         assert_equal(doc_right, doc_new)
@@ -228,8 +228,8 @@ class References_Test:
               'deimination,[9][10] and proline isomerization.[11]'
 
         doc_right = 'There are at least eight distinct types of ' \
-                    'modifications found on histones ( see the legend box on' \
-                    ' the top left of the figure ) . Enzymes have been ' \
+                    'modifications found on histones (see the legend box on' \
+                    ' the top left of the figure) . Enzymes have been ' \
                     'identified for acetylation , methylation , ' \
                     'demethylation , phosphorylation , ubiquitination , ' \
                     'sumoylation , ADP-ribosylation , ' \

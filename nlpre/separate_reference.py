@@ -73,7 +73,7 @@ class separate_reference:
                     continue
 
                 # check if word is of the form word(4)
-                new_tokens = self.single_number_parens_pattern(token)
+                new_tokens = self.parens_pattern(token)
                 if new_tokens:
                     new_sentence.extend(new_tokens)
                     continue
@@ -140,7 +140,7 @@ class separate_reference:
 
         return output
 
-    def single_number_parens_pattern(self, token):
+    def parens_pattern(self, token):
         output = []
         try:
             parse_return = self.reference_pattern.single_number_parens.\
@@ -156,8 +156,8 @@ class separate_reference:
             if self.reference_token:
                 output.append("REF_" + reference)
 
-            if parse_return[1] == '.':
-                output.append('.')
+            if parse_return[1] in ['.', '!', ',', '?', ':', ';']:
+                output.append(parse_return[1])
 
         except BaseException:
             output = False
@@ -205,8 +205,8 @@ class separate_reference:
                 ref_token = "REF_" + reference
                 output.append(ref_token)
 
-            if substring[0] == '.':
-                output.append('.')
+            if substring[0] in ['.', '!', ',', '?', ':', ';']:
+                output.append(substring[0])
         else:
             output = False
 
