@@ -1,11 +1,10 @@
 import pyparsing
-from pyparsing import Word, WordStart, WordEnd, ZeroOrMore, Optional, OneOrMore
+from pyparsing import Word, WordStart, WordEnd, ZeroOrMore, Optional
 
 
 class reference_patterns:
     def __init__(self):
-        #real_word = OneOrMore(Word(pyparsing.alphas) | Word('-'))
-        real_word = OneOrMore(Word(pyparsing.alphas) | Word('-'))
+        real_word = Word(pyparsing.alphas)
         real_word_dashes = Word(pyparsing.alphas + '-')
         punctuation = Word('.!?:,;-')
         punctuation_no_dash = Word('.!?:,;')
@@ -15,7 +14,6 @@ class reference_patterns:
         letter = Word(pyparsing.alphas, exact=1)
         letter_reference = punctuation_reference_letter + letter
 
-        pure_nums = Word(pyparsing.nums)
         nums = Word(pyparsing.nums) + Optional(letter) + \
             ZeroOrMore(letter_reference)
 

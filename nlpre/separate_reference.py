@@ -57,6 +57,8 @@ class separate_reference:
         sentences = pattern.en.tokenize(
             text, punctuation=".,;:!?`''\"@#$^&*+-|=~_")
 
+        # sentences = pattern.en.tokenize(text)
+
         new_doc = []
         for sentence in sentences:
             new_sentence = []

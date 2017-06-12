@@ -174,6 +174,14 @@ class References_Test:
 
         assert_equal(doc_right, doc_new)
 
+    def reference_in_parenthesis_with_parenthesis_reference_test(self):
+        doc = 'key feature in (Drosophila3-5 and elegans(7)).'
+        doc_right = 'key feature in (Drosophila and elegans) .'
+
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
     def standard_word_in_reference_in_parenthesis_test(self):
         doc = 'key feature in Drosophila3-5 and trees(7).'
         doc_right = 'key feature in Drosophila and trees .'
