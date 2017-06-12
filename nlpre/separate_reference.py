@@ -147,7 +147,7 @@ class separate_reference:
                 parseString(token)
             word = parse_return[0]
             assert isinstance(parse_return[-1], pyparsing.ParseResults)
-            reference = parse_return[1][0]
+            reference = token[len(word):]
 
             output.append(word)
             self.logger.info('Removing references %s from token %s' %
@@ -155,6 +155,10 @@ class separate_reference:
 
             if self.reference_token:
                 output.append("REF_" + reference)
+
+            if parse_return[1] == '.':
+                output.append('.')
+
         except BaseException:
             output = False
 

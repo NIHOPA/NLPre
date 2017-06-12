@@ -186,11 +186,38 @@ class References_Test:
         references = separate_reference(reference_token=True)
 
         doc = 'key feature in Drosophila3-5 and trees(7).'
-        doc_right = 'key feature in Drosophila REF_3-5 and trees REF_7 .'
+        doc_right = 'key feature in Drosophila REF_3-5 and trees REF_(7) .'
 
         doc_new = references(doc)
 
         assert_equal(doc_right, doc_new)
+
+    def parenthesis_with_dashes_test(self):
+        doc = 'key feature in Drosophila3-5 and trees(7-11).'
+        doc_right = 'key feature in Drosophila and trees .'
+
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def parenthesis_with_dashes_period_test(self):
+        doc = 'key feature in Drosophila3-5 and trees.(7-11) its super helpful.'
+        doc_right = 'key feature in Drosophila and trees . its super helpful .'
+
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def parenthesis_with_dashes_period_token_test(self):
+        references = separate_reference(reference_token=True)
+
+        doc = 'key feature in Drosophila3-5 and trees.(7-11) its super helpful.'
+        doc_right = 'key feature in Drosophila REF_3-5 and trees REF_.(7-11) . its super helpful .'
+
+        doc_new = references(doc)
+
+        assert_equal(doc_right, doc_new)
+
 
     def bracket_test(self):
         doc = 'There are at least eight distinct types of modifications found' \
