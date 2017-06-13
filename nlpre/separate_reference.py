@@ -69,6 +69,12 @@ class separate_reference:
                     continue
 
                 # Check if word is of the form word4.
+                new_tokens = self.single_number_parens_pattern(token)
+                if new_tokens:
+                    new_sentence.extend(new_tokens)
+                    continue
+
+                # Check if word is of the form word4.
                 new_tokens = self.single_number_pattern(token)
                 if new_tokens:
                     new_sentence.extend(new_tokens)
@@ -137,6 +143,32 @@ class separate_reference:
 
                 if self.reference_token:
                     output.append("REF_" + reference)
+
+        except BaseException:
+            output = False
+
+        return output
+
+    def single_number_parens_pattern(self, token):
+        output = []
+        try:
+            parse_return = self.reference_pattern.single_number_end_parens.\
+                parseString(token)
+
+            if parse_return[0] not in self.english_words:
+                output.append(token)
+            else:
+                word = parse_return[0]
+                reference = parse_return[1]
+
+                output.append(word)
+                self.logger.info('Removing references %s from token %s' %
+                                 (reference, token))
+
+                if self.reference_token:
+                    output.append("REF_" + reference)
+
+                output[-1] = output[-1] + parse_return[-1]
 
         except BaseException:
             output = False

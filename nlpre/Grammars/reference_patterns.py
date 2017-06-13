@@ -29,6 +29,10 @@ class reference_patterns:
         self.single_number = WordStart() + real_word_dashes + nums \
             + WordEnd()
 
+        self.single_number_end_parens = WordStart() + real_word_dashes + nums \
+            + pyparsing.OneOrMore(Word(')') | Word('}') | Word(']')) \
+            + WordEnd()
+
         self.single_number_parens = (
             WordStart() +
             real_word_dashes +
