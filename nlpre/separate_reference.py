@@ -137,6 +137,7 @@ class separate_reference:
 
                 if self.reference_token:
                     output.append("REF_" + reference)
+
         except BaseException:
             output = False
 
@@ -148,8 +149,21 @@ class separate_reference:
             parse_return = self.reference_pattern.single_number_parens.\
                 parseString(token)
             word = parse_return[0]
-            assert isinstance(parse_return[-1], pyparsing.ParseResults)
-            reference = token[len(word):]
+
+            # better way to do this?
+            parens_flag = False
+            for section in parse_return:
+                if isinstance(section, pyparsing.ParseResults):
+                    parens_flag = True
+                    break
+
+            assert parens_flag
+
+            if isinstance(parse_return[-1], basestring):
+                end_offset = len(parse_return[-1]) * -1
+                reference = token[len(word):end_offset]
+            else:
+                reference = token[len(word):]
 
             output.append(word)
             self.logger.info('Removing references %s from token %s' %
@@ -157,6 +171,9 @@ class separate_reference:
 
             if self.reference_token:
                 output.append("REF_" + reference)
+
+            if isinstance(parse_return[-1], basestring):
+                output[-1] = output[-1] + parse_return[-1]
 
             if parse_return[1] in ['.', '!', ',', '?', ':', ';']:
                 output.append(parse_return[1])

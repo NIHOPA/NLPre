@@ -14,6 +14,13 @@ class References_Test:
 
         assert_equal(doc_right, doc_new)
 
+    def number_in_parenthesis_test(self):
+        doc = "How is (the treatment4) going. Pretty well"
+        doc_right = "How is (the treatment) going . Pretty well"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
     def number_with_letter_test(self):
         doc = "How is the treatment4a going. Pretty well"
         doc_right = "How is the treatment going . Pretty well"
@@ -174,11 +181,21 @@ class References_Test:
 
         assert_equal(doc_right, doc_new)
 
-    def reference_in_parenthesis_with_parenthesis_reference_test(self):
+    def parenthetical_reference_in_parenthesis_test(self):
         doc = 'key feature in (Drosophila3-5 and elegans(7)).'
         doc_right = 'key feature in (Drosophila and elegans) .'
 
         doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def parenthetical_reference_in_parenthesis_tokens_test(self):
+        references = separate_reference(reference_token=True)
+
+        doc = 'key feature in (Drosophila3-5 and elegans(7)).'
+        doc_right = 'key feature in (Drosophila REF_3-5 and elegans REF_(7)) .'
+
+        doc_new = references(doc)
 
         assert_equal(doc_right, doc_new)
 

@@ -26,13 +26,15 @@ class reference_patterns:
         self.dash_word = WordStart() + real_word + Word('-') + \
             Word(pyparsing.nums) + WordEnd()
 
-        self.single_number = WordStart() + real_word_dashes + nums + WordEnd()
+        self.single_number = WordStart() + real_word_dashes + nums \
+            + WordEnd()
 
         self.single_number_parens = (
             WordStart() +
             real_word_dashes +
             Optional(punctuation_no_dash) +
             pyparsing.OneOrMore(nums | nest_grammar | space) +
+            pyparsing.ZeroOrMore(Word(')') | Word('}') | Word(']')) +
             WordEnd()
         )
 
