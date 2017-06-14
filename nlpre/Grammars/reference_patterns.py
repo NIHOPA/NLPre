@@ -27,10 +27,7 @@ class reference_patterns:
             Word(pyparsing.nums) + WordEnd()
 
         self.single_number = WordStart() + real_word_dashes + nums \
-            + WordEnd()
-
-        self.single_number_end_parens = WordStart() + real_word_dashes + nums \
-            + pyparsing.OneOrMore(Word(')') | Word('}') | Word(']')) \
+            + pyparsing.ZeroOrMore(Word(')') | Word('}') | Word(']')) \
             + WordEnd()
 
         self.single_number_parens = (
@@ -43,15 +40,9 @@ class reference_patterns:
         )
 
         self.number_then_punctuation = letter + nums + punctuation + \
-            pyparsing.ZeroOrMore(nums | punctuation) + WordEnd()
-
-        self.punctuation_then_number = letter + punctuation_no_dash + nums + \
-            pyparsing.ZeroOrMore(punctuation | nums) + WordEnd()
-
-        self.number_then_punctuation_p = letter + nums + punctuation + \
             pyparsing.ZeroOrMore(nums | punctuation) + \
-            pyparsing.OneOrMore(Word(')') | Word('}') | Word(']')) + WordEnd()
+            pyparsing.ZeroOrMore(Word(')') | Word('}') | Word(']')) + WordEnd()
 
-        self.punctuation_then_number_p = letter + punctuation_no_dash +\
+        self.punctuation_then_number = letter + punctuation_no_dash +\
             nums + pyparsing.ZeroOrMore(punctuation | nums) +\
-            pyparsing.OneOrMore(Word(')') | Word('}') | Word(']')) + WordEnd()
+            pyparsing.ZeroOrMore(Word(')') | Word('}') | Word(']')) + WordEnd()

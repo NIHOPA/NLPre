@@ -3,7 +3,7 @@ import os
 from Grammars import reference_patterns
 import logging
 import pyparsing
-
+import re
 
 __internal_wordlist = "dictionaries/english_wordlist.txt"
 __local_dir = os.path.dirname(os.path.abspath(__file__))
@@ -69,12 +69,6 @@ class separate_reference:
                     continue
 
                 # Check if word is of the form word4.
-                new_tokens = self.single_number_parens_pattern(token)
-                if new_tokens:
-                    new_sentence.extend(new_tokens)
-                    continue
-
-                # Check if word is of the form word4.
                 new_tokens = self.single_number_pattern(token)
                 if new_tokens:
                     new_sentence.extend(new_tokens)
@@ -86,20 +80,6 @@ class separate_reference:
                     new_sentence.extend(new_tokens)
                     continue
 
-                new_tokens = self.identify_reference_punctuation_p_pattern(
-                    token, self.reference_pattern.punctuation_then_number_p)
-                if new_tokens:
-                    new_sentence.extend(new_tokens)
-                    continue
-
-                # Check if the word is of the form word2,3,4
-                new_tokens = self.identify_reference_punctuation_p_pattern(
-                    token, self.reference_pattern.number_then_punctuation_p)
-                if new_tokens:
-                    new_sentence.extend(new_tokens)
-                    continue
-
-                # Check if the word is of the form word.2,3,4
                 new_tokens = self.identify_reference_punctuation_pattern(
                     token, self.reference_pattern.punctuation_then_number)
                 if new_tokens:
@@ -157,31 +137,8 @@ class separate_reference:
                 if self.reference_token:
                     output.append("REF_" + reference)
 
-        except BaseException:
-            output = False
-
-        return output
-
-    def single_number_parens_pattern(self, token):
-        output = []
-        try:
-            parse_return = self.reference_pattern.single_number_end_parens.\
-                parseString(token)
-
-            if parse_return[0] not in self.english_words:
-                output.append(token)
-            else:
-                word = parse_return[0]
-                reference = parse_return[1]
-
-                output.append(word)
-                self.logger.info('Removing references %s from token %s' %
-                                 (reference, token))
-
-                if self.reference_token:
-                    output.append("REF_" + reference)
-
-                output[-1] = output[-1] + parse_return[-1]
+                if self.special_match(parse_return[-1]):
+                    output[-1] = output[-1] + parse_return[-1]
 
         except BaseException:
             output = False
@@ -227,30 +184,6 @@ class separate_reference:
             output = False
 
         return output
-    """
-
-    def single_number_parens_pattern(self, token):
-        output = []
-        try:
-            parse_return = self.reference_pattern.single_number_parens. \
-                searchString(token)
-            y = parse_return[0][1].asList()
-            substring = ''.join(parse_return[0][1])
-            index = token.find(substring)
-            word = token[:index]
-            reference = token[index:]
-            output.append(word)
-
-            self.logger.info('Removing references %s from token %s' %
-                             (reference, token))
-
-            if self.reference_token:
-                output.append("REF_" + reference)
-        except BaseException:
-            output = False
-
-        return output
-    """
 
     def identify_reference_punctuation_pattern(self, token, pattern):
         output = []
@@ -271,34 +204,13 @@ class separate_reference:
 
             if substring[0] in ['.', '!', ',', '?', ':', ';']:
                 output.append(substring[0])
+
+            if self.special_match(parse_return[0][-1]):
+                output[-1] = output[-1] + parse_return[0][-1]
         else:
             output = False
 
         return output
 
-    def identify_reference_punctuation_p_pattern(self, token, pattern):
-        output = []
-        parse_return = \
-            pattern.searchString(token)
-        if parse_return:
-            substring = ''.join(parse_return[0][1:])
-            index = token.find(substring)
-            word = token[:index]
-            reference = token[index:]
-            output.append(word)
-            self.logger.info('Removing references %s from token %s' %
-                             (reference, token))
-
-            if self.reference_token:
-                ref_token = "REF_" + reference
-                output.append(ref_token)
-
-            if substring[0] in ['.', '!', ',', '?', ':', ';']:
-                output.append(substring[0])
-
-            output[-1] = output[-1] + parse_return[0][-1]
-
-        else:
-            output = False
-
-        return output
+    def special_match(self, strg, search=re.compile(r'[^)}\]]').search):
+        return not bool(search(strg))
