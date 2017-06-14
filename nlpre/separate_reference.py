@@ -96,16 +96,6 @@ class separate_reference:
         return_doc = ' '.join(new_doc)
         return return_doc
 
-    def dash_number_pattern(self, token):
-        output = False
-        try:
-            parse_return = self.reference_pattern.dash_word.parseString(token)
-            if parse_return:
-                output = token
-        except BaseException:
-            pass
-        return output
-
     # This is an ambiguous  case, because there could be words that end in a
     # number that don't represent a footnote, as is the case for chemicals.
     # The code looks up the characters that make up a word, and if they are
@@ -117,43 +107,14 @@ class separate_reference:
         try:
             parse_return = self.reference_pattern.single_number.\
                 parseString(token)
-
-            if parse_return[0] not in self.english_words:
-                output.append(token)
-            else:
-                word = parse_return[0]
-                reference = parse_return[1]
-
-                output.append(word)
-                self.logger.info('Removing references %s from token %s' %
-                                 (reference, token))
-
-                if self.reference_token:
-                    output.append("REF_" + reference)
-
-                if self.special_match(parse_return[-1]):
-                    output[-1] = output[-1] + parse_return[-1]
-
         except BaseException:
-            output = False
+            return False
 
-        return output
-
-    def parens_pattern(self, token):
-        output = []
-        try:
-            parse_return = self.reference_pattern.single_number_parens.\
-                parseString(token)
+        if parse_return[0] not in self.english_words:
+            output.append(token)
+        else:
             word = parse_return[0]
-
-            assert any(isinstance(section, pyparsing.ParseResults) for
-                       section in parse_return)
-
-            if isinstance(parse_return[-1], basestring):
-                end_offset = len(parse_return[-1]) * -1
-                reference = token[len(word):end_offset]
-            else:
-                reference = token[len(word):]
+            reference = parse_return[1]
 
             output.append(word)
             self.logger.info('Removing references %s from token %s' %
@@ -162,14 +123,42 @@ class separate_reference:
             if self.reference_token:
                 output.append("REF_" + reference)
 
-            if isinstance(parse_return[-1], basestring):
+            if self.special_match(parse_return[-1]):
                 output[-1] = output[-1] + parse_return[-1]
 
-            if parse_return[1] in ['.', '!', ',', '?', ':', ';']:
-                output.append(parse_return[1])
+        return output
 
+    def parens_pattern(self, token):
+        output = []
+        try:
+            parse_return = self.reference_pattern.single_number_parens.\
+                parseString(token)
+            assert any(isinstance(section, pyparsing.ParseResults) for
+                       section in parse_return)
         except BaseException:
-            output = False
+            return False
+
+        word = parse_return[0]
+
+        if isinstance(parse_return[-1], basestring):
+                end_offset = len(parse_return[-1]) * -1
+                reference = token[len(word):end_offset]
+        else:
+            reference = token[len(word):]
+
+        output.append(word)
+        self.logger.info('Removing references %s from token %s' %
+                         (reference, token))
+
+        if self.reference_token:
+                output.append("REF_" + reference)
+
+        if isinstance(parse_return[-1], basestring) and \
+                self.special_match(parse_return[-1]):
+                output[-1] = output[-1] + parse_return[-1]
+
+        if parse_return[1] in ['.', '!', ',', '?', ':', ';']:
+                output.append(parse_return[1])
 
         return output
 
