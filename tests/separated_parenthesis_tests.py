@@ -120,6 +120,20 @@ class Separated_Parenthesis_Tests():
 
         assert_equals(doc_right, doc_new)
 
+    def clipped_sentences_test(self):
+        doc = "Sunday (the best day) is a day of the week."
+
+        parser1 = separated_parenthesis(min_keep_length=None)
+        parser2 = separated_parenthesis(min_keep_length=2)
+        parser3 = separated_parenthesis(min_keep_length=5)
+
+        doc2 = 'Sunday is a day of the week .\nthe best day .'
+        doc3 = 'Sunday is a day of the week .'
+        
+        assert_equals(parser1(doc), doc2)
+        assert_equals(parser2(doc), doc2)
+        assert_equals(parser3(doc), doc3)
+
     def mixed_parens_with_punctuation_test(self):
         doc = 'Superoxide anion (A[B?]).'
         doc_right = 'Superoxide anion AB ?\n.'

@@ -15,22 +15,28 @@ class separated_parenthesis(object):
     This parser returns a document that is sentence chunked and appends
     parenthetical content as a new sentence to the sentence following the
     sentences it was found in. Terminal punctuation of a period is added to
-    parenthetical sentences if necessary.
+    parenthetical sentences if necessary. Parenthetical sentences can be
+    pruned by setting min_keep_length.
 
     Example:
         input = 'Hello (it is a beautiful day) world.'
         output = 'Hello world. it is a beautiful day .'
     """
 
-    def __init__(self):
-        """ Initialize the parser. """
-        self.logger = logging.getLogger(__name__)
-        self.grammar = parenthesis_nester()
+    def __init__(self, min_keep_length=0):
+        """
+        Initialize the parser.
 
-        # self.parse = lambda x:pattern.en.parse(x,chunks=False,tags=False)
-        self.parse = lambda x: pattern.en.tokenize(
-            x)  # ,chunks=False,tags=False)
-        # Tags each word of a sentence with part of speech
+        Args:
+            min_keep_length: if None keep everything, if 0 drop everything
+              (default), for any other integer n, keep only if statment is
+              at least n tokens long.
+        """
+        self.logger = logging.getLogger(__name__)
+
+        self.min_keep_length = min_keep_length
+        self.grammar = parenthesis_nester()
+        self.parse = lambda x: pattern.en.tokenize(x)
 
     def __call__(self, text):
         '''
@@ -102,6 +108,7 @@ class separated_parenthesis(object):
             parsed_tokens = parsed_tokens.asList()
 
         content = self.paren_pop_helper(parsed_tokens)
+
         return content
 
     def paren_pop_helper(self, tokens):
@@ -135,16 +142,28 @@ class separated_parenthesis(object):
 
             # Iterate through all parenthetical content, recursing on them
             # This allows content in nested parenthesis to be captured
-            for tokes in token_parens:
-                sents = self.paren_pop_helper(tokes)
-                self.logger.info('Expanded parenthetical content: %s' % sents)
-                reorged_tokens.extend(sents)
+            for tokens in token_parens:
+                sents = self.paren_pop_helper(tokens)
+
+                for sent in sents:
+
+                    # Only keep if the sentence is at least as long as the
+                    # min_keep_length
+                    n_tokens_sent = len(sent.split())
+                    if (self.min_keep_length is None or
+                            self.min_keep_length <= n_tokens_sent):
+
+                        self.logger.info(
+                            'Expanded parenthetical content: %s' %
+                            sent)
+                        reorged_tokens.append(sent)
 
             # Bundles outer sentence with inner parenthetical content
             if token_words:
                 if token_words[-1] not in ['.', '!', '?']:
                     token_words.append('.')
                 new_tokens.append(' '.join(token_words))
+
             new_tokens.extend(reorged_tokens)
 
             # New tokens returns a list of strings
