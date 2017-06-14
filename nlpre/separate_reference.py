@@ -86,6 +86,19 @@ class separate_reference:
                     new_sentence.extend(new_tokens)
                     continue
 
+                new_tokens = self.identify_reference_punctuation_p_pattern(
+                    token, self.reference_pattern.punctuation_then_number_p)
+                if new_tokens:
+                    new_sentence.extend(new_tokens)
+                    continue
+
+                # Check if the word is of the form word2,3,4
+                new_tokens = self.identify_reference_punctuation_p_pattern(
+                    token, self.reference_pattern.number_then_punctuation_p)
+                if new_tokens:
+                    new_sentence.extend(new_tokens)
+                    continue
+
                 # Check if the word is of the form word.2,3,4
                 new_tokens = self.identify_reference_punctuation_pattern(
                     token, self.reference_pattern.punctuation_then_number)
@@ -258,6 +271,33 @@ class separate_reference:
 
             if substring[0] in ['.', '!', ',', '?', ':', ';']:
                 output.append(substring[0])
+        else:
+            output = False
+
+        return output
+
+    def identify_reference_punctuation_p_pattern(self, token, pattern):
+        output = []
+        parse_return = \
+            pattern.searchString(token)
+        if parse_return:
+            substring = ''.join(parse_return[0][1:])
+            index = token.find(substring)
+            word = token[:index]
+            reference = token[index:]
+            output.append(word)
+            self.logger.info('Removing references %s from token %s' %
+                             (reference, token))
+
+            if self.reference_token:
+                ref_token = "REF_" + reference
+                output.append(ref_token)
+
+            if substring[0] in ['.', '!', ',', '?', ':', ';']:
+                output.append(substring[0])
+
+            output[-1] = output[-1] + parse_return[0][-1]
+
         else:
             output = False
 

@@ -42,14 +42,16 @@ class reference_patterns:
             WordEnd()
         )
 
-        '''
-        self.single_number_parens = letter + Optional(
-            punctuation_no_dash) + pyparsing.OneOrMore(
-            nums | nest_grammar | space) + WordEnd()
-        '''
-
         self.number_then_punctuation = letter + nums + punctuation + \
             pyparsing.ZeroOrMore(nums | punctuation) + WordEnd()
 
         self.punctuation_then_number = letter + punctuation_no_dash + nums + \
             pyparsing.ZeroOrMore(punctuation | nums) + WordEnd()
+
+        self.number_then_punctuation_p = letter + nums + punctuation + \
+            pyparsing.ZeroOrMore(nums | punctuation) + \
+            pyparsing.OneOrMore(Word(')') | Word('}') | Word(']')) + WordEnd()
+
+        self.punctuation_then_number_p = letter + punctuation_no_dash +\
+            nums + pyparsing.ZeroOrMore(punctuation | nums) +\
+            pyparsing.OneOrMore(Word(')') | Word('}') | Word(']')) + WordEnd()

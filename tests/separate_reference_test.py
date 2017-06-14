@@ -66,6 +66,13 @@ class References_Test:
 
         assert_equal(doc_right, doc_new)
 
+    def period_one_number_in_parens_test(self):
+        doc = "How is (the treatment.5) pretty well"
+        doc_right = "How is (the treatment .) pretty well"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
     def dashed_word_period_one_number_test(self):
         doc = "How is the treat-ment.5 pretty well"
         doc_right = "How is the treat-ment . pretty well"
