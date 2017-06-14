@@ -16,6 +16,8 @@ keys = [
     'token_replacement',
     'replace_from_dictionary',
 ]
+
+
 POS_Blacklist = ["connector","cardinal",
                  "pronoun","adverb",
                  "symbol","verb",
@@ -26,7 +28,7 @@ key0 = (('systemic', 'lupus', 'erythematosus'), 'SLE')
 for n in range(50000):
     ABR[(key0[0],key0[1]+str(n))] += 1
 
-n = 30
+n = 10
 data=[]
 for key in keys:
     if key =='pos_tokenizer':
