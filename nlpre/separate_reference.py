@@ -61,11 +61,6 @@ class separate_reference:
         for sentence in sentences:
             new_sentence = []
             for token in sentence.split():
-                # new_tokens = self.dash_number_pattern(token)
-                # if new_tokens:
-                #    new_sentence.append(new_tokens)
-                #    continue
-
                 # Check if word is of the form word4.
                 new_tokens = self.single_number_pattern(token)
                 if new_tokens:

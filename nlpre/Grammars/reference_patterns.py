@@ -26,9 +26,6 @@ class reference_patterns:
         word_end = pyparsing.ZeroOrMore(Word(')') | Word('}') | Word(']')) + \
             WordEnd()
 
-        # self.dash_word = WordStart() + real_word + Word('-') + \
-        #     Word(pyparsing.nums) + WordEnd()
-
         self.single_number = (
             WordStart() +
             real_word_dashes +
