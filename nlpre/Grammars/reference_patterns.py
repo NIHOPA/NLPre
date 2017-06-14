@@ -10,7 +10,6 @@ class reference_patterns:
         punctuation_no_dash = Word('.!?:,;')
         punctuation_reference_letter = Word('.:,;-')
 
-        space = Word(' ')
         letter = Word(pyparsing.alphas, exact=1)
         letter_reference = punctuation_reference_letter + letter
 
@@ -37,7 +36,7 @@ class reference_patterns:
             WordStart() +
             real_word_dashes +
             Optional(punctuation_no_dash) +
-            pyparsing.OneOrMore(nums | nest_grammar | space) +
+            pyparsing.OneOrMore(nums | nest_grammar) +
             word_end
         )
 

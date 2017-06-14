@@ -140,7 +140,7 @@ class separate_reference:
 
         word = parse_return[0]
 
-        if isinstance(parse_return[-1], basestring):
+        if self.special_match(parse_return[-1]):
                 end_offset = len(parse_return[-1]) * -1
                 reference = token[len(word):end_offset]
         else:
@@ -153,8 +153,7 @@ class separate_reference:
         if self.reference_token:
                 output.append("REF_" + reference)
 
-        if isinstance(parse_return[-1], basestring) and \
-                self.special_match(parse_return[-1]):
+        if self.special_match(parse_return[-1]):
                 output[-1] = output[-1] + parse_return[-1]
 
         if parse_return[1] in ['.', '!', ',', '?', ':', ';']:
@@ -190,4 +189,4 @@ class separate_reference:
         return output
 
     def special_match(self, strg, search=re.compile(r'[^)}\]]').search):
-        return not bool(search(strg))
+        return isinstance(strg, basestring) and not bool(search(strg))
