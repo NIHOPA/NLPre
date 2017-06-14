@@ -6,6 +6,10 @@ import os
 import logging
 
 
+pattern = r'''-, .?:;\'(){}\[\]%$#@!'<>'''
+match_pattern = re.compile("[%s]+" % re.escape(pattern))
+
+
 class replace_from_dictionary(object):
 
     """
@@ -42,11 +46,16 @@ class replace_from_dictionary(object):
             raise IOError()
 
         self.rdict = {}
+        self.re_patterns = collections.defaultdict(list)
+
         with open(f_dict) as FIN:
             csvfile = csv.DictReader(FIN)
             for row in csvfile:
                 term = row["term"].lower()
                 self.rdict[term] = '{}{}'.format(prefix, row["replacement"])
+
+                tokens = tuple([x for x in re.split(match_pattern, term) if x])
+                self.re_patterns[tokens].append(term)
 
     def __call__(self, text):
         '''
@@ -60,12 +69,22 @@ class replace_from_dictionary(object):
 
         doc = text
         ldoc = doc.lower()
+        tokens = set((re.split(match_pattern, ldoc)))
 
         # Identify which phrases were used and possible replacements
         R = collections.defaultdict(list)
-        for key, val in self.rdict.iteritems():
-            if key in ldoc:
-                R[val].append(key)
+
+        for tokenized_key in self.re_patterns:
+
+            # Search if the subset of the words are in a unique sublist first
+            if all((word in tokens for word in tokenized_key)):
+                keys = self.re_patterns[tokenized_key]
+
+                # Now check all matching patterns
+                for key in keys:
+                    if key in ldoc:
+                        term = self.rdict[key]
+                        R[term].append(key)
 
         # Remove replacements that are substrings of another
         # "5' exonuclease", vs "3' 5' exonuclease"
@@ -74,6 +93,8 @@ class replace_from_dictionary(object):
         for k1, k2 in itertools.combinations(all_replacements, r=2):
             if len(k1) < len(k2) and k1 in k2:
                 ignore_tokens.add(k1)
+            elif len(k2) < len(k1) and k2 in k1:
+                ignore_tokens.add(k2)
 
         # For each term, make replacements based off size order
         for term, replacements in R.iteritems():
