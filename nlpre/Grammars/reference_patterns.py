@@ -4,7 +4,7 @@ from pyparsing import Word, WordStart, WordEnd, ZeroOrMore, Optional
 
 class reference_patterns:
     def __init__(self):
-        real_word = Word(pyparsing.alphas)
+        # real_word = Word(pyparsing.alphas)
         real_word_dashes = Word(pyparsing.alphas + '-')
         punctuation = Word('.!?:,;-')
         punctuation_no_dash = Word('.!?:,;')
@@ -23,26 +23,39 @@ class reference_patterns:
         nestedCurlies = nest('{', '}')
         nest_grammar = nestedParens | nestedBrackets | nestedCurlies
 
-        self.dash_word = WordStart() + real_word + Word('-') + \
-            Word(pyparsing.nums) + WordEnd()
+        word_end = pyparsing.ZeroOrMore(Word(')') | Word('}') | Word(']')) + \
+            WordEnd()
 
-        self.single_number = WordStart() + real_word_dashes + nums \
-            + pyparsing.ZeroOrMore(Word(')') | Word('}') | Word(']')) \
-            + WordEnd()
+        # self.dash_word = WordStart() + real_word + Word('-') + \
+        #     Word(pyparsing.nums) + WordEnd()
+
+        self.single_number = (
+            WordStart() +
+            real_word_dashes +
+            nums +
+            word_end
+        )
 
         self.single_number_parens = (
             WordStart() +
             real_word_dashes +
             Optional(punctuation_no_dash) +
             pyparsing.OneOrMore(nums | nest_grammar | space) +
-            pyparsing.ZeroOrMore(Word(')') | Word('}') | Word(']')) +
-            WordEnd()
+            word_end
         )
 
-        self.number_then_punctuation = letter + nums + punctuation + \
-            pyparsing.ZeroOrMore(nums | punctuation) + \
-            pyparsing.ZeroOrMore(Word(')') | Word('}') | Word(']')) + WordEnd()
+        self.number_then_punctuation = (
+            letter +
+            nums +
+            punctuation +
+            pyparsing.ZeroOrMore(nums | punctuation) +
+            word_end
+        )
 
-        self.punctuation_then_number = letter + punctuation_no_dash +\
-            nums + pyparsing.ZeroOrMore(punctuation | nums) +\
-            pyparsing.ZeroOrMore(Word(')') | Word('}') | Word(']')) + WordEnd()
+        self.punctuation_then_number = (
+            letter +
+            punctuation_no_dash +
+            nums +
+            pyparsing.ZeroOrMore(punctuation | nums) +
+            word_end
+        )

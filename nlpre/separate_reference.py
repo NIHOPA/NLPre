@@ -57,16 +57,14 @@ class separate_reference:
         sentences = pattern.en.tokenize(
             text, punctuation=".,;:!?`''\"@#$^&*+-|=~_")
 
-        # sentences = pattern.en.tokenize(text)
-
         new_doc = []
         for sentence in sentences:
             new_sentence = []
             for token in sentence.split():
-                new_tokens = self.dash_number_pattern(token)
-                if new_tokens:
-                    new_sentence.append(new_tokens)
-                    continue
+                # new_tokens = self.dash_number_pattern(token)
+                # if new_tokens:
+                #    new_sentence.append(new_tokens)
+                #    continue
 
                 # Check if word is of the form word4.
                 new_tokens = self.single_number_pattern(token)
@@ -80,6 +78,7 @@ class separate_reference:
                     new_sentence.extend(new_tokens)
                     continue
 
+                # Check if the word is of the form word,2,3,4
                 new_tokens = self.identify_reference_punctuation_pattern(
                     token, self.reference_pattern.punctuation_then_number)
                 if new_tokens:
@@ -152,14 +151,8 @@ class separate_reference:
                 parseString(token)
             word = parse_return[0]
 
-            # better way to do this?
-            parens_flag = False
-            for section in parse_return:
-                if isinstance(section, pyparsing.ParseResults):
-                    parens_flag = True
-                    break
-
-            assert parens_flag
+            assert any(isinstance(section, pyparsing.ParseResults) for
+                       section in parse_return)
 
             if isinstance(parse_return[-1], basestring):
                 end_offset = len(parse_return[-1]) * -1
