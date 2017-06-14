@@ -4,8 +4,9 @@ from nlpre import separated_parenthesis
 
 class Separated_Parenthesis_Tests():
 
-    def __init__(self):
-        self.parser = separated_parenthesis()
+    @classmethod
+    def setup_class(cls):
+        cls.parser = separated_parenthesis()
 
     def single_parenthesis_pair_test(self):
         doc = 'hello (hello world1) world2.'

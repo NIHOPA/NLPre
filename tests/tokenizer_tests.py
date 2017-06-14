@@ -4,9 +4,6 @@ from nlpre.tokenizers import meta_text, split_tokenizer, sentence_tokenizer, wor
 
 class Tokenizer_Tests():
 
-    def __init__(self):
-        pass
-
     def meta_test(self):
         meta = meta_text('hello world', stuff='unicode')
 
