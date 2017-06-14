@@ -42,6 +42,7 @@ class Full_Test:
         self.separated_parenthesis = separated_parenthesis()
         self.token_replacement = token_replacement()
         self.decaps = decaps_text()
+        self.separate_reference = separate_reference()
         self.pos_tokenizer = pos_tokenizer(POS_Blacklist)
 
         with codecs.open(self.location + '/tests/doc1', 'r', 'utf-8') as f1:
@@ -73,7 +74,8 @@ class Full_Test:
         separated_parenthesis_doc = self.separated_parenthesis(replace_from_dict_doc)
         token_replacement_doc = self.token_replacement(separated_parenthesis_doc)
         decaps_doc = self.decaps(token_replacement_doc)
-        pos_tokenizer_doc = self.pos_tokenizer(decaps_doc)
+        separate_reference_doc = self.separate_reference(decaps_doc)
+        pos_tokenizer_doc = self.pos_tokenizer(separate_reference_doc)
 
         return pos_tokenizer_doc.text, counter
 
