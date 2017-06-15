@@ -132,7 +132,7 @@ class separated_parenthesis(object):
         token_words = [x for x in tokens if isinstance(x, six.string_types)]
 
         # If tokens don't include parenthetical content, return as string
-        if len(token_words) == len(tokens):
+        if len(token_words) == len(tokens) and len(token_words):
             if token_words[-1] not in ['.', '!', '?']:
                 token_words.append('.')
             return [' '.join(token_words)]
