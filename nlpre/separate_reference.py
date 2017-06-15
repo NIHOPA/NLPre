@@ -123,7 +123,7 @@ class separate_reference:
             if self.reference_token:
                 output.append("REF_" + reference)
 
-            if self.special_match(parse_return[-1]):
+            if self.special_match(parse_return):
                 output[-1] = output[-1] + parse_return[-1]
 
         return output
@@ -133,14 +133,14 @@ class separate_reference:
         try:
             parse_return = self.reference_pattern.single_number_parens.\
                 parseString(token)
-            assert any(isinstance(section, pyparsing.ParseResults) for
-                       section in parse_return)
+            #assert any(isinstance(section, pyparsing.ParseResults) for
+            #           section in parse_return)
         except BaseException:
             return False
 
         word = parse_return[0]
 
-        if self.special_match(parse_return[-1]):
+        if self.special_match(parse_return, parens=True):
                 end_offset = len(parse_return[-1]) * -1
                 reference = token[len(word):end_offset]
         else:
@@ -153,7 +153,7 @@ class separate_reference:
         if self.reference_token:
                 output.append("REF_" + reference)
 
-        if self.special_match(parse_return[-1]):
+        if self.special_match(parse_return, parens=True):
                 output[-1] = output[-1] + parse_return[-1]
 
         if parse_return[1] in ['.', '!', ',', '?', ':', ';']:
@@ -181,12 +181,30 @@ class separate_reference:
             if substring[0] in ['.', '!', ',', '?', ':', ';']:
                 output.append(substring[0])
 
-            if self.special_match(parse_return[0][-1]):
+            if self.special_match(parse_return[0]):
                 output[-1] = output[-1] + parse_return[0][-1]
         else:
             output = False
 
         return output
 
-    def special_match(self, strg, search=re.compile(r'[^)}\]]').search):
-        return isinstance(strg, basestring) and not bool(search(strg))
+    def special_match(self, list, search=re.compile(r'[^)}\]]').search,parens=False):
+        if parens:
+            LP_Paran = sum(1 for a in list if a == '(')
+            RP_Paran = sum(1 for a in list if a == ')')
+
+            LP_Bracket = sum(1 for a in list if a == '[')
+            RP_Bracket = sum(1 for a in list if a == ']')
+
+            LP_Curl = sum(1 for a in list if a == '{')
+            RP_Curl = sum(1 for a in list if a == '}')
+
+            # If the count of the left paren doesn't match the right, then
+            # ignore all parenthesis
+            FLAG_valid = (LP_Paran == RP_Paran) and (
+                LP_Bracket == RP_Bracket) and (LP_Curl == RP_Curl)
+
+            if FLAG_valid:
+                return False
+
+        return isinstance(list[-1], basestring) and not bool(search(list[-1]))

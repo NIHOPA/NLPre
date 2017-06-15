@@ -32,11 +32,23 @@ class reference_patterns:
             word_end
         )
 
+        #self.single_number_parens = (
+        #    WordStart() +
+        #    real_word_dashes +
+        #    Optional(punctuation_no_dash) +
+        #    pyparsing.OneOrMore(nums | nest_grammar) +
+        #    word_end
+        #)
+
         self.single_number_parens = (
             WordStart() +
             real_word_dashes +
             Optional(punctuation_no_dash) +
-            pyparsing.OneOrMore(nums | nest_grammar) +
+            pyparsing.OneOrMore(
+                Word('([{', exact=1) +
+                pyparsing.OneOrMore(nums | Word('-')) +
+                Word(')]}', exact=1)
+            ) +
             word_end
         )
 
