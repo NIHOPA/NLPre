@@ -4,7 +4,6 @@ from pyparsing import Word, WordStart, WordEnd, ZeroOrMore, Optional
 
 class reference_patterns:
     def __init__(self):
-        # real_word = Word(pyparsing.alphas)
         real_word_dashes = Word(pyparsing.alphas + '-')
         punctuation = Word('.!?:,;-')
         punctuation_no_dash = Word('.!?:,;')
@@ -16,12 +15,6 @@ class reference_patterns:
         nums = Word(pyparsing.nums) + Optional(letter) + \
             ZeroOrMore(letter_reference)
 
-        nest = pyparsing.nestedExpr
-        nestedParens = nest('(', ')')
-        nestedBrackets = nest('[', ']')
-        nestedCurlies = nest('{', '}')
-        nest_grammar = nestedParens | nestedBrackets | nestedCurlies
-
         word_end = pyparsing.ZeroOrMore(Word(')') | Word('}') | Word(']')) + \
             WordEnd()
 
@@ -32,17 +25,8 @@ class reference_patterns:
             word_end
         )
 
-        #self.single_number_parens = (
-        #    WordStart() +
-        #    real_word_dashes +
-        #    Optional(punctuation_no_dash) +
-        #    pyparsing.OneOrMore(nums | nest_grammar) +
-        #    word_end
-        #)
-
         self.single_number_parens = (
-            WordStart() +
-            real_word_dashes +
+            letter +
             Optional(punctuation_no_dash) +
             pyparsing.OneOrMore(
                 Word('([{', exact=1) +

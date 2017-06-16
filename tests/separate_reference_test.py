@@ -43,150 +43,6 @@ class References_Test:
 
         assert_equal(doc_right, doc_new)
 
-    # look into if reference numbers ever concatenated like this
-    def period_test(self):
-        doc = "How is the treatment4.5 pretty well"
-        doc_right = "How is the treatment pretty well"
-        doc_new = self.references(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def period_reference_token_test(self):
-        references = separate_reference(reference_token=True)
-        doc = "How is the treatment4.5 pretty well"
-        doc_right = "How is the treatment REF_4.5 pretty well"
-        doc_new = references(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def period_one_number_test(self):
-        doc = "How is the treatment.5 pretty well"
-        doc_right = "How is the treatment . pretty well"
-        doc_new = self.references(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def period_one_number_in_parens_test(self):
-        doc = "How is (the treatment.5) pretty well"
-        doc_right = "How is (the treatment .) pretty well"
-        doc_new = self.references(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def dashed_word_period_one_number_test(self):
-        doc = "How is the treat-ment.5 pretty well"
-        doc_right = "How is the treat-ment . pretty well"
-        doc_new = self.references(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def dash_test(self):
-        doc = "How is the treatment4-5 going. Pretty well"
-        doc_right = "How is the treatment going . Pretty well"
-        doc_new = self.references(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def dash_with_letters_test(self):
-        doc = "How is the treatment4a-5 going. Pretty well"
-        doc_right = "How is the treatment going . Pretty well"
-        doc_new = self.references(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def dash_with_letters_period_test(self):
-        doc = "How is the treatment.4a-5 Pretty well"
-        doc_right = "How is the treatment . Pretty well"
-        doc_new = self.references(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def comma_test(self):
-        doc = "How is the treatment4,5 going. Pretty well"
-        doc_right = "How is the treatment going . Pretty well"
-        doc_new = self.references(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def multiple_comma_test(self):
-        doc = "How is the treatment4,5,35,24 going. Pretty well"
-        doc_right = "How is the treatment going . Pretty well"
-        doc_new = self.references(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def period_dash_test(self):
-        doc = "How is the treatment.4-5 pretty well"
-        doc_right = "How is the treatment . pretty well"
-        doc_new = self.references(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def period_dash_reference_token_test(self):
-        references = separate_reference(reference_token=True)
-
-        doc = "How is the treatment going.4-5 Pretty well"
-        doc_right = "How is the treatment going REF_.4-5 . Pretty well"
-        doc_new = references(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def comma_dash_test(self):
-        doc = "How is the treatment,4-5 my man"
-        doc_right = "How is the treatment , my man"
-        doc_new = self.references(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def chemical_dash_test(self):
-        doc = "How is the interlukin-1 going. Pretty well"
-        doc_right = "How is the interlukin-1 going . Pretty well"
-        doc_new = self.references(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def word_that_should_end_with_number_test(self):
-        doc = "How is the XasdL1 going. Pretty well"
-        doc_right = "How is the XasdL1 going . Pretty well"
-        doc_new = self.references(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def word_that_begins_with_number_test(self):
-        doc = "How is the 4XasdL going. Pretty well"
-        doc_right = "How is the 4XasdL going . Pretty well"
-        doc_new = self.references(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def word_that_begins_with_number_parenthetical_reference_test(self):
-        doc = "How is the 4XasdL(5) going. Pretty well"
-        doc_right = "How is the 4XasdL going . Pretty well"
-        doc_new = self.references(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def pattern_in_middle_of_word_test(self):
-        doc = "How is the CAMK2-2-dependent going. Pretty well"
-        doc_right = "How is the CAMK2-2-dependent going . Pretty well"
-        doc_new = self.references(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def non_word_with_reference_test(self):
-        doc = "How is the CVD.70-73 pretty well"
-        doc_right = "How is the CVD . pretty well"
-        doc_new = self.references(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def number_in_word_with_reference_test(self):
-        doc = "How is the CV3D.70-73 pretty well"
-        doc_right = "How is the CV3D . pretty well"
-        doc_new = self.references(doc)
-
-        assert_equal(doc_right, doc_new)
-
     def reference_in_parenthesis_test(self):
         doc = 'key feature in Drosophila3-5 and elegans(7).'
         doc_right = 'key feature in Drosophila and elegans .'
@@ -257,7 +113,6 @@ class References_Test:
 
         assert_equal(doc_right, doc_new)
 
-
     def bracket_test(self):
         doc = 'There are at least eight distinct types of modifications found' \
               ' on histones (see the legend box on the top left of the ' \
@@ -278,10 +133,152 @@ class References_Test:
 
         assert_equal(doc_right, doc_new)
 
-    # Will this case ever occur?
-    # def dash_with_numbers_following_test(self):
-    #    doc = "How is the apple-4,5,6"
-    #    doc_right = "How is the apple"
-    #    doc_new = self.references(doc)
+    def word_that_begins_with_number_parenthetical_reference_test(self):
+        doc = "How is the 4XasdL(5) going. Pretty well"
+        doc_right = "How is the 4XasdL going . Pretty well"
+        doc_new = self.references(doc)
 
-    #    assert_equal(doc_right, doc_new)
+        assert_equal(doc_right, doc_new)
+
+    def period_one_number_test(self):
+        doc = "How is the treatment.5 pretty well"
+        doc_right = "How is the treatment . pretty well"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def period_one_number_in_parens_test(self):
+        doc = "How is (the treatment.5) pretty well"
+        doc_right = "How is (the treatment .) pretty well"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def dashed_word_period_one_number_test(self):
+        doc = "How is the treat-ment.5 pretty well"
+        doc_right = "How is the treat-ment . pretty well"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def dash_with_letters_period_test(self):
+        doc = "How is the treatment.4a-5 Pretty well"
+        doc_right = "How is the treatment . Pretty well"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def period_dash_test(self):
+        doc = "How is the treatment.4-5 pretty well"
+        doc_right = "How is the treatment . pretty well"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def period_dash_reference_token_test(self):
+        references = separate_reference(reference_token=True)
+
+        doc = "How is the treatment going.4-5 Pretty well"
+        doc_right = "How is the treatment going REF_.4-5 . Pretty well"
+        doc_new = references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def comma_dash_test(self):
+        doc = "How is the treatment,4-5 my man"
+        doc_right = "How is the treatment , my man"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def period_test(self):
+        doc = "How is the treatment4.5 pretty well"
+        doc_right = "How is the treatment pretty well"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def period_reference_token_test(self):
+        references = separate_reference(reference_token=True)
+        doc = "How is the treatment4.5 pretty well"
+        doc_right = "How is the treatment REF_4.5 pretty well"
+        doc_new = references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def dash_test(self):
+        doc = "How is the treatment4-5 going. Pretty well"
+        doc_right = "How is the treatment going . Pretty well"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def dash_with_letters_test(self):
+        doc = "How is the treatment4a-5 going. Pretty well"
+        doc_right = "How is the treatment going . Pretty well"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def comma_test(self):
+        doc = "How is the treatment4,5 going. Pretty well"
+        doc_right = "How is the treatment going . Pretty well"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def multiple_comma_test(self):
+        doc = "How is the treatment4,5,35,24 going. Pretty well"
+        doc_right = "How is the treatment going . Pretty well"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def multiple_comma_in_parens_test(self):
+        doc = "How is (the treatment4,5,35,24) going. Pretty well"
+        doc_right = "How is (the treatment) going . Pretty well"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def chemical_dash_test(self):
+        doc = "How is the interlukin-1 going. Pretty well"
+        doc_right = "How is the interlukin-1 going . Pretty well"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def word_that_should_end_with_number_test(self):
+        doc = "How is the XasdL1 going. Pretty well"
+        doc_right = "How is the XasdL1 going . Pretty well"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def word_that_begins_with_number_test(self):
+        doc = "How is the 4XasdL going. Pretty well"
+        doc_right = "How is the 4XasdL going . Pretty well"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def pattern_in_middle_of_word_test(self):
+        doc = "How is the CAMK2-2-dependent going. Pretty well"
+        doc_right = "How is the CAMK2-2-dependent going . Pretty well"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def non_word_with_reference_test(self):
+        doc = "How is the CVD.70-73 pretty well"
+        doc_right = "How is the CVD . pretty well"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)
+
+    def number_in_word_with_reference_test(self):
+        doc = "How is the CV3D.70-73 pretty well"
+        doc_right = "How is the CV3D . pretty well"
+        doc_new = self.references(doc)
+
+        assert_equal(doc_right, doc_new)

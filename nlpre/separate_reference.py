@@ -2,7 +2,6 @@ import pattern.en
 import os
 from Grammars import reference_patterns
 import logging
-import pyparsing
 import re
 
 __internal_wordlist = "dictionaries/english_wordlist.txt"
@@ -67,8 +66,10 @@ class separate_reference:
                     new_sentence.extend(new_tokens)
                     continue
 
-                # check if word is of the form word(4)
-                new_tokens = self.parens_pattern(token)
+                # Check if the word is of the form word(4)
+                new_tokens = self.identify_reference_punctuation_pattern(
+                    token, self.reference_pattern.single_number_parens,
+                    parens=True)
                 if new_tokens:
                     new_sentence.extend(new_tokens)
                     continue
@@ -103,6 +104,16 @@ class separate_reference:
     # the number is not pruned.
 
     def single_number_pattern(self, token):
+        '''
+        Detect the most basic case where a single number is concatenated to the
+        word token
+
+        Args:
+            token: a string token
+
+        Returns:
+            output: a list of string tokens
+        '''
         output = []
         try:
             parse_return = self.reference_pattern.single_number.\
@@ -123,45 +134,26 @@ class separate_reference:
             if self.reference_token:
                 output.append("REF_" + reference)
 
-            if self.special_match(parse_return):
+            if self.end_parens_match(parse_return):
                 output[-1] = output[-1] + parse_return[-1]
 
         return output
 
-    def parens_pattern(self, token):
-        output = []
-        try:
-            parse_return = self.reference_pattern.single_number_parens.\
-                parseString(token)
-            #assert any(isinstance(section, pyparsing.ParseResults) for
-            #           section in parse_return)
-        except BaseException:
-            return False
+    def identify_reference_punctuation_pattern(self, token,
+                                               pattern, parens=False):
+        '''
+        Identify whether the pyparsing pattern passed to the function is found
+        in the token.
 
-        word = parse_return[0]
+        Args:
+            token: a string token
+            pattern: a pyparsing grammar pattern
+            parens: a boolean to flag whether the function should expect to
+                recognize a reference in parenthesis
 
-        if self.special_match(parse_return, parens=True):
-                end_offset = len(parse_return[-1]) * -1
-                reference = token[len(word):end_offset]
-        else:
-            reference = token[len(word):]
-
-        output.append(word)
-        self.logger.info('Removing references %s from token %s' %
-                         (reference, token))
-
-        if self.reference_token:
-                output.append("REF_" + reference)
-
-        if self.special_match(parse_return, parens=True):
-                output[-1] = output[-1] + parse_return[-1]
-
-        if parse_return[1] in ['.', '!', ',', '?', ':', ';']:
-                output.append(parse_return[1])
-
-        return output
-
-    def identify_reference_punctuation_pattern(self, token, pattern):
+        Return:
+             Output: a list of string tokens
+        '''
         output = []
         parse_return = \
             pattern.searchString(token)
@@ -169,7 +161,13 @@ class separate_reference:
             substring = ''.join(parse_return[0][1:])
             index = token.find(substring)
             word = token[:index]
-            reference = token[index:]
+
+            if self.end_parens_match(parse_return[0], parens=True):
+                end_offset = len(parse_return[0][-1]) * -1
+                reference = token[len(word):end_offset]
+            else:
+                reference = token[len(word):]
+
             output.append(word)
             self.logger.info('Removing references %s from token %s' %
                              (reference, token))
@@ -181,14 +179,33 @@ class separate_reference:
             if substring[0] in ['.', '!', ',', '?', ':', ';']:
                 output.append(substring[0])
 
-            if self.special_match(parse_return[0]):
+            if self.end_parens_match(parse_return[0], parens=parens):
                 output[-1] = output[-1] + parse_return[0][-1]
         else:
             output = False
 
         return output
 
-    def special_match(self, list, search=re.compile(r'[^)}\]]').search,parens=False):
+    def end_parens_match(self, list, search=re.compile(r'[^)}\]]').search,
+                         parens=False):
+        '''
+        Check if the token ends in parenthesis, and thus needs to avoid
+        removing them as part of the reference.
+
+        Args:
+            list: a list of string subtokens, parsed from the given grammar
+            search: pattern to recognize. Defaults to ending parenthesis
+            parens: boolean to flag whether the passed grammar is for
+                references with parenthesis in them.
+
+        Return:
+            a boolean
+        '''
+        # special case when parsing with the parenthetical content grammar.
+        # We check to see if a token ends with a parenthesis to see if we need
+        # to append one to the cleaned token. However, we do not want to do
+        # this if the token ends with a parenthesis that holds a nested
+        # reference
         if parens:
             LP_Paran = sum(1 for a in list if a == '(')
             RP_Paran = sum(1 for a in list if a == ')')
