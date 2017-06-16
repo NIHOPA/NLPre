@@ -10,6 +10,7 @@ from .unidecoder import unidecoder
 from .titlecaps import titlecaps
 from .replace_acronyms import replace_acronyms
 from .identify_parenthetical_phrases import identify_parenthetical_phrases
+from .separate_reference import separate_reference
 
 __all__ = [
     'separated_parenthesis',
@@ -22,6 +23,7 @@ __all__ = [
     'identify_parenthetical_phrases',
     'unidecoder',
     'replace_acronyms',
+    'separate_reference',
     '__version__',
 ]
 

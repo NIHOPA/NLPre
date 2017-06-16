@@ -2,6 +2,7 @@ from nose.tools import assert_equal
 from nlpre import identify_parenthetical_phrases
 from nlpre.replace_acronyms import replace_acronyms
 
+
 class Parens_Replace_Test():
 
     @classmethod

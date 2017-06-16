@@ -21,7 +21,7 @@ def push():
     local("git push")
 
 def clean():
-    local('rm -rvf .coverage cover/ .tox *.egg-info/')
+    local('rm -rvf .coverage cover/ .tox *.egg-info/ docs/ dist/')
     for tag in ["*.pyc", "*~",]:
         local("find . -name '%s' | xargs -I {} rm -v {}"%(tag))
 
