@@ -24,14 +24,15 @@ class parenthesis_nester(object):
         self.grammar = g
 
     def __call__(self, line):
+        '''
+        Args:
+            line: a string
+        Returns:
+             tokens: a parsed object
+        '''
+
         try:
             tokens = self.grammar.parseString(line)
         except BaseException:
             return []
         return tokens
-    '''
-    Args:
-        line: a string
-    Returns:
-        tokens: a parsed object
-    '''

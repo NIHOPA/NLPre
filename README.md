@@ -20,7 +20,7 @@ For the latest release, use
 
 For the development version, use
 
-    pip install git+git://github.com/NIHOPA/NLPre.git
+    pip install git+git://github.com/NIHOPA/NLPre.git -U
 
 ### Example
 

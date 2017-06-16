@@ -4,13 +4,15 @@ from nlpre.replace_acronyms import replace_acronyms
 
 
 class Parens_Replace_Test():
-    def __init__(self):
-        self.phrases = identify_parenthetical_phrases()
+
+    @classmethod
+    def setup_class(cls):
+        cls.parser = identify_parenthetical_phrases()
 
     def acronym_in_same_doc_test(self):
         doc = "The Environmental Protection Agency (EPA) was created by " \
               "Nixon. The EPA helps the environment"
-        counter = self.phrases(doc)
+        counter = self.parser(doc)
 
         replacer = replace_acronyms(counter, underscore=False)
         doc_new = replacer(doc, counter)
@@ -23,7 +25,7 @@ class Parens_Replace_Test():
     def counter_must_be_infered_test(self):
         doc = "The Environmental Protection Agency (EPA) was created by " \
               "Nixon. The EPA helps the environment"
-        counter = self.phrases(doc)
+        counter = self.parser(doc)
 
         replacer = replace_acronyms(counter, underscore=False)
         doc_new = replacer(doc)
@@ -36,7 +38,7 @@ class Parens_Replace_Test():
     def acronym_in_same_doc_underscore_test(self):
         doc = "The Environmental Protection Agency (EPA) was created by " \
               "Nixon. The EPA helps the environment"
-        counter = self.phrases(doc)
+        counter = self.parser(doc)
 
         replacer = replace_acronyms(counter)
         doc_new = replacer(doc, counter)
@@ -50,7 +52,7 @@ class Parens_Replace_Test():
     def acronym_in_same_doc_additional_words_test(self):
         doc = 'I love the Americans with Disabilities Act (ADA). The ADA ' \
               'saved my life'
-        counter = self.phrases(doc)
+        counter = self.parser(doc)
 
         replacer = replace_acronyms(counter, underscore=False)
         doc_new = replacer(doc, counter)
@@ -66,7 +68,7 @@ class Parens_Replace_Test():
                " organization (GO) of Health and Human Services (HHS). While" \
                " the EPA and HHS are both a GO, they are different agencies"
 
-        counter = self.phrases(doc)
+        counter = self.parser(doc)
 
         replacer = replace_acronyms(counter,underscore=False)
         doc_new = replacer(doc, counter)
@@ -86,8 +88,8 @@ class Parens_Replace_Test():
         doc2 = 'The EPA helps the environment'
 
         doc_right = 'The Environmental Protection Agency helps the environment'
-        counter = self.phrases(doc1)
-        doc_counter = self.phrases(doc2)
+        counter = self.parser(doc1)
+        doc_counter = self.parser(doc2)
 
         replacer = replace_acronyms(counter, underscore=False)
         doc_new = replacer(doc2, doc_counter)
@@ -96,7 +98,7 @@ class Parens_Replace_Test():
     def almost_acronym_but_lowercase_test(self):
         doc = "The Environmental Protection Agency (EPA) was created by " \
               "Nixon. The epa helps the environment"
-        counter = self.phrases(doc)
+        counter = self.parser(doc)
 
         replacer = replace_acronyms(counter, underscore=False)
         doc_new = replacer(doc, counter)
@@ -116,8 +118,8 @@ class Parens_Replace_Test():
 
         doc_right = 'The Environmental Protection Agency helps the environment'
 
-        counter = self.phrases(doc1)
-        doc_counter = self.phrases(doc2)
+        counter = self.parser(doc1)
+        doc_counter = self.parser(doc2)
 
         replacer = replace_acronyms(counter, underscore=False)
         doc_new = replacer(doc2, doc_counter)
@@ -136,8 +138,8 @@ class Parens_Replace_Test():
                     'stopped Sauromon .\nThe Ent Protection Agency helps ' \
                     'the environment'
 
-        counter = self.phrases(doc1)
-        doc_counter = self.phrases(doc2)
+        counter = self.parser(doc1)
+        doc_counter = self.parser(doc2)
 
         replacer = replace_acronyms(counter, underscore=False)
         doc_new = replacer(doc2, doc_counter)
@@ -151,11 +153,11 @@ class Parens_Replace_Test():
 
         doc_replace = 'The EPA helps the environment'
         doc_right = 'The Environmental Protection Agency helps the environment'
-        counter1 = self.phrases(doc1)
-        counter2 = self.phrases(doc2)
-        counter3 = self.phrases(doc3)
+        counter1 = self.parser(doc1)
+        counter2 = self.parser(doc2)
+        counter3 = self.parser(doc3)
 
-        doc_counter = self.phrases(doc_replace)
+        doc_counter = self.parser(doc_replace)
 
         big_counter = counter1 + counter2 + counter3
         replacer = replace_acronyms(big_counter, underscore=False)
@@ -170,11 +172,11 @@ class Parens_Replace_Test():
 
         doc_replace = 'The EPA helps the environment'
         doc_right = 'The Environmental_Protection_Agency helps the environment'
-        counter1 = self.phrases(doc1)
-        counter2 = self.phrases(doc2)
-        counter3 = self.phrases(doc3)
+        counter1 = self.parser(doc1)
+        counter2 = self.parser(doc2)
+        counter3 = self.parser(doc3)
 
-        doc_counter = self.phrases(doc_replace)
+        doc_counter = self.parser(doc_replace)
 
         big_counter = counter1 + counter2 + counter3
         replacer = replace_acronyms(big_counter, underscore=True)
@@ -191,7 +193,7 @@ class Parens_Replace_Test():
                " organization \nGO \nHealth and Human Services \nHHS \nWhile" \
                " EPA HHS GO different agencies"
 
-        counter = self.phrases(doc_original)
+        counter = self.parser(doc_original)
 
         replacer = replace_acronyms(counter, preprocessed=True, underscore=False)
         doc_new = replacer(doc, counter)
@@ -208,7 +210,7 @@ class Parens_Replace_Test():
     def tokenize_phrase_test(self):
         doc = "The Environmental Protection Agency (EPA) was created by " \
               "Nixon. The EPA helps the environment"
-        counter = self.phrases(doc)
+        counter = self.parser(doc)
 
         replacer = replace_acronyms(counter, underscore=True)
         doc_new = replacer(doc)
@@ -222,7 +224,7 @@ class Parens_Replace_Test():
     def tokenize_phrase_prefix_test(self):
         doc = "The Environmental Protection Agency (EPA) was created by " \
               "Nixon. The EPA helps the environment"
-        counter = self.phrases(doc)
+        counter = self.parser(doc)
 
         replacer = replace_acronyms(counter, prefix='ABBR', underscore=True)
         doc_new = replacer(doc)
@@ -236,7 +238,7 @@ class Parens_Replace_Test():
     def dash_test(self):
         doc = 'Im not saying its a great non-Hodgkins lymphoma (NHL). Its a ' \
               'good Hodgkins'
-        counter = self.phrases(doc)
+        counter = self.parser(doc)
         replacer = replace_acronyms(counter, prefix='ABBR', underscore=True)
         doc_new = replacer(doc)
 
@@ -249,7 +251,7 @@ class Parens_Replace_Test():
         # This test currently fails as siRNA isn't parsed correctly.
         
         doc = 'Small interfering RNA (siRNA) mediated depletion of EZH2.'
-        counter = self.phrases(doc)
+        counter = self.parser(doc)
         replacer = replace_acronyms(counter, prefix='ABBR', underscore=True)
         doc_new = replacer(doc)
 

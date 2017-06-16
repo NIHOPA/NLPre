@@ -4,8 +4,9 @@ from nlpre import separated_parenthesis
 
 class Separated_Parenthesis_Tests():
 
-    def __init__(self):
-        self.parser = separated_parenthesis()
+    @classmethod
+    def setup_class(cls):
+        cls.parser = separated_parenthesis()
 
     def single_parenthesis_pair_test(self):
         doc = 'hello (hello world1) world2.'
@@ -119,6 +120,20 @@ class Separated_Parenthesis_Tests():
         doc_new = self.parser(doc)
 
         assert_equals(doc_right, doc_new)
+
+    def clipped_sentences_test(self):
+        doc = "Sunday (the best day) is a day of the week."
+
+        parser1 = separated_parenthesis(min_keep_length=None)
+        parser2 = separated_parenthesis(min_keep_length=2)
+        parser3 = separated_parenthesis(min_keep_length=5)
+
+        doc2 = 'Sunday is a day of the week .\nthe best day .'
+        doc3 = 'Sunday is a day of the week .'
+        
+        assert_equals(parser1(doc), doc2)
+        assert_equals(parser2(doc), doc2)
+        assert_equals(parser3(doc), doc3)
 
     def mixed_parens_with_punctuation_test(self):
         doc = 'Superoxide anion (A[B?]).'
