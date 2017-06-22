@@ -9,6 +9,7 @@ class reference_patterns:
         punctuation_no_dash = Word('.!?:,;')
         punctuation_reference_letter = Word('.:,;-')
 
+        printable = Word(pyparsing.printables, exact=1)
         letter = Word(pyparsing.alphas, exact=1)
         letter_reference = punctuation_reference_letter + letter
 
@@ -26,6 +27,7 @@ class reference_patterns:
         )
 
         self.single_number_parens = (
+            printable +
             letter +
             Optional(punctuation_no_dash) +
             pyparsing.OneOrMore(
@@ -37,6 +39,7 @@ class reference_patterns:
         )
 
         self.number_then_punctuation = (
+            printable +
             letter +
             nums +
             punctuation +
@@ -45,6 +48,7 @@ class reference_patterns:
         )
 
         self.punctuation_then_number = (
+            printable +
             letter +
             punctuation_no_dash +
             nums +
