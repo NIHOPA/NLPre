@@ -51,3 +51,9 @@ class Unidecoder_Test:
         doc_right = u"Learned everything I know at LINK."
         doc_new = self.parser_with_prefix(doc)
         assert_equal(doc_right, doc_new)
+
+    def www_markdown_test_test(self):
+        doc = u"The source code is [here](www.github.com/NIHOPA/NLPre/)."
+        doc_right = u"The source code is [here](LINK)."
+        doc_new = self.parser_with_prefix(doc)
+        assert_equal(doc_right, doc_new)

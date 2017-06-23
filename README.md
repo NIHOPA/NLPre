@@ -69,6 +69,7 @@ nlpre.logger.setLevel(logging.INFO)
 | [**titlecaps**](nlpre/titlecaps.py) | Documents sometimes have sentences that are entirely in uppercase (commonly found in titles and abstracts of older documents). This parser identifies sentences where every word is uppercase, and returns the document with these sentences converted to lowercase. <br> `ON THE STRUCTURE OF WATER.` <br> `On the structure of water .` |
 | [**token_replacement**](nlpre/token_replacement.py) | Simple token replacement. <br> `Observed > 20%` <br> `Observed greater-than 20 percent` |
 | [**separate_reference**](nlpre/separate_reference.py) | Separates and optionally removes references that have been concatenated onto words. <br> `Key feature of interleukin-1 in Drosophila3-5 and elegans(7).`<br>`Key feature of interleukin-1 in Drosophila and elegans .` |
+| [**url_replacement**](nlpre/url_replacement.py) | Removes or replaces URLs <br> `The source code is [here](www.github.com/NIHOPA/NLPre/).`<br>`The source code is [here](LINK).` |
 
 ### Parallel processing
 
