@@ -130,7 +130,7 @@ class Separated_Parenthesis_Tests():
 
         doc2 = 'Sunday is a day of the week .\nthe best day .'
         doc3 = 'Sunday is a day of the week .'
-        
+
         assert_equals(parser1(doc), doc2)
         assert_equals(parser2(doc), doc2)
         assert_equals(parser3(doc), doc3)
@@ -157,14 +157,14 @@ class Separated_Parenthesis_Tests():
 
         assert_equals(doc_right, doc_new)
 
-    #def mixed_types_period_test(self):
+    # def mixed_types_period_test(self):
     #    doc = 'hello world. (It {is a} beautiful day.) Goodbye world.'
     #    doc_right = 'hello world .\nIt  beautiful day .\nis a .\nGoodbye world .'
     #    doc_new = self.parser(doc)
 
     #    assert_equals(doc_right, doc_new)
 
-    #def mixed_types_no_period_test(self):
+    # def mixed_types_no_period_test(self):
     #    doc = 'hello world (It {is a} beautiful day) goodbye world.'
     #    doc_right = 'hello world goodbye world .\nIt beautiful day .\nis a .'
     #    doc_new = self.parser(doc)
@@ -180,7 +180,7 @@ class Separated_Parenthesis_Tests():
 
     # Code doesn't account for multiple sentences within a parenthesis
     # I'm not sure when this case will be encountered, unless we're parsing DFW novels
-    #def multisentence_paranthesis_test(self):
+    # def multisentence_paranthesis_test(self):
     #    doc = 'hello (hello world1. Goodnight moon) world2.'
     #    doc_right = 'hello world2 .\nhello world1 .\nGoodnight moon'
     #    doc_new = self.parser(doc)

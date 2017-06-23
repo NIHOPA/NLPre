@@ -1,13 +1,14 @@
 from nose.tools import *
 from nlpre.separate_reference import separate_reference
 
+
 class References_Test:
-    
+
     @classmethod
     def setup_class(cls):
         cls.parser = separate_reference()
         cls.parser_with_ref = separate_reference(reference_token=True)
-    
+
     def number_test(self):
         doc = "How is the treatment4 going. Pretty well"
         doc_right = "How is the treatment going . Pretty well"
@@ -77,7 +78,7 @@ class References_Test:
     def standard_word_in_reference_in_parenthesis_token_test(self):
         doc = 'key feature in Drosophila3-5 and trees(7).'
         doc_right = 'key feature in Drosophila REF_3-5 and trees REF_(7) .'
-        
+
         doc_new = self.parser_with_ref(doc)
 
         assert_equal(doc_right, doc_new)

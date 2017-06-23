@@ -3,7 +3,7 @@ from nlpre import pos_tokenizer
 
 
 class POS_Tokenizer_Test:
-    
+
     @classmethod
     def setup_class(cls):
 
@@ -81,36 +81,36 @@ class POS_Tokenizer_Test:
         doc = "I am Jack's complete lack of surprise"
         doc_right = "be jack complete lack of surprise"
         doc_new = pos_tokenizer(["pronoun"])(doc)
-        
+
         assert_equal(doc_right, doc_new.text)
 
     def cardinal_word_test(self):
         doc = "There are two phases."
         doc_right = "There be phase ."
         doc_new = pos_tokenizer(["cardinal"])(doc)
-        
+
         assert_equal(doc_right, doc_new.text)
 
     def w_word_test(self):
         doc = "Transcriptions that are observed."
         doc_right = "Transcription be observe ."
         doc_new = pos_tokenizer(["w_word"])(doc)
-        
+
         assert_equal(doc_right, doc_new.text)
 
     def quoted_word_test(self):
         doc = '''We find the answer is "not quite".'''
         doc_right = "We find the answer be not quite ."
         doc_new = pos_tokenizer(["quote"])(doc)
-        
+
         assert_equal(doc_right, doc_new.text)
 
     def symbol_test(self):
         doc = '''I am #1.'''
         doc_right = "I be 1 ."
         doc_new = pos_tokenizer(["symbol"])(doc)
-        
-        assert_equal(doc_right, doc_new.text)    
+
+        assert_equal(doc_right, doc_new.text)
 
     # def unknown_word_test(self):
     #    doc = 'The boy akjf45!naf the ball into the yard'

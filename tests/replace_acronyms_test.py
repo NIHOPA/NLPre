@@ -65,12 +65,12 @@ class Parens_Replace_Test():
 
     def multiple_acronyms_same_doc_test(self):
         doc = "The Environmental Protection Agency (EPA) is not a government" \
-               " organization (GO) of Health and Human Services (HHS). While" \
+            " organization (GO) of Health and Human Services (HHS). While" \
                " the EPA and HHS are both a GO, they are different agencies"
 
         counter = self.parser(doc)
 
-        replacer = replace_acronyms(counter,underscore=False)
+        replacer = replace_acronyms(counter, underscore=False)
         doc_new = replacer(doc, counter)
 
         doc_right = ("The Environmental Protection Agency ( Environmental "
@@ -185,17 +185,19 @@ class Parens_Replace_Test():
 
     def preprocess_test(self):
         doc_original = "Environmental Protection Agency (EPA). government" \
-               " organization (GO). Health and Human Services (HHS). While" \
+            " organization (GO). Health and Human Services (HHS). While" \
                " EPA HHS GO different agencies"
-
 
         doc = "Environmental Protection Agency \nEPA \ngovernment" \
-               " organization \nGO \nHealth and Human Services \nHHS \nWhile" \
-               " EPA HHS GO different agencies"
+            " organization \nGO \nHealth and Human Services \nHHS \nWhile" \
+            " EPA HHS GO different agencies"
 
         counter = self.parser(doc_original)
 
-        replacer = replace_acronyms(counter, preprocessed=True, underscore=False)
+        replacer = replace_acronyms(
+            counter,
+            preprocessed=True,
+            underscore=False)
         doc_new = replacer(doc, counter)
 
         doc_right = ("Environmental Protection Agency\nEnvironmental "
@@ -219,7 +221,6 @@ class Parens_Replace_Test():
                     "The Environmental_Protection_Agency helps the environment"
 
         assert_equal(doc_right, doc_new)
-
 
     def tokenize_phrase_prefix_test(self):
         doc = "The Environmental Protection Agency (EPA) was created by " \
@@ -246,10 +247,10 @@ class Parens_Replace_Test():
                     '( ABBR_non_Hodgkins_lymphoma ) .\nIts a good Hodgkins'
 
         assert_equal(doc_right, doc_new)
-    
+
     def lowercase_first_letter_match_test(self):
         # This test currently fails as siRNA isn't parsed correctly.
-        
+
         doc = 'Small interfering RNA (siRNA) mediated depletion of EZH2.'
         counter = self.parser(doc)
         replacer = replace_acronyms(counter, prefix='ABBR', underscore=True)
@@ -257,7 +258,6 @@ class Parens_Replace_Test():
 
         # doc_right = 'ABBR_siRNA ( ABBR_siRNA ) mediated depletion of EZH2 .'
         # assert_equal(doc_new, doc_right)
-
 
     def parsing_parenthesis_test(self):
         doc = 'BEACH (beige and Chediak Higashi) domain containing proteins (BDCPs) ' \
@@ -272,5 +272,3 @@ class Parens_Replace_Test():
         assert_equal(doc_new, doc_right)
 
         print
-
-
