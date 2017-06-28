@@ -273,3 +273,11 @@ class References_Test:
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)
+
+    def single_letter_false_positive_test(self):
+        doc = 'In section A.3 we see that apple\'s are healthy'
+        doc_right = 'In section A.3 we see that apple \'s are healthy'
+        doc_new = self.parser(doc)
+
+        assert_equal(doc_right, doc_new)
+

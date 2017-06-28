@@ -158,7 +158,7 @@ class separate_reference:
         parse_return = \
             pattern.searchString(token)
         if parse_return:
-            substring = ''.join(parse_return[0][1:])
+            substring = ''.join(parse_return[0][2:])
             index = token.find(substring)
             word = token[:index]
 
