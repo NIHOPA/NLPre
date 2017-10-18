@@ -9,6 +9,8 @@ class Parens_Replace_Test():
     def setup_class(cls):
         cls.parser = identify_parenthetical_phrases()
 
+    '''
+
     def acronym_in_same_doc_test(self):
         doc = "The Environmental Protection Agency (EPA) was created by " \
               "Nixon. The EPA helps the environment"
@@ -271,4 +273,23 @@ class Parens_Replace_Test():
 
         assert_equal(doc_new, doc_right)
 
-        print
+    '''
+
+    def parsing_misidentifed_test(self):
+        doc = "The etiology of osteoarthritis (OA) is at present unknown. " \
+              "Primary OA utilizing the over 35 families."
+
+        doc_right = doc
+        
+        counter = self.parser(doc)
+
+        ABBR = {(('ocean', 'acidification',), 'OA'): 1}
+        replacer = replace_acronyms(ABBR)
+        #replacer = replace_acronyms(counter, prefix='ABBR', underscore=True)
+
+        doc_new = replacer(doc)
+        
+        print doc
+        print doc_new
+
+        assert_equal(doc_new, doc_right)
