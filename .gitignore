@@ -13,4 +13,5 @@ nlpre.egg*
 .coverage
 coverage.xml
 cover/
+dist/
 *.bak
