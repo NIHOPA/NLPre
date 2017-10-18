@@ -9,8 +9,6 @@ class Parens_Replace_Test():
     def setup_class(cls):
         cls.parser = identify_parenthetical_phrases()
 
-    '''
-
     def acronym_in_same_doc_test(self):
         doc = "The Environmental Protection Agency (EPA) was created by " \
               "Nixon. The EPA helps the environment"
@@ -37,7 +35,7 @@ class Parens_Replace_Test():
 
         assert_equal(doc_right, doc_new)
 
-    def acronym_in_same_doc_underscore_test(self):
+    def acronym_in_same_doc_underscore_default_test(self):
         doc = "The Environmental Protection Agency (EPA) was created by " \
               "Nixon. The EPA helps the environment"
         counter = self.parser(doc)
@@ -85,18 +83,6 @@ class Parens_Replace_Test():
 
         assert_equal(doc_new, doc_right)
 
-    def different_docs_test(self):
-        doc1 = 'The Environmental Protection Agency (EPA) was created by Nixon'
-        doc2 = 'The EPA helps the environment'
-
-        doc_right = 'The Environmental Protection Agency helps the environment'
-        counter = self.parser(doc1)
-        doc_counter = self.parser(doc2)
-
-        replacer = replace_acronyms(counter, underscore=False)
-        doc_new = replacer(doc2, doc_counter)
-        assert_equal(doc_new, doc_right)
-
     def almost_acronym_but_lowercase_test(self):
         doc = "The Environmental Protection Agency (EPA) was created by " \
               "Nixon. The epa helps the environment"
@@ -110,27 +96,10 @@ class Parens_Replace_Test():
 
         assert_equal(doc_right, doc_new)
 
-    def duplicate_acronyms_test(self):
-        doc1 = 'The Environmental Protection Agency (EPA) was created ' \
-               'by Nixon. The Environmental Protection Agency (EPA) loves ' \
-               'the tress. The less well known Elephant Protection Agency ' \
-               '(EPA) does important work as well.'
-
-        doc2 = 'The EPA helps the environment'
-
-        doc_right = 'The Environmental Protection Agency helps the environment'
-
-        counter = self.parser(doc1)
-        doc_counter = self.parser(doc2)
-
-        replacer = replace_acronyms(counter, underscore=False)
-        doc_new = replacer(doc2, doc_counter)
-        assert_equal(doc_new, doc_right)
-
     def duplicate_acronyms_included_test(self):
         doc1 = 'The Environmental Protection Agency (EPA) was created ' \
                'by Nixon. The Environmental Protection Agency (EPA) loves ' \
-               'the tress. The less well known Elephant Protection Agency ' \
+               'the trees. The less well known Elephant Protection Agency ' \
                '(EPA) does important work as well.'
 
         doc2 = 'The Ent Protection Agency (EPA) stopped Sauromon. ' \
@@ -147,44 +116,7 @@ class Parens_Replace_Test():
         doc_new = replacer(doc2, doc_counter)
         assert_equal(doc_new, doc_right)
 
-    def count_multiple_docs_test(self):
-        doc1 = "The Environmental Protection Agency (EPA) was created by Nixon"
-        doc2 = 'The Environmental Protection Agency (EPA) loves the tress. '
-        doc3 = 'The less well known Elephant Protection Agency (EPA) does ' \
-               'important work as well.'
-
-        doc_replace = 'The EPA helps the environment'
-        doc_right = 'The Environmental Protection Agency helps the environment'
-        counter1 = self.parser(doc1)
-        counter2 = self.parser(doc2)
-        counter3 = self.parser(doc3)
-
-        doc_counter = self.parser(doc_replace)
-
-        big_counter = counter1 + counter2 + counter3
-        replacer = replace_acronyms(big_counter, underscore=False)
-        doc_new = replacer(doc_replace, doc_counter)
-        assert_equal(doc_new, doc_right)
-
-    def underscore_test(self):
-        doc1 = "The Environmental Protection Agency (EPA) was created by Nixon"
-        doc2 = 'The Environmental Protection Agency (EPA) loves the tress. '
-        doc3 = 'The less well known Elephant Protection Agency (EPA) does ' \
-               'important work as well.'
-
-        doc_replace = 'The EPA helps the environment'
-        doc_right = 'The Environmental_Protection_Agency helps the environment'
-        counter1 = self.parser(doc1)
-        counter2 = self.parser(doc2)
-        counter3 = self.parser(doc3)
-
-        doc_counter = self.parser(doc_replace)
-
-        big_counter = counter1 + counter2 + counter3
-        replacer = replace_acronyms(big_counter, underscore=True)
-        doc_new = replacer(doc_replace, doc_counter)
-        assert_equal(doc_new, doc_right)
-
+    
     def preprocess_test(self):
         doc_original = "Environmental Protection Agency (EPA). government" \
             " organization (GO). Health and Human Services (HHS). While" \
@@ -250,6 +182,7 @@ class Parens_Replace_Test():
 
         assert_equal(doc_right, doc_new)
 
+    
     def lowercase_first_letter_match_test(self):
         # This test currently fails as siRNA isn't parsed correctly.
 
@@ -269,27 +202,89 @@ class Parens_Replace_Test():
         doc_new = P1(doc)
 
         doc_right = 'BEACH ( beige and Chediak Higashi ) domain containing proteins ' \
-                    '( BEACH_domain_containing_proteins ) are a highly conserved protein family in eukaryotes .'
+                    '( BEACH_domain_containing_proteins ) are a highly conserved '\
+                    'protein family in eukaryotes .'
 
         assert_equal(doc_new, doc_right)
 
-    '''
+    ###########################################################################
+        
+    def use_most_common_test(self):
+        doc1 = 'The Environmental Protection Agency (EPA) was created by Nixon'
+        doc2 = 'The EPA helps the environment'
 
+        doc_right = 'The Environmental_Protection_Agency helps the environment'
+        counter = self.parser(doc1)
+        doc_counter = self.parser(doc2)
+
+        replacer = replace_acronyms(counter, use_most_common=True)
+        doc_new = replacer(doc2, doc_counter)
+        assert_equal(doc_new, doc_right)
+
+    def ignore_most_common_test(self):
+        doc1 = 'The Environmental Protection Agency (EPA) was created by Nixon'
+        doc2 = 'The EPA helps the environment'
+
+        doc_right = 'The EPA helps the environment'
+        counter = self.parser(doc1)
+        doc_counter = self.parser(doc2)
+
+        replacer = replace_acronyms(counter, use_most_common=False)
+        doc_new = replacer(doc2, doc_counter)
+        assert_equal(doc_new, doc_right)
+
+    
+    def duplicate_acronyms_test(self):
+        doc1 = 'The Environmental Protection Agency (EPA) was created ' \
+               'by Nixon. The Environmental Protection Agency (EPA) loves ' \
+               'the tress. The less well known Elephant Protection Agency, called ' \
+               ' the EPA, does important work as well.'
+
+        doc2 = 'The EPA helps the environment'
+        doc_right = 'The Environmental_Protection_Agency helps the environment'
+
+        counter = self.parser(doc1)
+        doc_counter = self.parser(doc2)
+
+        replacer = replace_acronyms(counter, use_most_common=True)
+        doc_new = replacer(doc2, doc_counter)
+        assert_equal(doc_new, doc_right)
+
+    def count_multiple_docs_test(self):
+        doc1 = "The Environmental Protection Agency (EPA) was created by Nixon"
+        doc2 = 'The Environmental Protection Agency (EPA) loves the tress. '
+        doc3 = 'The less well known Elephant Protection Agency (EPA) does ' \
+               'important work as well.'
+
+        doc_replace = 'The EPA helps the environment'
+        doc_right = 'The Environmental_Protection_Agency helps the environment'
+        counter1 = self.parser(doc1)
+        counter2 = self.parser(doc2)
+        counter3 = self.parser(doc3)
+
+        doc_counter = self.parser(doc_replace)
+
+        big_counter = counter1 + counter2 + counter3
+        replacer = replace_acronyms(big_counter, use_most_common=True)
+        doc_new = replacer(doc_replace, doc_counter)
+        assert_equal(doc_new, doc_right)
+        
     def parsing_misidentifed_test(self):
-        doc = "The etiology of osteoarthritis (OA) is at present unknown. " \
+        # We don't replace a common phrase in the ABBR set since
+        # use_most_common=False by default.
+        
+        doc = "The etiology of osteoarthritis (OA) is at present unknown. "\
               "Primary OA utilizing the over 35 families."
 
-        doc_right = doc
-        
+        doc_right = "The etiology of osteoarthritis ( OA ) is at present unknown .\n"\
+              "Primary OA utilizing the over 35 families ."
+
         counter = self.parser(doc)
 
         ABBR = {(('ocean', 'acidification',), 'OA'): 1}
         replacer = replace_acronyms(ABBR)
-        #replacer = replace_acronyms(counter, prefix='ABBR', underscore=True)
-
-        doc_new = replacer(doc)
         
-        print doc
-        print doc_new
+        doc_new = replacer(doc)
 
         assert_equal(doc_new, doc_right)
+

@@ -36,7 +36,9 @@ class replace_acronyms(object):
             counter,
             prefix=None,
             underscore=True,
-            preprocessed=False):
+            preprocessed=False,
+            use_most_common=False,
+    ):
         '''
         Initialize the parser, the acronym dictionary, and flags
 
@@ -47,6 +49,9 @@ class replace_acronyms(object):
                         as a single underscored token
             preprocessed: A boolean to indicate if input text is raw,
                           or has been processed by other NLPre modules
+            use_most_common: A boolean to indicate if the phrase is replaced
+                          by the most common one, regardless if it is found
+                          within the current document
         '''
         self.logger = logging.getLogger(__name__)
 
@@ -54,6 +59,7 @@ class replace_acronyms(object):
         self.prefix = prefix
         self.underscore = underscore
         self.preprocessed = preprocessed
+        self.use_most_common = use_most_common
         self.IPP = IPP.identify_parenthetical_phrases()
 
         self.parse = lambda x: pattern.en.tokenize(x)
@@ -214,17 +220,26 @@ class replace_acronyms(object):
             while index < len(tokens) - 1:
                 index += 1
                 token = tokens[index]
+
                 if self.check_acronym(token):
+
                     # check if acronym is used within document
                     highest_phrase = self.check_self_counter(
                         token, doc_counter)
+
+                    # If not found, replace with the original token
+                    if not highest_phrase and not self.use_most_common:
+                        new_sentence.append(token)
+                        continue
 
                     if not highest_phrase:
                         acronym_counts = self.acronym_dict[token]
                         highest_phrase = list(
                             acronym_counts.most_common(1)[0][0])
+
                     if self.underscore and self.prefix:
                         highest_phrase.insert(0, self.prefix)
+
                     if self.underscore:
                         highest_phrase = '_'.join(highest_phrase)
                         self.logger.info(
@@ -247,6 +262,7 @@ class replace_acronyms(object):
                 # force phrase tokens to lowercase
                 tokenized_phrase = self.check_phrase(
                     token, index, tokens, doc_counter)
+
                 if tokenized_phrase:
                     phrase = tokenized_phrase[0]
                     if self.prefix:
