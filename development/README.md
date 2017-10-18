@@ -1,4 +1,4 @@
-# Current speed test
+## Current speed test
 
 + `unidecoder                      0.000010  0.000029`
 + `token_replacement               0.000011  0.000033`
@@ -10,3 +10,12 @@
 + `separated_parenthesis           0.013204  0.040272`
 + `pos_tokenizer                   0.106283  0.324155`
 + `replace_from_dictionary         0.177366  0.540952`
+
+
+## Development notes
+
++ Update the version number in `nlpre/_version.py`
++ Draft a release in github
++ Update the new tarbar location in `setup.py`
++ Push the release to pypi test `pip install -i https://testpypi.python.org/pypi nlpre`
++ Push the release to pypi live `pip install -i https://pypi.python.org/pypi nlpre`
