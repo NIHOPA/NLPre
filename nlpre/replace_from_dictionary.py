@@ -1,3 +1,4 @@
+import numpy as np
 import itertools
 import collections
 import re
@@ -46,7 +47,7 @@ class replace_from_dictionary(object):
             raise IOError()
 
         self.rdict = {}
-        self.re_patterns = collections.defaultdict(list)
+        self.re_patterns = []
 
         with open(f_dict) as FIN:
             csvfile = csv.DictReader(FIN)
@@ -54,9 +55,26 @@ class replace_from_dictionary(object):
                 term = row["term"].lower()
                 self.rdict[term] = '{}{}'.format(prefix, row["replacement"])
 
-                tokens = tuple([x for x in re.split(match_pattern, term) if x])
-                self.re_patterns[tokens].append(term)
+                tokens = set([x for x in re.split(match_pattern, term) if x])
+                self.re_patterns.append((term, tokens))
 
+
+    def _3grams(self, phrase):
+        g3 = set()
+        words = set(phrase.lower().split())  # MAYBE USE A SET HERE? TEST
+        
+        for word in words:
+
+            if len(word) <= 2:
+                g3.add(word)
+            
+            for i in range(len(word)-2):
+                g3.add(word[i:i+3])
+
+        return g3
+        
+
+        
     def __call__(self, text):
         '''
         Runs the parser.
@@ -69,22 +87,15 @@ class replace_from_dictionary(object):
 
         doc = text
         ldoc = doc.lower()
+
+        R = collections.defaultdict(list)
         tokens = set((re.split(match_pattern, ldoc)))
 
-        # Identify which phrases were used and possible replacements
-        R = collections.defaultdict(list)
-
-        for tokenized_key in self.re_patterns:
-
-            # Search if the subset of the words are in a unique sublist first
-            if all((word in tokens for word in tokenized_key)):
-                keys = self.re_patterns[tokenized_key]
-
-                # Now check all matching patterns
-                for key in keys:
-                    if key in ldoc:
-                        term = self.rdict[key]
-                        R[term].append(key)
+        for phrase, rkey in self.re_patterns:
+            if rkey.issubset(tokens):
+                if phrase in ldoc:
+                    term = self.rdict[phrase]
+                    R[term].append(phrase)
 
         # Remove replacements that are substrings of another
         # "5' exonuclease", vs "3' 5' exonuclease"
