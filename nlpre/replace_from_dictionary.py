@@ -1,4 +1,3 @@
-import numpy as np
 import itertools
 import collections
 import re
@@ -58,23 +57,6 @@ class replace_from_dictionary(object):
                 tokens = set([x for x in re.split(match_pattern, term) if x])
                 self.re_patterns.append((term, tokens))
 
-
-    def _3grams(self, phrase):
-        g3 = set()
-        words = set(phrase.lower().split())  # MAYBE USE A SET HERE? TEST
-        
-        for word in words:
-
-            if len(word) <= 2:
-                g3.add(word)
-            
-            for i in range(len(word)-2):
-                g3.add(word[i:i+3])
-
-        return g3
-        
-
-        
     def __call__(self, text):
         '''
         Runs the parser.
@@ -91,8 +73,11 @@ class replace_from_dictionary(object):
         R = collections.defaultdict(list)
         tokens = set((re.split(match_pattern, ldoc)))
 
+        # Test if the words are found in the subset (without regard to order)
         for phrase, rkey in self.re_patterns:
             if rkey.issubset(tokens):
+
+                # Now check if the phrase is in the text (with regard to order)
                 if phrase in ldoc:
                     term = self.rdict[phrase]
                     R[term].append(phrase)
