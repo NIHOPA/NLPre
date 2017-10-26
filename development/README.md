@@ -1,16 +1,16 @@
 ## Current speed test
 
-+ `unidecoder                      0.000010  0.000029`
-+ `token_replacement               0.000011  0.000033`
-+ `dedash                          0.000457  0.001394`
-+ `titlecaps                       0.003212  0.009798`
-+ `decaps_text                     0.003816  0.011638`
-+ `identify_parenthetical_phrases  0.010321  0.031478`
-+ `replace_acronyms                0.013197  0.040251`
-+ `separated_parenthesis           0.013204  0.040272`
-+ `pos_tokenizer                   0.106283  0.324155`
-+ `replace_from_dictionary         0.177366  0.540952`
-
+   function                        time(x50) fraction
+   token_replacement               0.000007  0.000082
+   unidecoder                      0.000008  0.000097
+   dedash                          0.000340  0.004072
+   titlecaps                       0.001735  0.020745
+   decaps_text                     0.002472  0.029570
+   replace_acronyms                0.006495  0.077685
+   identify_parenthetical_phrases  0.006601  0.078951
+   separated_parenthesis           0.006701  0.080145
+   replace_from_dictionary         0.025758  0.308071
+   pos_tokenizer                   0.033493  0.400582
 
 ## Development notes
 
