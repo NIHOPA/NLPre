@@ -112,6 +112,10 @@ class POS_Tokenizer_Test:
 
         assert_equal(doc_right, doc_new.text)
 
+    def unknown_POS_test(self):
+        # It's 'adjective' not 'adjectives'
+        assert_raises(ValueError, pos_tokenizer, ["adjectives"])
+
     # def unknown_word_test(self):
     #    doc = 'The boy akjf45!naf the ball into the yard'
     #    doc_right = 'boy akjfnaf ball yard'

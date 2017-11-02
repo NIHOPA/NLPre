@@ -75,6 +75,13 @@ class pos_tokenizer(object):
             "unknown": ["FW", ],
         }
 
+        # Verify all POS in the blacklist are known
+        for pos in POS_blacklist:
+            if pos not in POS:
+                msg = "POS '{}' unknown.\n".format(pos)
+                msg += "Known POS values = {}".format(POS.keys())
+                raise ValueError(msg)
+
         self.filtered_POS = POS_blacklist
         self.POS_map = {}
         for pos, L in POS.items():
