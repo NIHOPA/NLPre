@@ -1,4 +1,3 @@
-import itertools
 import collections
 import csv
 import os
@@ -47,12 +46,10 @@ class replace_from_dictionary(object):
         with open(f_dict) as FIN:
             csvfile = csv.DictReader(FIN)
             for row in csvfile:
-                #terms[row["term"]].append(row['replacement'])
                 terms[row["replacement"]].append(row['term'])
 
         self.FT = KeywordProcessor()
         self.FT.add_keywords_from_dict(terms)
-
 
     def __call__(self, doc):
         '''
@@ -63,13 +60,13 @@ class replace_from_dictionary(object):
         Returns:
             doc: a document string
         '''
-        
+
         keywords = self.FT.extract_keywords(doc, span_info=True)
 
         n = 0
         tokens = []
 
-        for word,i,j in keywords:
+        for word, i, j in keywords:
             if n < i:
                 tokens.append(doc[n:i])
             tokens.append(self.prefix+word)

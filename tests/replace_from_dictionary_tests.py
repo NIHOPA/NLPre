@@ -70,15 +70,15 @@ class Replace_From_Dictionary_Test:
         assert_equal(doc_right, doc_new)
 
     def dimethylethyl_test(self):
-        doc = '(11-Dimethylethyl)-4-methoxyphenol.'
-        doc_right = 'MeSH_Butylated_Hydroxyanisole .'
+        doc = '(11-Dimethylethyl)-4-methoxyphenol'
+        doc_right = 'MeSH_Butylated_Hydroxyanisole'
         doc_new = self.replace_MeSH(doc)
 
         assert_equal(doc_right, doc_new)
 
     def dimethylethyl_parens_test(self):
         doc = '((11-Dimethylethyl)-4-methoxyphenol).'
-        doc_right = '( MeSH_Butylated_Hydroxyanisole ).'
+        doc_right = '(MeSH_Butylated_Hydroxyanisole).'
         doc_new = self.replace_MeSH(doc)
 
         assert_equal(doc_right, doc_new)
@@ -92,7 +92,7 @@ class Replace_From_Dictionary_Test:
 
     def extra_paranthesis_test(self):
         doc = '(((2-Hexahydro-1(2H)-azocinyl)ethyl)guanidine) is tasty'
-        doc_right = '( MeSH_Guanethidine ) is tasty'
+        doc_right = '(MeSH_Guanethidine) is tasty'
         doc_new = self.replace_MeSH(doc)
 
         assert_equal(doc_right, doc_new)
