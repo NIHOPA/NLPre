@@ -1,16 +1,16 @@
 ## Current speed test
-
-    function                        time(x50) fraction
-    token_replacement               0.000007  0.000082
-    unidecoder                      0.000008  0.000097
-    dedash                          0.000340  0.004072
-    titlecaps                       0.001735  0.020745
-    decaps_text                     0.002472  0.029570
-    replace_acronyms                0.006495  0.077685
-    identify_parenthetical_phrases  0.006601  0.078951
-    separated_parenthesis           0.006701  0.080145
-    replace_from_dictionary         0.025758  0.308071
-    pos_tokenizer                   0.033493  0.400582
+ 
+    function                        time      frac
+    unidecoder                      0.000008  0.000122
+    token_replacement               0.000008  0.000125
+    dedash                          0.000369  0.005811
+    replace_from_dictionary         0.000442  0.006967
+    titlecaps                       0.001944  0.030632
+    decaps_text                     0.002502  0.039425
+    identify_parenthetical_phrases  0.005824  0.091770
+    replace_acronyms                0.006972  0.109849
+    separated_parenthesis           0.007339  0.115635
+    pos_tokenizer                   0.038059  0.599663
 
 ## Development notes
 

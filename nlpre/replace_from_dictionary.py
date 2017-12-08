@@ -1,13 +1,8 @@
-import itertools
 import collections
-import re
 import csv
 import os
 import logging
-
-
-pattern = r'''-, .?:;\'(){}\[\]%$#@!'<>'''
-match_pattern = re.compile("[%s]+" % re.escape(pattern))
+from flashtext import KeywordProcessor
 
 
 class replace_from_dictionary(object):
@@ -45,19 +40,18 @@ class replace_from_dictionary(object):
             self.logger.error(msg)
             raise IOError()
 
-        self.rdict = {}
-        self.re_patterns = []
+        self.prefix = prefix
+        terms = collections.defaultdict(list)
 
         with open(f_dict) as FIN:
             csvfile = csv.DictReader(FIN)
             for row in csvfile:
-                term = row["term"].lower()
-                self.rdict[term] = '{}{}'.format(prefix, row["replacement"])
+                terms[row["replacement"]].append(row['term'])
 
-                tokens = set([x for x in re.split(match_pattern, term) if x])
-                self.re_patterns.append((term, tokens))
+        self.FT = KeywordProcessor()
+        self.FT.add_keywords_from_dict(terms)
 
-    def __call__(self, text):
+    def __call__(self, doc):
         '''
         Runs the parser.
 
@@ -67,47 +61,15 @@ class replace_from_dictionary(object):
             doc: a document string
         '''
 
-        doc = text
-        ldoc = doc.lower()
+        keywords = self.FT.extract_keywords(doc, span_info=True)
 
-        R = collections.defaultdict(list)
-        tokens = set((re.split(match_pattern, ldoc)))
+        n = 0
+        tokens = []
 
-        # Test if the words are found in the subset (without regard to order)
-        for phrase, rkey in self.re_patterns:
-            if rkey.issubset(tokens):
-
-                # Now check if the phrase is in the text (with regard to order)
-                if phrase in ldoc:
-                    term = self.rdict[phrase]
-                    R[term].append(phrase)
-
-        # Remove replacements that are substrings of another
-        # "5' exonuclease", vs "3' 5' exonuclease"
-        all_replacements = [x for v in R.values() for x in v]
-        ignore_tokens = set()
-        for k1, k2 in itertools.combinations(all_replacements, r=2):
-            if len(k1) < len(k2) and k1 in k2:
-                ignore_tokens.add(k1)
-            elif len(k2) < len(k1) and k2 in k1:
-                ignore_tokens.add(k2)
-
-        # For each term, make replacements based off size order
-        for term, replacements in R.iteritems():
-            replacements = sorted(replacements, key=lambda x: -len(x))
-            for rval in replacements:
-                if rval in ignore_tokens:
-                    continue
-                pattern = re.compile(re.escape(rval), re.IGNORECASE)
-                doc = pattern.sub(' {} '.format(term), doc)
-                self.logger.info('Replacing term %s with %s' % (rval, term))
-
-        doc = ' '.join([x for x in doc.split(' ') if x])
-        return doc
-
-
-# if __name__ == "__main__":
-#    P = replace_from_dictionary('MeSH_two_word_lexicon.csv',
-#                                'nlpre/dictionaries')
-#    text = '((11-Dimethylethyl)-4-methoxyphenol).'
-#    print(P(text))
+        for word, i, j in keywords:
+            if n < i:
+                tokens.append(doc[n:i])
+            tokens.append(self.prefix+word)
+            n = j
+        tokens.append(doc[j:len(doc)])
+        return ''.join(tokens)
