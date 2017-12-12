@@ -71,5 +71,5 @@ class replace_from_dictionary(object):
                 tokens.append(doc[n:i])
             tokens.append(self.prefix+word)
             n = j
-        tokens.append(doc[j:len(doc)])
+        tokens.append(doc[n:len(doc)])
         return ''.join(tokens)
