@@ -90,13 +90,19 @@ with Parallel(-1) as MP:
     print MP(delayed(pipeline)(x) for x in docs)
 ```
 
+
+## Citations and Acknowledgments
+
+He, J., & Chen, C. (2018). [Predictive Effects of Novelty Measured by Temporal Embeddings on the Growth of Scientific Literature.](https://www.frontiersin.org/articles/10.3389/frma.2018.00009/full) Frontiers in Research Metrics and Analytics, 3, 9.
+
+## Contributors
+
++ [Travis Hoppe](https://github.com/thoppe)
++ [Harry Baker](https://github.com/HarryBaker)
+
 ## License
 
 This project is in the public domain within the United States, and
 copyright and related rights in the work worldwide are waived through
 the [CC0 1.0 Universal public domain dedication](https://creativecommons.org/publicdomain/zero/1.0/).
 
-## Contributors
-
-+ [Travis Hoppe](https://github.com/thoppe)
-+ [Harry Baker](https://github.com/HarryBaker)
