@@ -4,6 +4,7 @@ import collections
 import logging
 import six
 
+
 class replace_acronyms(object):
 
     """

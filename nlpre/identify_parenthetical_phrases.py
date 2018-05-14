@@ -5,6 +5,7 @@ import logging
 import string
 from six import string_types
 
+
 class identify_parenthetical_phrases(object):
 
     """
