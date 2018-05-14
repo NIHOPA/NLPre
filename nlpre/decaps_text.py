@@ -1,4 +1,4 @@
-from tokenizers import sentence_tokenizer
+from .tokenizers import sentence_tokenizer
 import logging
 
 

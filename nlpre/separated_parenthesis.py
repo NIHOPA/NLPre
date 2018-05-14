@@ -2,7 +2,7 @@ import pyparsing as pypar
 import pattern.en
 import six
 import logging
-from Grammars import parenthesis_nester
+from .Grammars import parenthesis_nester
 
 
 class separated_parenthesis(object):

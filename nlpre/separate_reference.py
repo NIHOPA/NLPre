@@ -1,6 +1,6 @@
 import pattern.en
 import os
-from Grammars import reference_patterns
+from .Grammars import reference_patterns
 import logging
 import re
 

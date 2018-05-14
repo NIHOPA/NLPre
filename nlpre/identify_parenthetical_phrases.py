@@ -1,6 +1,6 @@
 import collections
 import six
-from Grammars import parenthesis_nester
+from .Grammars import parenthesis_nester
 import logging
 import string
 

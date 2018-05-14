@@ -18,9 +18,9 @@ For the latest release, use
 
     pip install nlpre
 
-For the development version, use
+If installing the python 3 version on Ubuntu, you may need to use
 
-    pip install git+git://github.com/NIHOPA/NLPre.git -U
+    sudo apt-get install libmysqlclient-dev
 
 ### Example
 

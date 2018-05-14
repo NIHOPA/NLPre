@@ -1,5 +1,5 @@
 import pattern.en
-from tokenizers import meta_text
+from .tokenizers import meta_text
 import logging
 
 _POS_shorthand = {
