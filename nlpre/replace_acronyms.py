@@ -2,7 +2,7 @@ import pattern
 import nlpre.identify_parenthetical_phrases as IPP
 import collections
 import logging
-
+from six import string_types
 
 class replace_acronyms(object):
 
@@ -106,7 +106,7 @@ class replace_acronyms(object):
         '''
         Match = []
         for acronym_phrase in acronym_phrases:
-            if isinstance(word, basestring):
+            if isinstance(word, string_types):
                 wordlist = [word]
             else:
                 wordlist = list(word)

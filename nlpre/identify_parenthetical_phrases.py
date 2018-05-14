@@ -3,7 +3,7 @@ import six
 from .Grammars import parenthesis_nester
 import logging
 import string
-
+from six import string_types
 
 class identify_parenthetical_phrases(object):
 
@@ -98,7 +98,7 @@ class identify_parenthetical_phrases(object):
         #    return False
         subtokens = tokens[k - len(caps):k]
         subtoken_let = [let.upper()[0]
-                        for let in subtokens if isinstance(let, basestring)]
+                        for let in subtokens if isinstance(let, string_types)]
 
         '''
         If the subtokens don't provide a perfect match of the abbreviation,
@@ -126,7 +126,7 @@ class identify_parenthetical_phrases(object):
                 if x < 0 or x < cutoff:
                     return False
                 token = tokens[x]
-                if isinstance(token, basestring):
+                if isinstance(token, string_types):
                     subtokens.insert(0, token)
                     subtoken_let = [
                         let.upper()[0] for let in subtokens if
