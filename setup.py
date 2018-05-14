@@ -26,7 +26,7 @@ setuptools.setup(
 
     # The project's main homepage.
     url="https://github.com/NIHOPA/NLPre",
-    download_url='https://github.com/NIHOPA/NLPre/archive/v1.1.3.tar.gz',
+    download_url='https://github.com/NIHOPA/NLPre/archive/v1.2.0.tar.gz',
 
     # Author details
     author="Travis Hoppe",
@@ -62,6 +62,7 @@ setuptools.setup(
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.6',
     ],
 
     # What does your project relate to?

@@ -1,8 +1,9 @@
 import pattern.en
 import os
-from Grammars import reference_patterns
+from .Grammars import reference_patterns
 import logging
 import re
+from six import string_types
 
 __internal_wordlist = "dictionaries/english_wordlist.txt"
 __local_dir = os.path.dirname(os.path.abspath(__file__))
@@ -224,4 +225,4 @@ class separate_reference:
             if FLAG_valid:
                 return False
 
-        return isinstance(list[-1], basestring) and not bool(search(list[-1]))
+        return isinstance(list[-1], string_types) and not bool(search(list[-1]))

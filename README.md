@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/NIHOPA/NLPre.svg?branch=master)](https://travis-ci.org/NIHOPA/NLPre)
 [![codecov](https://codecov.io/gh/NIHOPA/NLPre/branch/master/graph/badge.svg)](https://codecov.io/gh/NIHOPA/NLPre)
 [![PyPI](https://img.shields.io/pypi/v/nlpre.svg)](https://pypi.python.org/pypi/nlpre)
-
+[![PyVersion](https://img.shields.io/pypi/pyversions/nlpre.svg)](https://img.shields.io/pypi/pyversions/nlpre.svg)
 
 NLPre is a text (pre)-processing library that helps smooth some of the inconsistencies found in real-world data.
 Correcting for issues like random capitalization patterns, strange hyphenations, and abbreviations are essential parts of wrangling textual data but are often left to the user.
@@ -18,9 +18,9 @@ For the latest release, use
 
     pip install nlpre
 
-For the development version, use
+If installing the python 3 version on Ubuntu, you may need to use
 
-    pip install git+git://github.com/NIHOPA/NLPre.git -U
+    sudo apt-get install libmysqlclient-dev
 
 ### Example
 
