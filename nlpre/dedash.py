@@ -56,7 +56,7 @@ class dedash(object):
                 tokens[i] = word
                 tokens[i + 1] = ''
 
-        doc = ' '.join(tokens)
+        doc = ' '.join((x for x in tokens if x))
         return doc
 
 

@@ -10,7 +10,7 @@ class Dedash_Test:
 
     def single_word_dash_test(self):
         doc = "How is the treat- ment going"
-        doc_right = "How is the treatment  going"
+        doc_right = "How is the treatment going"
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)
@@ -73,7 +73,7 @@ class Dedash_Test:
 
     def dash_capitalized_word_test(self):
         doc = "How is the Treat- ment going"
-        doc_right = "How is the Treatment  going"
+        doc_right = "How is the Treatment going"
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)

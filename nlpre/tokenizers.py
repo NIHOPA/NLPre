@@ -11,17 +11,15 @@ def split_tokenizer(func):
     return wrapper
 
 
-def sentence_tokenizer(raw):
+def sentence_tokenizer(
+        raw,
+        punctuation=".,;:!?()[]{}`''\"@#$^&*+|=~_"
+):
     '''
     Uses pattern.en to split input text into a list of word tokens.
     '''
-
-    raw_tokens = pattern.en.parse(raw, chunks=False, tags=False)
-    raw_sentences = raw_tokens.split()
-
-    # Each token is now a list of elements, we only need the first one
-    sentences = [[w[0] for w in s] for s in raw_sentences]
-    return sentences
+    return [sent.split() for sent in
+            pattern.en.tokenize(raw, punctuation=punctuation)]
 
 
 def word_tokenizer(raw):
