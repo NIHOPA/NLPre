@@ -225,4 +225,5 @@ class separate_reference:
             if FLAG_valid:
                 return False
 
-        return isinstance(list[-1], string_types) and not bool(search(list[-1]))
+        return (isinstance(list[-1], string_types)
+                and not bool(search(list[-1])))

@@ -44,3 +44,22 @@ class Titlecaps_Test():
         doc_new = caps(doc)
 
         assert_equal(doc_new, doc_right)
+
+class Titlecaps_With_DeDash_Test():
+    ''' 
+    Word tokenization shouldn't rely on the dash for a split in words,
+    edge case found that when run together, this failed.
+    '''
+
+    @classmethod
+    def setup_class(cls):
+        from nlpre import dedash
+        cls.parser0 = titlecaps(min_length=1)
+        cls.parser1 = dedash()
+
+    def caps_before_dedash_test(self):
+        doc = 'THIS IS A TEST OF TREAT- MENT.'
+        doc_right = 'this is a test of treatment .'
+        doc_new = self.parser1(self.parser0(doc))
+
+        assert_equal(doc_new, doc_right)        
