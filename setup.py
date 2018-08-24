@@ -20,6 +20,19 @@ setuptools.setup(
     # Include package data...
     include_package_data=True,
 
+    install_requires = [
+        # NLP core libraries
+        'unidecode',
+        'pyparsing', 
+        'flashtext',
+
+        'pattern ; python_version<"3.0"',
+        'Pattern ; python_version>="3.0"',
+        
+        # For Python 2/3 compatibility
+        "six",
+    ],
+
     description='Natural Language Preprocessing (NLPre) utilities.',
     long_description=long_description,
     version=__version__,
