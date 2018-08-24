@@ -27,7 +27,7 @@ setuptools.setup(
         'flashtext',
 
         'pattern ; python_version<"3.0"',
-        'pattern3 ; python_version>="3.0"',
+        'Pattern ; python_version>="3.0"',
         
         # For Python 2/3 compatibility
         "six",
