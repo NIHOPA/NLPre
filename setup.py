@@ -31,6 +31,9 @@ setuptools.setup(
         
         # For Python 2/3 compatibility
         "six",
+
+        # Fix the version of mysqlclient due to windows problems
+        "mysqlclient==1.3.12",
     ],
 
     description='Natural Language Preprocessing (NLPre) utilities.',
@@ -39,7 +42,7 @@ setuptools.setup(
 
     # The project's main homepage.
     url="https://github.com/NIHOPA/NLPre",
-    download_url='https://github.com/NIHOPA/NLPre/archive/v1.2.0.tar.gz',
+    #download_url='https://github.com/NIHOPA/NLPre/archive/v1.2.0.tar.gz',
 
     # Author details
     author="Travis Hoppe",
