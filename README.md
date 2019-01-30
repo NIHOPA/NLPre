@@ -93,7 +93,11 @@ with Parallel(-1) as MP:
 
 ## Citations and Acknowledgments
 
-He, J., & Chen, C. (2018). [Predictive Effects of Novelty Measured by Temporal Embeddings on the Growth of Scientific Literature.](https://www.frontiersin.org/articles/10.3389/frma.2018.00009/full) Frontiers in Research Metrics and Analytics, 3, 9.
++ He, Jian and Chaomei Chen. [Predictive Effects of Novelty Measured by Temporal Embeddings on the Growth of Scientific Literature.](https://www.frontiersin.org/articles/10.3389/frma.2018.00009/full) Frontiers in Research Metrics and Analytics, 3, 9. (2018).
+
++ He, Jian and Chaomei Chen. [Temporal Representations of Citations for Understanding the Changing Roles of Scientific Publications.](https://www.frontiersin.org/articles/10.3389/frma.2018.00027) Front. Res. Metr. Anal. (2018).
+
++ Galea, Dieter et al. [Sub-word information in pre-trained biomedical word representations: evaluation and hyper-parameter optimization.](http://www.aclweb.org/anthology/W18-2307) BioNLP (2018).
 
 ## Contributors
 
