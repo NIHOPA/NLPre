@@ -26,8 +26,13 @@ setuptools.setup(
         'pyparsing', 
         'flashtext',
 
-        'pattern ; python_version<"3.0"',
-        'Pattern ; python_version>="3.0"',
+        # Depreciated
+        #'pattern ; python_version<"3.0"',
+        #'Pattern ; python_version>="3.0"',
+
+        # See https://github.com/explosion/spaCy/issues/1099
+        'spacy',
+        'en_core_web_sm',
         
         # For Python 2/3 compatibility
         "six",
