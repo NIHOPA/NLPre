@@ -44,13 +44,13 @@ for key in keys:
         func = lambda : [parser(x) for x in [doc2]]
     cost = timeit.timeit(func, number=n) / n
     item = {'function':key, "time":cost}
-    print item
+    print (item)
     data.append(item)
 df = pd.DataFrame(data)
 df = df.set_index('function').sort_values('time')
 df["frac"] = df.time / df.time.sum()
 
-print df
+print (df)
 
 
 
