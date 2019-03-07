@@ -1,8 +1,7 @@
 -e .
 
-# NLP model used
+# NLP model used (added to repo)
 # https://github.com/explosion/spacy-models/releases//tag/en_core_web_sm-2.0.0
-en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.0.0/en_core_web_sm-2.0.0.tar.gz
 
 # Needed for testing
 coverage
