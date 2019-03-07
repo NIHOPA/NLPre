@@ -1,4 +1,6 @@
 import logging
+import spacy
+
 from ._version import __version__
 from .replace_from_dictionary import replace_from_dictionary
 from .separated_parenthesis import separated_parenthesis
@@ -12,6 +14,14 @@ from .replace_acronyms import replace_acronyms
 from .identify_parenthetical_phrases import identify_parenthetical_phrases
 from .separate_reference import separate_reference
 from .url_replacement import url_replacement
+
+import os
+from spacy.util import load_model_from_init_py
+
+# Hard code the model into NLPre
+f_spacey_init = os.path.join(
+    os.path.dirname(__file__), 'spacy_models', 'en_core_web_sm-2.0.0')
+nlp = spacy.load(f_spacey_init)
 
 __all__ = [
     'separated_parenthesis',
