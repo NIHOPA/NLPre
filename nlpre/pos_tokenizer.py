@@ -1,9 +1,10 @@
-import pattern.en
-from .tokenizers import meta_text
 import logging
 from . import nlp
 
 '''
+#import pattern.en
+#from .tokenizers import meta_text
+
 # DEPRECAITED
 _POS_shorthand = {
     "adjective": "ADJ",
@@ -62,9 +63,9 @@ class pos_tokenizer(object):
             POS_blacklist: A list of parts of speech to remove from the text.
         """
         self.logger = logging.getLogger(__name__)
-        self.parse = lambda x: pattern.en.parse(x, chunks=False, tags=True)
-
+        
         '''
+        #self.parse = lambda x: pattern.en.parse(x, chunks=False, tags=True)
         # DEPRECAITED
         POS = {
             "connector": ["CC", "IN", "DT", "TO", "UH", "PDT"],
