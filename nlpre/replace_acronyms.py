@@ -1,9 +1,8 @@
-import pattern
 import nlpre.identify_parenthetical_phrases as IPP
 import collections
 import logging
 import six
-
+from . import nlp
 
 class replace_acronyms(object):
 
@@ -62,9 +61,6 @@ class replace_acronyms(object):
         self.preprocessed = preprocessed
         self.use_most_common = use_most_common
         self.IPP = IPP.identify_parenthetical_phrases()
-
-        self.parse = lambda x: pattern.en.tokenize(x)
-
         self.acronym_dict = {}
 
         for acronym_tuple, count in six.iteritems(self.counter):
@@ -207,14 +203,18 @@ class replace_acronyms(object):
             doc_counter = self.IPP(document)
 
         if self.preprocessed:
-            sentences = document.split('\n')
+            parsed = document.split('\n')
         else:
-            sentences = self.parse(document)
+
+            parsed = nlp(document)
 
         new_doc = []
 
-        for sentence in sentences:
-            tokens = sentence.split()
+        
+        #for sentence in sentences:
+        for sentence in parsed.sents:
+
+            tokens = [x.text for x in sentence]
             new_sentence = []
 
             index = -1
