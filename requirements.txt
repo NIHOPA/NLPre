@@ -5,3 +5,4 @@
 
 # Needed for testing
 coverage
+autopep8

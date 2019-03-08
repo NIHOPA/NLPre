@@ -1,5 +1,6 @@
 from . import nlp
 
+
 def sentence_tokenizer(text):
     '''
     Uses spaCy to input text into a list sentences and word tokens.

@@ -19,6 +19,7 @@ pattern = [
 ]
 matcher.add('PRESERVE_DASHES', None, pattern)
 
+
 def dash_merger(doc):
     # this will be called on the Doc object in the pipeline
     matched_spans = []
@@ -28,9 +29,10 @@ def dash_merger(doc):
         matched_spans.append(span)
 
     # Merge into one token after collecting all matches
-    for span in matched_spans: 
+    for span in matched_spans:
         span.merge()
-        
+
     return doc
+
 
 nlp.add_pipe(dash_merger, first=True)  # add it right after the tokenizer

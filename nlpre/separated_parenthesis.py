@@ -4,6 +4,7 @@ import logging
 from .Grammars import parenthesis_nester
 from . import nlp
 
+
 class separated_parenthesis(object):
 
     """
@@ -51,7 +52,7 @@ class separated_parenthesis(object):
         # be split into sentences "A A V (C D." and " A B) A."
 
         parsed = nlp(text)
-        
+
         doc_out = []
         for parsed_sent in parsed.sents:
 

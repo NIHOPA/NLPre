@@ -1,6 +1,7 @@
 import logging
 from . import nlp
 
+
 class pos_tokenizer(object):
 
     """
@@ -43,27 +44,27 @@ class pos_tokenizer(object):
         self.logger = logging.getLogger(__name__)
 
         POS = {
-            "noun" : ["NOUN", "PROPN"],
-            "pronoun" : ["PRON"],
-            "verb" : ["VERB"],
+            "noun": ["NOUN", "PROPN"],
+            "pronoun": ["PRON"],
+            "verb": ["VERB"],
             "adjective": ["ADJ"],
 
             # PART == possessive ending
             "punctuation": ["PUNCT", "PART"],
-            "symbol" : ["SYM", "SPACE"],
-            "cardinal" : ["NUM"],
-            "connector" : ["DET", "CONJ", "ADP", "INTJ"],
-            "adverb" : ["ADV", "PART"],
-            "unknown" : ["X", ""],
+            "symbol": ["SYM", "SPACE"],
+            "cardinal": ["NUM"],
+            "connector": ["DET", "CONJ", "ADP", "INTJ"],
+            "adverb": ["ADV", "PART"],
+            "unknown": ["X", ""],
         }
-        
+
         # Verify all POS in the blacklist are known
         self.POS_blacklist = set()
 
         for name in POS_blacklist:
             msg = (f"Part-of-speech {name} unknown. "
                    f"Use one of {list(POS.keys())}.")
-            
+
             if name not in POS:
                 self.logger.warning(msg)
                 continue
@@ -78,32 +79,30 @@ class pos_tokenizer(object):
             shape = shape[1:]
         return 'X' in shape
 
-        
     def __call__(self, text, use_base=True):
         '''
         Runs the parser.
 
         Args:
             text: a string document
-            use_base: return the base form for the matched words not in 
+            use_base: return the base form for the matched words not in
                       the POS blacklist.
         Returns:
             results: A string document
         '''
 
-        
         special_words = set(["PHRASE_", "MeSH_"])
-        
+
         doc = []
         for sent in nlp(text).sents:
-            
+
             sent_tokens = []
             for k, token in enumerate(sent):
 
                 # If we have a special word, add it without modification
                 if any(sw in token.text for sw in special_words):
                     sent_tokens.append(token.text)
-                        
+
                 if token.pos_ in self.POS_blacklist:
                     continue
 
@@ -111,7 +110,7 @@ class pos_tokenizer(object):
 
                 if use_base and not self._keep_casing(token, k):
                     word = token.lemma_
-                        
+
                 sent_tokens.append(word)
 
             doc.append(' '.join(sent_tokens))

@@ -4,6 +4,7 @@ import logging
 import six
 from . import nlp
 
+
 class replace_acronyms(object):
 
     """
@@ -209,7 +210,6 @@ class replace_acronyms(object):
             parsed = nlp(document)
 
         new_doc = []
-
 
         for sentence in parsed.sents:
             tokens = [x.text for x in sentence]
