@@ -1,5 +1,15 @@
 # Natural Language Preprocessing (NLPre)
 
+DEV NOTES:
+
++ Suffix (instead of prefix _MesH)
++ Custom dictionaries
++ Update POS documentation
++ Drop/test python 2 support?
++ Speed tests
++ Full release with zip
+
+
 [![Build Status](https://travis-ci.org/NIHOPA/NLPre.svg?branch=master)](https://travis-ci.org/NIHOPA/NLPre)
 [![codecov](https://codecov.io/gh/NIHOPA/NLPre/branch/master/graph/badge.svg)](https://codecov.io/gh/NIHOPA/NLPre)
 [![PyPI](https://img.shields.io/pypi/v/nlpre.svg)](https://pypi.python.org/pypi/nlpre)

@@ -50,10 +50,11 @@ class pos_tokenizer(object):
             "adjective": ["ADJ"],
 
             # PART == possessive ending
-            "punctuation": ["PUNCT", "PART"],
+            "punctuation": ["PUNCT", ],
+            "possessive" : ["PART", ],
             "symbol": ["SYM", "SPACE"],
             "cardinal": ["NUM"],
-            "connector": ["DET", "CONJ", "ADP", "INTJ"],
+            "connector": ["DET", "CONJ", "CCONJ", "ADP", "INTJ"],
             "adverb": ["ADV", "PART"],
             "unknown": ["X", ""],
         }
@@ -66,12 +67,12 @@ class pos_tokenizer(object):
                    f"Use one of {list(POS.keys())}.")
 
             if name not in POS:
-                self.logger.warning(msg)
-                continue
+                self.logger.error(msg)
+                raise ValueError(msg)
 
             self.POS_blacklist.update(POS[name])
 
-    def _keep_casing(self, token, word_order=0):
+    def _keep_root(self, token, word_order=0):
         # If it's the first word, keep any other letters are capped
         # Otherwise, keep if any letters are capped.
         shape = token.shape_
@@ -91,6 +92,7 @@ class pos_tokenizer(object):
             results: A string document
         '''
 
+        text = text.strip()
         special_words = set(["PHRASE_", "MeSH_"])
 
         doc = []
@@ -102,14 +104,24 @@ class pos_tokenizer(object):
                 # If we have a special word, add it without modification
                 if any(sw in token.text for sw in special_words):
                     sent_tokens.append(token.text)
+                    continue
 
                 if token.pos_ in self.POS_blacklist:
                     continue
 
                 word = token.text
 
-                if use_base and not self._keep_casing(token, k):
+                if (use_base and
+                    not self._keep_root(token, k) and
+                    token.pos_ != 'PRON'):
+                    
                     word = token.lemma_
+
+                # If the word is a pronoun, we need to use the base form, see
+                # https://github.com/explosion/spaCy/issues/962
+                if token.lemma_ == "-PRON-":
+                    word = token.text.lower()
+                
 
                 sent_tokens.append(word)
 
