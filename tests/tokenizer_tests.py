@@ -1,38 +1,18 @@
 from nose.tools import *
-from nlpre.tokenizers import meta_text, split_tokenizer, sentence_tokenizer, word_tokenizer
+from nlpre.tokenizers import sentence_tokenizer
 
 
 class Tokenizer_Tests():
 
-    def meta_test(self):
-        meta = meta_text('hello world', stuff='unicode')
+    def sentence_tokenizer_test(self):
 
-        assert_equal('hello world', meta.text)
-        assert_equal({'stuff': 'unicode'}, meta.meta)
-        assert_equal('hello world', meta.__unicode__())
+        text = '''
+        Everyone had always said that John would be a preacher when he grew up,
+        just like his father. It had been said so often that John, without 
+        ever thinking about it, had come to believe it himself. 
+        Not until the morning of his 14th birthday did he really begin to 
+        think about it, and by then it was already too late.
+        '''
 
-    def word_tokenizer_blank_test(self):
-        doc = word_tokenizer([])
-        assert_equal(doc, [])
-
-    def word_tokenizer_words_test(self):
-        tokens = word_tokenizer('hello world')
-        assert_equal(tokens, ['hello', 'world'])
-
-    def word_tokenizer_sentences_test(self):
-        tokens = word_tokenizer('hello world. goodbye world')
-        assert_equal(tokens, ['hello', 'world', '.', 'goodbye', 'world'])
-
-    def split_tokenizer_test(self):
-        def lowered(text):
-            out = []
-            for token in text:
-                lower_token = token.lower()
-                out.append(lower_token)
-            return out
-
-        string = ["HELlO", "WORLD"]
-        lowerer = split_tokenizer(lowered)
-        output = lowerer(string)
-        output_right = 'hello world'
-        assert_equal(output, output_right)
+        sentences = sentence_tokenizer(text)
+        assert_equal(len(sentences), 3)

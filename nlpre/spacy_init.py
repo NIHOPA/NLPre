@@ -1,7 +1,6 @@
 import os
 import spacy
 from spacy.matcher import Matcher
-from spacy.util import load_model_from_init_py
 
 # Hard code the model into NLPre
 f_spacey_init = os.path.join(
