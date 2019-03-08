@@ -1,9 +1,9 @@
-import pattern.en
 import os
 from .Grammars import reference_patterns
 import logging
 import re
 from six import string_types
+from .tokenizers import sentence_tokenizer
 
 __internal_wordlist = "dictionaries/english_wordlist.txt"
 __local_dir = os.path.dirname(os.path.abspath(__file__))
@@ -54,13 +54,12 @@ class separate_reference:
         Returns:
              return_doc: a document string
         '''
-        sentences = pattern.en.tokenize(
-            text, punctuation=".,;:!?`''\"@#$^&*+-|=~_")
+        sentences = sentence_tokenizer(text)
 
         new_doc = []
         for sentence in sentences:
             new_sentence = []
-            for token in sentence.split():
+            for token in sentence:
                 # Check if word is of the form word4.
                 new_tokens = self.single_number_pattern(token)
                 if new_tokens:

@@ -1,9 +1,8 @@
 import pyparsing as pypar
-import pattern.en
 import six
 import logging
 from .Grammars import parenthesis_nester
-
+from . import nlp
 
 class separated_parenthesis(object):
 
@@ -36,7 +35,6 @@ class separated_parenthesis(object):
 
         self.min_keep_length = min_keep_length
         self.grammar = parenthesis_nester()
-        self.parse = lambda x: pattern.en.tokenize(x)
 
     def __call__(self, text):
         '''
@@ -51,9 +49,14 @@ class separated_parenthesis(object):
         # Known issue - pattern will split on punctuation, even when found in
         # parenthetical content. So, the sentence "A A V (C D. A B) A." would
         # be split into sentences "A A V (C D." and " A B) A."
-        sentences = self.parse(text)
+
+        parsed = nlp(text)
+        
         doc_out = []
-        for sent in sentences:
+        for parsed_sent in parsed.sents:
+
+            # Get the raw text for the sentence from spaCy
+            sent = parsed_sent.text
 
             # Count the number of left and right parens
             LP_Paran = sum(1 for a in sent if a == '(')
