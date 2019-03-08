@@ -129,7 +129,7 @@ class References_Test:
 
     def word_that_begins_with_number_parenthetical_reference_test(self):
         doc = "How is the 4XasdL(5) going. Pretty well"
-        doc_right = "How is the 4XasdL going . Pretty well"
+        doc_right = "How is the 4XasdL going. Pretty well"
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)
@@ -241,14 +241,14 @@ class References_Test:
 
     def word_that_should_end_with_number_test(self):
         doc = "How is the XasdL1 going. Pretty well"
-        doc_right = "How is the XasdL1 going . Pretty well"
+        doc_right = "How is the XasdL1 going. Pretty well"
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)
 
     def word_that_begins_with_number_test(self):
         doc = "How is the 4XasdL going. Pretty well"
-        doc_right = "How is the 4XasdL going . Pretty well"
+        doc_right = "How is the 4XasdL going. Pretty well"
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)
