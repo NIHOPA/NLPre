@@ -206,13 +206,17 @@ class replace_acronyms(object):
         if self.preprocessed:
             parsed = document.split('\n')
         else:
-
-            parsed = nlp(document)
+            parsed = [sent for sent in nlp(document).sents]
 
         new_doc = []
 
-        for sentence in parsed.sents:
-            tokens = [x.text for x in sentence]
+        for sentence in parsed:
+
+            if self.preprocessed:
+                tokens = sentence.split()
+            else:
+                tokens = [x.text for x in sentence]
+            
             new_sentence = []
 
             index = -1

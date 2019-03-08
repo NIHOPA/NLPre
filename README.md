@@ -8,6 +8,7 @@ DEV NOTES:
 + Drop/test python 2 support?
 + Speed tests
 + Full release with zip
++ Use BLACK for linting
 
 
 [![Build Status](https://travis-ci.org/NIHOPA/NLPre.svg?branch=master)](https://travis-ci.org/NIHOPA/NLPre)
