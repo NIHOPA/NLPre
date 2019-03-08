@@ -171,14 +171,14 @@ class Parens_Replace_Test():
         assert_equal(doc_right, doc_new)
 
     def dash_test(self):
-        doc = 'Im not saying its a great non-Hodgkins lymphoma (NHL). Its a ' \
-              'good Hodgkins'
+        doc = "It is not a great non-Hodgkins lymphoma (NHL), but it is " \
+              "a good Hodgkins."
         counter = self.parser(doc)
         replacer = replace_acronyms(counter, prefix='ABBR', underscore=True)
         doc_new = replacer(doc)
 
-        doc_right = 'Im not saying its a great ABBR_non_Hodgkins_lymphoma ' \
-                    '( ABBR_non_Hodgkins_lymphoma ) .\nIts a good Hodgkins'
+        doc_right = "It is not a great ABBR_non_Hodgkins_lymphoma " \
+                    "( ABBR_non_Hodgkins_lymphoma ) , but it is a good Hodgkins ."
 
         assert_equal(doc_right, doc_new)
 
