@@ -210,10 +210,8 @@ class replace_acronyms(object):
 
         new_doc = []
 
-        
-        #for sentence in sentences:
-        for sentence in parsed.sents:
 
+        for sentence in parsed.sents:
             tokens = [x.text for x in sentence]
             new_sentence = []
 
