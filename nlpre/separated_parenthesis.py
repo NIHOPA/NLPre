@@ -54,9 +54,10 @@ class separated_parenthesis(object):
         parsed = nlp(text)
 
         doc_out = []
+        
         for parsed_sent in parsed.sents:
-
             # Get the raw text for the sentence from spaCy
+            #sent = ' '.join([x.text for x in parsed_sent])
             sent = parsed_sent.text
 
             # Count the number of left and right parens
@@ -139,7 +140,9 @@ class separated_parenthesis(object):
         if len(token_words) == len(tokens) and len(token_words):
             if token_words[-1] not in ['.', '!', '?']:
                 token_words.append('.')
-            return [' '.join(token_words)]
+
+            output = remove_trailing_space(' '.join(token_words))
+            return [output]
         else:
             token_parens = [x for x in tokens if isinstance(x, list)]
             reorged_tokens = []
@@ -170,5 +173,28 @@ class separated_parenthesis(object):
 
             new_tokens.extend(reorged_tokens)
 
+            # Remove an extra space after the token splits
+            for k, block in enumerate(new_tokens):
+                new_tokens[k] = remove_trailing_space(block)
+
             # New tokens returns a list of strings
             return new_tokens
+
+def remove_trailing_space(s, punctuation='!?.,'):
+    ''' Removes a trailing space in a sentence eg. 
+        "I saw a foo ." to "I saw a foo."
+    '''
+    
+    for punc in punctuation:
+        if len(s)<2:
+            return s
+        if ' %s'%punc == s[-2:]:
+            s = s[:-2] + punc
+
+    for punc in punctuation:
+        if '%s%s'%(punc, punc) == s[-2:]:
+            s = s[:-1]
+            
+
+            
+    return s
