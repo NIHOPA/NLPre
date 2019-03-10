@@ -20,6 +20,8 @@ class Full_Test:
                              "symbol",
                              "verb",
                              "punctuation",
+                             "possessive",
+                             "unknown",
         ))
 
         MeSH_dict = "dictionaries/"
@@ -128,3 +130,16 @@ class Full_Test:
 
         for x in range(len(doc1)):
             assert_equal(doc1[x], doc2[x])
+
+
+if __name__ == "__main__":
+    tester = Full_Test()
+
+    doc = tester.doc1
+    with open(tester.location + '/tests/doc1_right', 'r') as f:
+        doc_right = f.read()
+
+    doc_new, counter = tester.full_run(doc)
+    
+    print(doc_new)
+
