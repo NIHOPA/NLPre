@@ -35,6 +35,7 @@ class reference_patterns:
                 pyparsing.OneOrMore(nums | Word('-')) +
                 Word(')]}', exact=1)
             ) +
+            Optional(punctuation_no_dash) +
             word_end
         )
 

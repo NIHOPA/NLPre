@@ -9,6 +9,8 @@ __internal_wordlist = "dictionaries/english_wordlist.txt"
 __local_dir = os.path.dirname(os.path.abspath(__file__))
 _internal_wordlist = os.path.join(__local_dir, __internal_wordlist)
 
+REFERENCE_PREFIX = "REF_"
+paren_table = str.maketrans('', '', '(){}<>[]')
 
 class separate_reference:
 
@@ -64,6 +66,7 @@ class separate_reference:
                 # Check if word is of the form word4.
                 new_tokens = self.single_number_pattern(token)
                 if new_tokens:
+                    #self.logger.warning(f"Pattern word0 {token} {new_tokens}")
                     new_sentence.extend(new_tokens)
                     continue
 
@@ -72,13 +75,15 @@ class separate_reference:
                     token, self.reference_pattern.single_number_parens,
                     parens=True)
                 if new_tokens:
+                    #self.logger.warning(f"Pattern word(0) {token} {new_tokens}")
                     new_sentence.extend(new_tokens)
                     continue
 
                 # Check if the word is of the form word,2,3,4
                 new_tokens = self.identify_reference_punctuation_pattern(
-                    token, self.reference_pattern.punctuation_then_number)
+                    token, self.reference_pattern.punctuation_then_number, forward=3)
                 if new_tokens:
+                    #self.logger.warning(f"Pattern word,2,3,4 {token} {new_tokens}")                    
                     new_sentence.extend(new_tokens)
                     continue
 
@@ -86,6 +91,7 @@ class separate_reference:
                 new_tokens = self.identify_reference_punctuation_pattern(
                     token, self.reference_pattern.number_then_punctuation)
                 if new_tokens:
+                    #self.logger.warning(f"Pattern word2,3,4 {token}")
                     new_sentence.extend(new_tokens)
                     continue
 
@@ -133,7 +139,7 @@ class separate_reference:
                              (reference, token))
 
             if self.reference_token:
-                output.append("REF_" + reference)
+                output.append(REFERENCE_PREFIX + reference)
 
             if self.end_parens_match(parse_return):
                 output[-1] = output[-1] + parse_return[-1]
@@ -141,7 +147,7 @@ class separate_reference:
         return output
 
     def identify_reference_punctuation_pattern(self, token,
-                                               pattern, parens=False):
+                                               pattern, parens=False, forward=2):
         '''
         Identify whether the pyparsing pattern passed to the function is found
         in the token.
@@ -151,15 +157,16 @@ class separate_reference:
             pattern: a pyparsing grammar pattern
             parens: a boolean to flag whether the function should expect to
                 recognize a reference in parenthesis
+            forward: Number of characters to skip forward
 
         Return:
              Output: a list of string tokens
         '''
         output = []
-        parse_return = \
-            pattern.searchString(token)
+        parse_return = pattern.searchString(token)
+        
         if parse_return:
-            substring = ''.join(parse_return[0][2:])
+            substring = ''.join(parse_return[0][forward:])
             index = token.find(substring)
             word = token[:index]
 
@@ -174,16 +181,22 @@ class separate_reference:
                              (reference, token))
 
             if self.reference_token:
-                ref_token = "REF_" + reference
+                ref_token = REFERENCE_PREFIX + reference
+                
+                # Remove all braces
+                ref_token = ref_token.translate(paren_table)
                 output.append(ref_token)
 
-            if substring[0] in ['.', '!', ',', '?', ':', ';']:
-                output.append(substring[0])
+            if substring[0] in  '.,?!;:':
+                output[-1] += substring[0]
 
             if self.end_parens_match(parse_return[0], parens=parens):
                 output[-1] = output[-1] + parse_return[0][-1]
         else:
             output = False
+
+        if output and reference[-1] in '.,?!;:' and not self.reference_token:
+            output[-1] += reference[-1]
 
         return output
 
