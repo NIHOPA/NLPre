@@ -181,25 +181,21 @@ class separate_reference:
             #self.logger.warning('Removing references %s from token %s' % (reference, token))
 
             if self.reference_token:
-                ref_token = (REFERENCE_PREFIX + reference).translate(strip_table)
-                
-                if len(substring)>2 and substring[-2] in '])}' and substring[-3] in '])}':
-                    ref_token += substring[-2]
-                
-                if substring[-1] in '.,?!;:':
-                    ref_token += substring[-1]
-
-                if substring[0] in '.,?!;:':
-                    ref_token += substring[0]
-                                        
+                ref_token = (REFERENCE_PREFIX + reference).translate(strip_table)                
                 output.append(ref_token)
 
-            else:
-                if substring[0] in '.,?!;:':
-                    output[-1] += substring[0]
+            # Handle nested parens
+            if len(substring)>2 and substring[-2] in '])}' and substring[-3] in '])}':
+                output[-1] += substring[-2]
 
-                if len(substring)>2 and substring[-2] in '])}' and substring[-3] in '])}':
-                    output[-1] += substring[-2]
+            # Reference tokens have stripped too much
+            if self.reference_token:
+                if substring[-1] in '.,?!;:':
+                    output[-1] += substring[-1]
+
+            # Replace any stripped punctuation
+            if substring[0] in '.,?!;:':
+                output[-1] += substring[0]
                 
             if self.end_parens_match(parse_return[0], parens=parens):
                 output[-1] = output[-1] + parse_return[0][-1]
