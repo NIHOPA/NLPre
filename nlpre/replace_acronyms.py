@@ -216,7 +216,7 @@ class replace_acronyms(object):
                 tokens = sentence.split()
             else:
                 tokens = [x.text for x in sentence]
-            
+
             new_sentence = []
 
             index = -1

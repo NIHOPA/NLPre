@@ -13,6 +13,7 @@ REFERENCE_PREFIX = "REF_"
 strip_table = str.maketrans('', '', '(){}<>[]')
 strip_table = str.maketrans('', '', '(){}<>[].,!;?')
 
+
 class separate_reference:
 
     """
@@ -61,7 +62,7 @@ class separate_reference:
         new_doc = []
         for parsed_sentence in nlp(text).sents:
             tokens = parsed_sentence.text.split()
-            
+
             new_sentence = []
             for token in tokens:
                 # Check if word is of the form word4.
@@ -84,7 +85,7 @@ class separate_reference:
                 new_tokens = self.identify_reference_punctuation_pattern(
                     token, self.reference_pattern.punctuation_then_number, forward=3)
                 if new_tokens:
-                    #self.logger.warning(f"Pattern word,2,3,4 {token} {new_tokens}")                    
+                    #self.logger.warning(f"Pattern word,2,3,4 {token} {new_tokens}")
                     new_sentence.extend(new_tokens)
                     continue
 
@@ -146,8 +147,8 @@ class separate_reference:
 
         return output
 
-    def identify_reference_punctuation_pattern(self, token,
-                                               pattern, parens=False, forward=2):
+    def identify_reference_punctuation_pattern(
+            self, token, pattern, parens=False, forward=2):
         '''
         Identify whether the pyparsing pattern passed to the function is found
         in the token.
@@ -164,7 +165,7 @@ class separate_reference:
         '''
         output = []
         parse_return = pattern.searchString(token)
-        
+
         if parse_return:
 
             substring = ''.join(parse_return[0][forward:])
@@ -181,11 +182,14 @@ class separate_reference:
             #self.logger.warning('Removing references %s from token %s' % (reference, token))
 
             if self.reference_token:
-                ref_token = (REFERENCE_PREFIX + reference).translate(strip_table)                
+                ref_token = (
+                    REFERENCE_PREFIX +
+                    reference).translate(strip_table)
                 output.append(ref_token)
 
             # Handle nested parens
-            if len(substring)>2 and substring[-2] in '])}' and substring[-3] in '])}':
+            if len(
+                    substring) > 2 and substring[-2] in '])}' and substring[-3] in '])}':
                 output[-1] += substring[-2]
 
             # Reference tokens have stripped too much
@@ -196,10 +200,10 @@ class separate_reference:
             # Replace any stripped punctuation
             if substring[0] in '.,?!;:':
                 output[-1] += substring[0]
-                
+
             if self.end_parens_match(parse_return[0], parens=parens):
                 output[-1] = output[-1] + parse_return[0][-1]
-                
+
         else:
             output = False
 

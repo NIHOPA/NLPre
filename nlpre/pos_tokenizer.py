@@ -51,7 +51,7 @@ class pos_tokenizer(object):
 
             # PART == possessive ending
             "punctuation": ["PUNCT", ],
-            "possessive" : ["PART", ],
+            "possessive": ["PART", ],
             "symbol": ["SYM", "SPACE"],
             "cardinal": ["NUM"],
             "connector": ["DET", "CONJ", "CCONJ", "ADP", "INTJ"],
@@ -113,15 +113,14 @@ class pos_tokenizer(object):
 
                 if (use_base and
                     not self._keep_root(token, k) and
-                    token.pos_ != 'PRON'):
-                    
+                        token.pos_ != 'PRON'):
+
                     word = token.lemma_
 
                 # If the word is a pronoun, we need to use the base form, see
                 # https://github.com/explosion/spaCy/issues/962
                 if token.lemma_ == "-PRON-":
                     word = token.text.lower()
-                
 
                 sent_tokens.append(word)
 
