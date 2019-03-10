@@ -20,8 +20,7 @@ class Full_Test:
                              "symbol",
                              "verb",
                              "punctuation",
-                             "modal_verb",
-                             "w_word",))
+        ))
 
         MeSH_dict = "dictionaries/"
         local_dir = os.path.dirname(os.path.abspath('nlpre/dictionaries'))
@@ -79,7 +78,7 @@ class Full_Test:
         separate_reference_doc = self.separate_reference(decaps_doc)
         pos_tokenizer_doc = self.pos_tokenizer(separate_reference_doc)
 
-        return pos_tokenizer_doc.text, counter
+        return pos_tokenizer_doc, counter
 
     def acronym_counter(self):
         doc1 = self.doc1
