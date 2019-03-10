@@ -61,6 +61,7 @@ class References_Test:
         assert_equal(doc_right, doc_new)
 
     def parenthetical_reference_in_parenthesis_tokens_test(self):
+        # BROKEN
         doc = 'key feature in (Drosophila3-5 and elegans(7)).'
         doc_right = 'key feature in (Drosophila REF_3-5 and elegans REF_7).'
         doc_new = self.parser_with_ref(doc)
@@ -101,7 +102,7 @@ class References_Test:
 
     def parenthesis_with_dashes_period_token_test(self):
         doc = 'key feature in Drosophila3-5 and trees.(7-11) its super helpful.'
-        doc_right = 'key feature in Drosophila REF_3-5 and trees REF_.(7-11). its super helpful.'
+        doc_right = 'key feature in Drosophila REF_3-5 and trees REF_7-11. its super helpful.'
 
         doc_new = self.parser_with_ref(doc)
 
@@ -180,20 +181,6 @@ class References_Test:
         doc = "How is the treatment,4-5 my man"
         doc_right = "How is the treatment, my man"
         doc_new = self.parser(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def period_test(self):
-        doc = "How is the treatment4.5 pretty well"
-        doc_right = "How is the treatment pretty well"
-        doc_new = self.parser(doc)
-
-        assert_equal(doc_right, doc_new)
-
-    def period_reference_token_test(self):
-        doc = "How is the treatment4.5 pretty well"
-        doc_right = "How is the treatment REF_4.5 pretty well"
-        doc_new = self.parser_with_ref(doc)
 
         assert_equal(doc_right, doc_new)
 

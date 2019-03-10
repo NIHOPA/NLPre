@@ -10,7 +10,8 @@ __local_dir = os.path.dirname(os.path.abspath(__file__))
 _internal_wordlist = os.path.join(__local_dir, __internal_wordlist)
 
 REFERENCE_PREFIX = "REF_"
-paren_table = str.maketrans('', '', '(){}<>[]')
+strip_table = str.maketrans('', '', '(){}<>[]')
+strip_table = str.maketrans('', '', '(){}<>[].,!;?')
 
 class separate_reference:
 
@@ -75,7 +76,7 @@ class separate_reference:
                     token, self.reference_pattern.single_number_parens,
                     parens=True)
                 if new_tokens:
-                    #self.logger.warning(f"Pattern word(0) {token} {new_tokens}")
+                    #self.logger.warning(f"Pattern Single number parens word(0) {token} {new_tokens}")
                     new_sentence.extend(new_tokens)
                     continue
 
@@ -135,8 +136,7 @@ class separate_reference:
             reference = parse_return[1]
 
             output.append(word)
-            self.logger.info('Removing references %s from token %s' %
-                             (reference, token))
+            #self.logger.info('Removing references %s from token %s' % (reference, token))
 
             if self.reference_token:
                 output.append(REFERENCE_PREFIX + reference)
@@ -166,6 +166,7 @@ class separate_reference:
         parse_return = pattern.searchString(token)
         
         if parse_return:
+
             substring = ''.join(parse_return[0][forward:])
             index = token.find(substring)
             word = token[:index]
@@ -177,21 +178,32 @@ class separate_reference:
                 reference = token[len(word):]
 
             output.append(word)
-            self.logger.info('Removing references %s from token %s' %
-                             (reference, token))
+            #self.logger.warning('Removing references %s from token %s' % (reference, token))
 
             if self.reference_token:
-                ref_token = REFERENCE_PREFIX + reference
+                ref_token = (REFERENCE_PREFIX + reference).translate(strip_table)
                 
-                # Remove all braces
-                ref_token = ref_token.translate(paren_table)
+                if len(substring)>2 and substring[-2] in '])}' and substring[-3] in '])}':
+                    ref_token += substring[-2]
+                
+                if substring[-1] in '.,?!;:':
+                    ref_token += substring[-1]
+
+                if substring[0] in '.,?!;:':
+                    ref_token += substring[0]
+                                        
                 output.append(ref_token)
 
-            if substring[0] in  '.,?!;:':
-                output[-1] += substring[0]
+            else:
+                if substring[0] in '.,?!;:':
+                    output[-1] += substring[0]
 
+                if len(substring)>2 and substring[-2] in '])}' and substring[-3] in '])}':
+                    output[-1] += substring[-2]
+                
             if self.end_parens_match(parse_return[0], parens=parens):
                 output[-1] = output[-1] + parse_return[0][-1]
+                
         else:
             output = False
 

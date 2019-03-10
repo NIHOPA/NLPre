@@ -16,8 +16,11 @@ class reference_patterns:
         nums = Word(pyparsing.nums) + Optional(letter) + \
             ZeroOrMore(letter_reference)
 
-        word_end = pyparsing.ZeroOrMore(Word(')') | Word('}') | Word(']')) + \
+        word_end = (
+            pyparsing.ZeroOrMore(Word(')') | Word('}') | Word(']')) +
+            Optional(punctuation_no_dash) +
             WordEnd()
+        )
 
         self.single_number = (
             WordStart() +
