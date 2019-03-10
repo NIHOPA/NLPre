@@ -6,3 +6,5 @@
 # Needed for testing
 coverage
 autopep8
+fabric
+nose

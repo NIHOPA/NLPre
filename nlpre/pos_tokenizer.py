@@ -63,8 +63,8 @@ class pos_tokenizer(object):
         self.POS_blacklist = set()
 
         for name in POS_blacklist:
-            msg = (f"Part-of-speech {name} unknown. "
-                   f"Use one of {list(POS.keys())}.")
+            msg = ("Part-of-speech %s unknown. " %name,
+                   "Use one of %s." % list(POS.keys()))
 
             if name not in POS:
                 self.logger.error(msg)
