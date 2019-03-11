@@ -111,7 +111,16 @@ class identify_parenthetical_phrases(object):
         """
 
         if subtoken_let != caps:
-            tokens_to_remove = ["and", "of", "with", "&", "or", "for", "the", "to"]
+            tokens_to_remove = [
+                "and",
+                "of",
+                "with",
+                "&",
+                "or",
+                "for",
+                "the",
+                "to",
+            ]
             subtokens = []
             x = k - 1
             cutoff = x - len(caps) * 2

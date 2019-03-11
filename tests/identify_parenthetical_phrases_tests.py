@@ -16,7 +16,9 @@ class Parenthetical_Phrases_Tests:
     def EPA_test(self):
         doc = "The Environmental Protection Agency (EPA) was created by Nixon"
         counter = self.parser(doc)
-        counter_epa = counter[(("Environmental", "Protection", "Agency"), "EPA")]
+        counter_epa = counter[
+            (("Environmental", "Protection", "Agency"), "EPA")
+        ]
         assert_equal(counter_epa, 1)
 
     def EPA_multiple_words_in_parans_test(self):
@@ -30,7 +32,9 @@ class Parenthetical_Phrases_Tests:
             "who loved the Environmental Protection Agency (EPA)"
         )
         counter = self.parser(doc)
-        counter_epa = counter[(("Environmental", "Protection", "Agency"), "EPA")]
+        counter_epa = counter[
+            (("Environmental", "Protection", "Agency"), "EPA")
+        ]
         assert_equal(counter_epa, 2)
 
     def EPA_nestedParans_test(self):
@@ -46,13 +50,17 @@ class Parenthetical_Phrases_Tests:
     def EPA_curly_test(self):
         doc = "The Environmental Protection Agency {EPA} was created by Nixon"
         counter = self.parser(doc)
-        counter_epa = counter[(("Environmental", "Protection", "Agency"), "EPA")]
+        counter_epa = counter[
+            (("Environmental", "Protection", "Agency"), "EPA")
+        ]
         assert_equal(counter_epa, 1)
 
     def EPA_bracket_test(self):
         doc = "The Environmental Protection Agency [EPA] was created by Nixon"
         counter = self.parser(doc)
-        counter_epa = counter[(("Environmental", "Protection", "Agency"), "EPA")]
+        counter_epa = counter[
+            (("Environmental", "Protection", "Agency"), "EPA")
+        ]
         assert_equal(counter_epa, 1)
 
     def EPA_lowercase_test(self):
@@ -66,7 +74,9 @@ class Parenthetical_Phrases_Tests:
         assert_equal(len(counter), 0)
 
     def HHS_and_not_included_test(self):
-        doc = "A B C D E F G H I and Health and Human Services (HHS) is important"
+        doc = (
+            "A B C D E F G H I and Health and Human Services (HHS) is important"
+        )
         counter = self.parser(doc)
         counter_hhs = counter[(("Health", "and", "Human", "Services"), "HHS")]
         assert_equal(counter_hhs, 1)
@@ -101,7 +111,9 @@ class Parenthetical_Phrases_Tests:
     def ADA_with_not_included_test(self):
         doc = "I love the Americans with Disabilities Act (ADA)"
         counter = self.parser(doc)
-        counter_ada = counter[(("Americans", "with", "Disabilities", "Act"), "ADA")]
+        counter_ada = counter[
+            (("Americans", "with", "Disabilities", "Act"), "ADA")
+        ]
         assert_equal(counter_ada, 1)
 
     def CADE_for_not_included_test(self):
@@ -181,7 +193,9 @@ class Parenthetical_Phrases_Tests:
         )
 
         counter = self.parser(doc)
-        counter_epa = counter[(("Environmental", "Protection", "Agency"), "EPA")]
+        counter_epa = counter[
+            (("Environmental", "Protection", "Agency"), "EPA")
+        ]
         counter_go = counter[(("government", "organization"), "GO")]
         counter_hhs = counter[(("Health", "and", "Human", "Services"), "HHS")]
 

@@ -236,7 +236,9 @@ class replace_acronyms(object):
 
                     if not highest_phrase:
                         acronym_counts = self.acronym_dict[token]
-                        highest_phrase = list(acronym_counts.most_common(1)[0][0])
+                        highest_phrase = list(
+                            acronym_counts.most_common(1)[0][0]
+                        )
 
                     if self.underscore and self.prefix:
                         highest_phrase.insert(0, self.prefix)
@@ -263,7 +265,9 @@ class replace_acronyms(object):
                 #
                 # This is particularly an issue with titlecaps.py, which might
                 # force phrase tokens to lowercase
-                tokenized_phrase = self.check_phrase(token, index, tokens, doc_counter)
+                tokenized_phrase = self.check_phrase(
+                    token, index, tokens, doc_counter
+                )
 
                 if tokenized_phrase:
                     phrase = tokenized_phrase[0]

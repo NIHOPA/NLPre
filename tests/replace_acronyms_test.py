@@ -62,7 +62,8 @@ class Parens_Replace_Test:
 
     def acronym_in_same_doc_additional_words_test(self):
         doc = (
-            "I love the Americans with Disabilities Act (ADA). The ADA " "saved my life"
+            "I love the Americans with Disabilities Act (ADA). The ADA "
+            "saved my life"
         )
         counter = self.parser(doc)
 
@@ -159,7 +160,9 @@ class Parens_Replace_Test:
 
         counter = self.parser(doc_original)
 
-        replacer = replace_acronyms(counter, preprocessed=True, underscore=False)
+        replacer = replace_acronyms(
+            counter, preprocessed=True, underscore=False
+        )
         doc_new = replacer(doc, counter)
 
         doc_right = (

@@ -8,7 +8,7 @@ class pos_tokenizer(object):
     Removes all words that are of a designated part-of-speech (POS) from
     a document. For example, when processing medical text, it is useful to
     remove all words that are not nouns or adjectives. POS detection is
-    provided the spaCy module. Parts of speech that can be added 
+    provided the spaCy module. Parts of speech that can be added
     to the blacklist.
 
         "noun": ["NOUN", "PROPN"],
@@ -116,7 +116,11 @@ class pos_tokenizer(object):
 
                 word = token.text
 
-                if use_base and not self._keep_root(token, k) and token.pos_ != "PRON":
+                if (
+                    use_base
+                    and not self._keep_root(token, k)
+                    and token.pos_ != "PRON"
+                ):
 
                     word = token.lemma_
 

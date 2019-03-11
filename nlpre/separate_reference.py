@@ -74,7 +74,9 @@ class separate_reference:
 
                 # Check if the word is of the form word(4)
                 new_tokens = self.identify_reference_punctuation_pattern(
-                    token, self.reference_pattern.single_number_parens, parens=True
+                    token,
+                    self.reference_pattern.single_number_parens,
+                    parens=True,
                 )
                 if new_tokens:
                     # self.logger.warning(f"Pattern Single number parens word(0) {token} {new_tokens}")
@@ -83,7 +85,9 @@ class separate_reference:
 
                 # Check if the word is of the form word,2,3,4
                 new_tokens = self.identify_reference_punctuation_pattern(
-                    token, self.reference_pattern.punctuation_then_number, forward=3
+                    token,
+                    self.reference_pattern.punctuation_then_number,
+                    forward=3,
                 )
                 if new_tokens:
                     # self.logger.warning(f"Pattern word,2,3,4 {token} {new_tokens}")
@@ -127,7 +131,9 @@ class separate_reference:
         """
         output = []
         try:
-            parse_return = self.reference_pattern.single_number.parseString(token)
+            parse_return = self.reference_pattern.single_number.parseString(
+                token
+            )
         except BaseException:
             return False
 
@@ -184,11 +190,17 @@ class separate_reference:
             # self.logger.warning('Removing references %s from token %s' % (reference, token))
 
             if self.reference_token:
-                ref_token = (REFERENCE_PREFIX + reference).translate(strip_table)
+                ref_token = (REFERENCE_PREFIX + reference).translate(
+                    strip_table
+                )
                 output.append(ref_token)
 
             # Handle nested parens
-            if len(substring) > 2 and substring[-2] in "])}" and substring[-3] in "])}":
+            if (
+                len(substring) > 2
+                and substring[-2] in "])}"
+                and substring[-3] in "])}"
+            ):
                 output[-1] += substring[-2]
 
             # Reference tokens have stripped too much

@@ -101,9 +101,7 @@ class References_Test:
 
     def parenthesis_with_dashes_period_token_test(self):
         doc = "key feature in Drosophila3-5 and trees.(7-11) its super helpful."
-        doc_right = (
-            "key feature in Drosophila REF_3-5 and trees REF_7-11. its super helpful."
-        )
+        doc_right = "key feature in Drosophila REF_3-5 and trees REF_7-11. its super helpful."
 
         doc_new = self.parser_with_ref(doc)
 

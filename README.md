@@ -4,10 +4,11 @@ DEV NOTES:
 
 + Suffix (instead of prefix _MesH)
 + Custom dictionaries
-+ Drop/test python 2 support?
 + Speed tests
 + Full release with zip
+
 + Use BLACK for linting
++ Drop/test python 2 support?
 
 
 [![Build Status](https://travis-ci.org/NIHOPA/NLPre.svg?branch=master)](https://travis-ci.org/NIHOPA/NLPre)

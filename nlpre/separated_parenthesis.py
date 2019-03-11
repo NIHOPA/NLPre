@@ -80,7 +80,7 @@ class separated_parenthesis(object):
 
             try:
                 tokens = self.grammar.grammar.parseString(sent)
-            except (pypar.ParseException, RuntimeError):
+            except (pypar.ParseException, RuntimeError):  # pragma: no cover
                 FLAG_valid = False
 
             if not FLAG_valid:
@@ -165,7 +165,9 @@ class separated_parenthesis(object):
                         or self.min_keep_length <= n_tokens_sent
                     ):
 
-                        self.logger.info("Expanded parenthetical content: %s" % sent)
+                        self.logger.info(
+                            "Expanded parenthetical content: %s" % sent
+                        )
                         reorged_tokens.append(sent)
 
             # Bundles outer sentence with inner parenthetical content
@@ -185,7 +187,7 @@ class separated_parenthesis(object):
 
 
 def remove_trailing_space(s, punctuation="!?.,"):
-    """ Removes a trailing space in a sentence eg. 
+    """ Removes a trailing space in a sentence eg.
         "I saw a foo ." to "I saw a foo."
     """
 

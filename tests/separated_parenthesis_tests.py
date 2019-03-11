@@ -1,5 +1,6 @@
 from nose.tools import *
 from nlpre import separated_parenthesis
+from nlpre.separated_parenthesis import remove_trailing_space
 
 
 class Separated_Parenthesis_Tests:
@@ -136,12 +137,18 @@ class Separated_Parenthesis_Tests:
 
     def mixed_parens_with_punctuation_expanded_test(self):
         doc = "These chemicals are (really really) great. Superoxide anion (A[B?])."
-        doc_right = (
-            "These chemicals are great.\nreally really.\nSuperoxide anion.\nA[B?]."
-        )
+        doc_right = "These chemicals are great.\nreally really.\nSuperoxide anion.\nA[B?]."
         doc_new = self.parser(doc)
+        assert_equals(doc_right, doc_new)
+
+    def remove_trailing_space_with_small_n_test(self):
+        # Make sure we get back what we put in
+        doc = 'x'
+        doc_right = doc
+        doc_new = remove_trailing_space(doc)
 
         assert_equals(doc_right, doc_new)
+
 
     # def two_parenthesis_with_punctuation_test(self):
     #    doc = 'Superoxide anion (A(B).).'

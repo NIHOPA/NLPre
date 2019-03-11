@@ -71,8 +71,12 @@ class Full_Test:
 
         replace_from_dict_doc = self.replace_from_dict(replaced_abbrv_doc)
 
-        separated_parenthesis_doc = self.separated_parenthesis(replace_from_dict_doc)
-        token_replacement_doc = self.token_replacement(separated_parenthesis_doc)
+        separated_parenthesis_doc = self.separated_parenthesis(
+            replace_from_dict_doc
+        )
+        token_replacement_doc = self.token_replacement(
+            separated_parenthesis_doc
+        )
         decaps_doc = self.decaps(token_replacement_doc)
         separate_reference_doc = self.separate_reference(decaps_doc)
         pos_tokenizer_doc = self.pos_tokenizer(separate_reference_doc)

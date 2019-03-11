@@ -13,7 +13,11 @@ class reference_patterns:
         letter = Word(pyparsing.alphas, exact=1)
         letter_reference = punctuation_reference_letter + letter
 
-        nums = Word(pyparsing.nums) + Optional(letter) + ZeroOrMore(letter_reference)
+        nums = (
+            Word(pyparsing.nums)
+            + Optional(letter)
+            + ZeroOrMore(letter_reference)
+        )
 
         word_end = (
             pyparsing.ZeroOrMore(Word(")") | Word("}") | Word("]"))

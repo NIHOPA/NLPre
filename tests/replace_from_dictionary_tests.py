@@ -99,7 +99,9 @@ class Replace_From_Dictionary_Test:
 
     def methyl_test(self):
         doc = "3-Methyl-2-Oxobutanoate Dehydrogenase (Lipoamide) is tasty"
-        doc_right = "MeSH_3-Methyl-2-Oxobutanoate_Dehydrogenase_(Lipoamide) is tasty"
+        doc_right = (
+            "MeSH_3-Methyl-2-Oxobutanoate_Dehydrogenase_(Lipoamide) is tasty"
+        )
         doc_new = self.replace_MeSH(doc)
 
         assert_equal(doc_right, doc_new)
