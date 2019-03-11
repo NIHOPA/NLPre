@@ -143,12 +143,11 @@ class Separated_Parenthesis_Tests:
 
     def remove_trailing_space_with_small_n_test(self):
         # Make sure we get back what we put in
-        doc = 'x'
+        doc = "x"
         doc_right = doc
         doc_new = remove_trailing_space(doc)
 
         assert_equals(doc_right, doc_new)
-
 
     # def two_parenthesis_with_punctuation_test(self):
     #    doc = 'Superoxide anion (A(B).).'

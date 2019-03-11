@@ -102,24 +102,19 @@ class replace_acronyms(object):
         Returns:
             a boolean
         """
-        Match = []
         for acronym_phrase in acronym_phrases:
+
             if isinstance(word, six.string_types):
                 wordlist = [word]
             else:
                 wordlist = list(word)
 
-            Word_included = True
-            for individual_word in wordlist:
-                if individual_word not in acronym_phrase:
-                    Word_included = False
-                    break
-            Match.append(Word_included)
+            word_included = all(x not in acronym_phrases for x in wordlist)
 
-        if True in Match:
-            return True
-        else:
-            return False
+            if word_included:
+                return True
+
+        return False
 
     def check_acronym(self, token):
         """
