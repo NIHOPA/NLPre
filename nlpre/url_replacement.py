@@ -18,15 +18,14 @@ class url_replacement(object):
         self.prefix = prefix
 
     def compile_pattern(self, header):
-        '''
+        """
         Source for regex pattern
         https://stackoverflow.com/a/1986151/249341
-        '''
+        """
         pat = (
-            r'\b(([\w-]+://?|{header}[.])[^\s()<>]+(?:\([\w\d]+\)|'
-            r'([^%s\s]|/)))'
+            r"\b(([\w-]+://?|{header}[.])[^\s()<>]+(?:\([\w\d]+\)|" r"([^%s\s]|/)))"
         ).format(header=header)
-        pat = pat % re.sub(r'([-\\\]])', r'\\\1', string.punctuation)
+        pat = pat % re.sub(r"([-\\\]])", r"\\\1", string.punctuation)
         return re.compile(pat)
 
     def __call__(self, text):

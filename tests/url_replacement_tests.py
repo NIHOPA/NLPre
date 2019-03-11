@@ -4,7 +4,6 @@ from nlpre import url_replacement
 
 
 class Unidecoder_Test:
-
     @classmethod
     def setup_class(cls):
         cls.parser = url_replacement()

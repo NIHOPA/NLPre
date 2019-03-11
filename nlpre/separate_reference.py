@@ -10,8 +10,8 @@ __local_dir = os.path.dirname(os.path.abspath(__file__))
 _internal_wordlist = os.path.join(__local_dir, __internal_wordlist)
 
 REFERENCE_PREFIX = "REF_"
-strip_table = str.maketrans('', '', '(){}<>[]')
-strip_table = str.maketrans('', '', '(){}<>[].,!;?')
+strip_table = str.maketrans("", "", "(){}<>[]")
+strip_table = str.maketrans("", "", "(){}<>[].,!;?")
 
 
 class separate_reference:
@@ -30,13 +30,13 @@ class separate_reference:
     """
 
     def __init__(self, reference_token=False):
-        '''
+        """
         Initialize the parser
 
         Args:
             reference_token: boolean, flag to decide to tokenize removed
                 reference content
-        '''
+        """
         self.logger = logging.getLogger(__name__)
 
         self.english_words = set()
@@ -49,7 +49,7 @@ class separate_reference:
         self.reference_pattern = reference_patterns()
 
     def __call__(self, text):
-        '''
+        """
         call the parser
 
         Args:
@@ -57,7 +57,7 @@ class separate_reference:
 
         Returns:
              return_doc: a document string
-        '''
+        """
 
         new_doc = []
         for parsed_sentence in nlp(text).sents:
@@ -68,42 +68,44 @@ class separate_reference:
                 # Check if word is of the form word4.
                 new_tokens = self.single_number_pattern(token)
                 if new_tokens:
-                    #self.logger.warning(f"Pattern word0 {token} {new_tokens}")
+                    # self.logger.warning(f"Pattern word0 {token} {new_tokens}")
                     new_sentence.extend(new_tokens)
                     continue
 
                 # Check if the word is of the form word(4)
                 new_tokens = self.identify_reference_punctuation_pattern(
-                    token, self.reference_pattern.single_number_parens,
-                    parens=True)
+                    token, self.reference_pattern.single_number_parens, parens=True
+                )
                 if new_tokens:
-                    #self.logger.warning(f"Pattern Single number parens word(0) {token} {new_tokens}")
+                    # self.logger.warning(f"Pattern Single number parens word(0) {token} {new_tokens}")
                     new_sentence.extend(new_tokens)
                     continue
 
                 # Check if the word is of the form word,2,3,4
                 new_tokens = self.identify_reference_punctuation_pattern(
-                    token, self.reference_pattern.punctuation_then_number, forward=3)
+                    token, self.reference_pattern.punctuation_then_number, forward=3
+                )
                 if new_tokens:
-                    #self.logger.warning(f"Pattern word,2,3,4 {token} {new_tokens}")
+                    # self.logger.warning(f"Pattern word,2,3,4 {token} {new_tokens}")
                     new_sentence.extend(new_tokens)
                     continue
 
                 # Check if the word is of the form word2,3,4
                 new_tokens = self.identify_reference_punctuation_pattern(
-                    token, self.reference_pattern.number_then_punctuation)
+                    token, self.reference_pattern.number_then_punctuation
+                )
                 if new_tokens:
-                    #self.logger.warning(f"Pattern word2,3,4 {token}")
+                    # self.logger.warning(f"Pattern word2,3,4 {token}")
                     new_sentence.extend(new_tokens)
                     continue
 
                 # if no reference detected, append word to the new sentence
                 new_sentence.append(token)
 
-            join_sentence = ' '.join(new_sentence)
+            join_sentence = " ".join(new_sentence)
             new_doc.append(join_sentence)
 
-        return_doc = ' '.join(new_doc)
+        return_doc = " ".join(new_doc)
         return return_doc
 
     # This is an ambiguous  case, because there could be words that end in a
@@ -113,7 +115,7 @@ class separate_reference:
     # the number is not pruned.
 
     def single_number_pattern(self, token):
-        '''
+        """
         Detect the most basic case where a single number is concatenated to the
         word token
 
@@ -122,11 +124,10 @@ class separate_reference:
 
         Returns:
             output: a list of string tokens
-        '''
+        """
         output = []
         try:
-            parse_return = self.reference_pattern.single_number.\
-                parseString(token)
+            parse_return = self.reference_pattern.single_number.parseString(token)
         except BaseException:
             return False
 
@@ -137,7 +138,7 @@ class separate_reference:
             reference = parse_return[1]
 
             output.append(word)
-            #self.logger.info('Removing references %s from token %s' % (reference, token))
+            # self.logger.info('Removing references %s from token %s' % (reference, token))
 
             if self.reference_token:
                 output.append(REFERENCE_PREFIX + reference)
@@ -148,8 +149,9 @@ class separate_reference:
         return output
 
     def identify_reference_punctuation_pattern(
-            self, token, pattern, parens=False, forward=2):
-        '''
+        self, token, pattern, parens=False, forward=2
+    ):
+        """
         Identify whether the pyparsing pattern passed to the function is found
         in the token.
 
@@ -162,43 +164,40 @@ class separate_reference:
 
         Return:
              Output: a list of string tokens
-        '''
+        """
         output = []
         parse_return = pattern.searchString(token)
 
         if parse_return:
 
-            substring = ''.join(parse_return[0][forward:])
+            substring = "".join(parse_return[0][forward:])
             index = token.find(substring)
             word = token[:index]
 
             if self.end_parens_match(parse_return[0], parens=True):
                 end_offset = len(parse_return[0][-1]) * -1
-                reference = token[len(word):end_offset]
+                reference = token[len(word) : end_offset]
             else:
-                reference = token[len(word):]
+                reference = token[len(word) :]
 
             output.append(word)
-            #self.logger.warning('Removing references %s from token %s' % (reference, token))
+            # self.logger.warning('Removing references %s from token %s' % (reference, token))
 
             if self.reference_token:
-                ref_token = (
-                    REFERENCE_PREFIX +
-                    reference).translate(strip_table)
+                ref_token = (REFERENCE_PREFIX + reference).translate(strip_table)
                 output.append(ref_token)
 
             # Handle nested parens
-            if len(
-                    substring) > 2 and substring[-2] in '])}' and substring[-3] in '])}':
+            if len(substring) > 2 and substring[-2] in "])}" and substring[-3] in "])}":
                 output[-1] += substring[-2]
 
             # Reference tokens have stripped too much
             if self.reference_token:
-                if substring[-1] in '.,?!;:':
+                if substring[-1] in ".,?!;:":
                     output[-1] += substring[-1]
 
             # Replace any stripped punctuation
-            if substring[0] in '.,?!;:':
+            if substring[0] in ".,?!;:":
                 output[-1] += substring[0]
 
             if self.end_parens_match(parse_return[0], parens=parens):
@@ -207,14 +206,15 @@ class separate_reference:
         else:
             output = False
 
-        if output and reference[-1] in '.,?!;:' and not self.reference_token:
+        if output and reference[-1] in ".,?!;:" and not self.reference_token:
             output[-1] += reference[-1]
 
         return output
 
-    def end_parens_match(self, list, search=re.compile(r'[^)}\]]').search,
-                         parens=False):
-        '''
+    def end_parens_match(
+        self, list, search=re.compile(r"[^)}\]]").search, parens=False
+    ):
+        """
         Check if the token ends in parenthesis, and thus needs to avoid
         removing them as part of the reference.
 
@@ -226,31 +226,31 @@ class separate_reference:
 
         Return:
             a boolean
-        '''
+        """
         # special case when parsing with the parenthetical content grammar.
         # We check to see if a token ends with a parenthesis to see if we need
         # to append one to the cleaned token. However, we do not want to do
         # this if the token ends with a parenthesis that holds a nested
         # reference
         if parens:
-            LP_Paran = sum(1 for a in list if a == '(')
-            RP_Paran = sum(1 for a in list if a == ')')
+            LP_Paran = sum(1 for a in list if a == "(")
+            RP_Paran = sum(1 for a in list if a == ")")
 
-            LP_Bracket = sum(1 for a in list if a == '[')
-            RP_Bracket = sum(1 for a in list if a == ']')
+            LP_Bracket = sum(1 for a in list if a == "[")
+            RP_Bracket = sum(1 for a in list if a == "]")
 
-            LP_Curl = sum(1 for a in list if a == '{')
-            RP_Curl = sum(1 for a in list if a == '}')
+            LP_Curl = sum(1 for a in list if a == "{")
+            RP_Curl = sum(1 for a in list if a == "}")
 
             # If the count of the left paren doesn't match the right, then
             # ignore all parenthesis
-            FLAG_valid = (LP_Paran == RP_Paran) and (
-                LP_Bracket == RP_Bracket) and (LP_Curl == RP_Curl)
+            FLAG_valid = (
+                (LP_Paran == RP_Paran)
+                and (LP_Bracket == RP_Bracket)
+                and (LP_Curl == RP_Curl)
+            )
 
             if FLAG_valid:
                 return False
 
-        return (
-            isinstance(list[-1], string_types) and not
-            bool(search(list[-1]))
-        )
+        return isinstance(list[-1], string_types) and not bool(search(list[-1]))

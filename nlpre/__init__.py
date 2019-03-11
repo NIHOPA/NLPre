@@ -17,20 +17,20 @@ from .url_replacement import url_replacement
 
 
 __all__ = [
-    'separated_parenthesis',
-    'token_replacement',
-    'decaps_text',
-    'dedash',
-    'pos_tokenizer',
-    'titlecaps',
-    'replace_from_dictionary',
-    'identify_parenthetical_phrases',
-    'unidecoder',
-    'replace_acronyms',
-    'separate_reference',
-    'url_replacement',
-    'nlp',
-    '__version__',
+    "separated_parenthesis",
+    "token_replacement",
+    "decaps_text",
+    "dedash",
+    "pos_tokenizer",
+    "titlecaps",
+    "replace_from_dictionary",
+    "identify_parenthetical_phrases",
+    "unidecoder",
+    "replace_acronyms",
+    "separate_reference",
+    "url_replacement",
+    "nlp",
+    "__version__",
 ]
 
 logger = logging.getLogger(__name__)

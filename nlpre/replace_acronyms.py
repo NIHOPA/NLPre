@@ -33,14 +33,14 @@ class replace_acronyms(object):
     """
 
     def __init__(
-            self,
-            counter,
-            prefix=None,
-            underscore=True,
-            preprocessed=False,
-            use_most_common=False,
+        self,
+        counter,
+        prefix=None,
+        underscore=True,
+        preprocessed=False,
+        use_most_common=False,
     ):
-        '''
+        """
         Initialize the parser, the acronym dictionary, and flags
 
         Args:
@@ -53,7 +53,7 @@ class replace_acronyms(object):
             use_most_common: A boolean to indicate if the phrase is replaced
                           by the most common one, regardless if it is found
                           within the current document
-        '''
+        """
         self.logger = logging.getLogger(__name__)
 
         self.counter = counter
@@ -73,7 +73,7 @@ class replace_acronyms(object):
                 self.acronym_dict[acronym_tuple[1]] = results
 
     def check_self_counter(self, token, doc_counter):
-        '''
+        """
         Check if an acronym token is defined within the document
 
         Args:
@@ -81,7 +81,7 @@ class replace_acronyms(object):
             doc_counter: a counter object of acronyms defined within a document
         Returns:
             a boolean
-        '''
+        """
 
         for acronym_tuple in six.iterkeys(doc_counter):
             if acronym_tuple[1] == token:
@@ -90,7 +90,7 @@ class replace_acronyms(object):
         return False
 
     def word_belongs(self, word, acronym_phrases):
-        '''
+        """
         Return false if a word cannot belong to any abbreviated phrase.
         Since words with dashes are turned into a list of their
         individual words, we must treat all words as a list. So, single
@@ -101,7 +101,7 @@ class replace_acronyms(object):
             acronym_phrases: a 2D list of string tokens
         Returns:
             a boolean
-        '''
+        """
         Match = []
         for acronym_phrase in acronym_phrases:
             if isinstance(word, six.string_types):
@@ -122,14 +122,14 @@ class replace_acronyms(object):
             return False
 
     def check_acronym(self, token):
-        '''
+        """
         Check if a token is an acronym to be replaced
 
         Args:
             token: a string token
         Returns:
             a boolean
-        '''
+        """
 
         if token.lower() == token:
             return False
@@ -140,7 +140,7 @@ class replace_acronyms(object):
             return False
 
     def check_phrase(self, token, pos, tokens, counter):
-        '''
+        """
         Determine if a series of tokens, starting with the input token, form
         an acronym phrase found in the counter. If the token does not form
         a phrase, the function returns as false.
@@ -155,7 +155,7 @@ class replace_acronyms(object):
                     connected by an underline
             If no valid output exists, a boolean False is returned
 
-        '''
+        """
         if not self.underscore:
             return False
 
@@ -169,8 +169,8 @@ class replace_acronyms(object):
         length = 0
         while pos < len(tokens) - 1:
             length += 1
-            if '-' in word:
-                word = word.split('-')
+            if "-" in word:
+                word = word.split("-")
                 phrase.extend(word)
             else:
                 phrase.append(word)
@@ -179,7 +179,7 @@ class replace_acronyms(object):
                 return False
 
             if phrase in acronym_phrases:
-                output = ('_'.join(phrase), length - 1)
+                output = ("_".join(phrase), length - 1)
                 return output
             else:
                 pos += 1
@@ -188,7 +188,7 @@ class replace_acronyms(object):
         return False
 
     def __call__(self, document, doc_counter=None):
-        '''
+        """
         Identify and replace all acronyms in the document
 
         Args:
@@ -198,13 +198,13 @@ class replace_acronyms(object):
                          is run.
         Returns:
             new_doc: a string
-        '''
+        """
 
         if doc_counter is None:
             doc_counter = self.IPP(document)
 
         if self.preprocessed:
-            parsed = document.split('\n')
+            parsed = document.split("\n")
         else:
             parsed = [sent for sent in nlp(document).sents]
 
@@ -227,8 +227,7 @@ class replace_acronyms(object):
                 if self.check_acronym(token):
 
                     # check if acronym is used within document
-                    highest_phrase = self.check_self_counter(
-                        token, doc_counter)
+                    highest_phrase = self.check_self_counter(token, doc_counter)
 
                     # If not found, replace with the original token
                     if not highest_phrase and not self.use_most_common:
@@ -237,22 +236,23 @@ class replace_acronyms(object):
 
                     if not highest_phrase:
                         acronym_counts = self.acronym_dict[token]
-                        highest_phrase = list(
-                            acronym_counts.most_common(1)[0][0])
+                        highest_phrase = list(acronym_counts.most_common(1)[0][0])
 
                     if self.underscore and self.prefix:
                         highest_phrase.insert(0, self.prefix)
 
                     if self.underscore:
-                        highest_phrase = '_'.join(highest_phrase)
+                        highest_phrase = "_".join(highest_phrase)
                         self.logger.info(
-                            'Replacing token %s with phrase %s' %
-                            (token, highest_phrase))
+                            "Replacing token %s with phrase %s"
+                            % (token, highest_phrase)
+                        )
                         new_sentence.append(highest_phrase)
                     else:
                         self.logger.info(
-                            'Replacing token %s with phrase %s' %
-                            (token, highest_phrase))
+                            "Replacing token %s with phrase %s"
+                            % (token, highest_phrase)
+                        )
                         new_sentence.extend(highest_phrase)
                     continue
 
@@ -263,20 +263,19 @@ class replace_acronyms(object):
                 #
                 # This is particularly an issue with titlecaps.py, which might
                 # force phrase tokens to lowercase
-                tokenized_phrase = self.check_phrase(
-                    token, index, tokens, doc_counter)
+                tokenized_phrase = self.check_phrase(token, index, tokens, doc_counter)
 
                 if tokenized_phrase:
                     phrase = tokenized_phrase[0]
                     if self.prefix:
-                        phrase = '_'.join([self.prefix, phrase])
-                    self.logger.info('Tokenizing phrase %s' % phrase)
+                        phrase = "_".join([self.prefix, phrase])
+                    self.logger.info("Tokenizing phrase %s" % phrase)
                     new_sentence.append(phrase)
                     index += tokenized_phrase[1]
                 else:
                     new_sentence.append(token)
-            new_doc.append(' '.join(new_sentence))
+            new_doc.append(" ".join(new_sentence))
 
-        new_doc = '\n'.join(new_doc)
+        new_doc = "\n".join(new_doc)
 
         return new_doc

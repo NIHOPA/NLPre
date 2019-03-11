@@ -38,14 +38,14 @@ class separated_parenthesis(object):
         self.grammar = parenthesis_nester()
 
     def __call__(self, text):
-        '''
+        """
         Runs the parser.
 
         Args:
             text: a string document
         Returns:
             text: A string document with parenthetical content processed
-        '''
+        """
 
         # Known issue - pattern will split on punctuation, even when found in
         # parenthetical content. So, the sentence "A A V (C D. A B) A." would
@@ -54,26 +54,29 @@ class separated_parenthesis(object):
         parsed = nlp(text)
 
         doc_out = []
-        
+
         for parsed_sent in parsed.sents:
             # Get the raw text for the sentence from spaCy
-            #sent = ' '.join([x.text for x in parsed_sent])
+            # sent = ' '.join([x.text for x in parsed_sent])
             sent = parsed_sent.text
 
             # Count the number of left and right parens
-            LP_Paran = sum(1 for a in sent if a == '(')
-            RP_Paran = sum(1 for a in sent if a == ')')
+            LP_Paran = sum(1 for a in sent if a == "(")
+            RP_Paran = sum(1 for a in sent if a == ")")
 
-            LP_Bracket = sum(1 for a in sent if a == '[')
-            RP_Bracket = sum(1 for a in sent if a == ']')
+            LP_Bracket = sum(1 for a in sent if a == "[")
+            RP_Bracket = sum(1 for a in sent if a == "]")
 
-            LP_Curl = sum(1 for a in sent if a == '{')
-            RP_Curl = sum(1 for a in sent if a == '}')
+            LP_Curl = sum(1 for a in sent if a == "{")
+            RP_Curl = sum(1 for a in sent if a == "}")
 
             # If the count of the left paren doesn't match the right, then
             # ignore all parenthesis
-            FLAG_valid = (LP_Paran == RP_Paran) and (
-                LP_Bracket == RP_Bracket) and (LP_Curl == RP_Curl)
+            FLAG_valid = (
+                (LP_Paran == RP_Paran)
+                and (LP_Bracket == RP_Bracket)
+                and (LP_Curl == RP_Curl)
+            )
 
             try:
                 tokens = self.grammar.grammar.parseString(sent)
@@ -82,30 +85,30 @@ class separated_parenthesis(object):
 
             if not FLAG_valid:
                 # On fail simply remove all parenthesis
-                sent = sent.replace('(', '')
-                sent = sent.replace(')', '')
-                sent = sent.replace('[', '')
-                sent = sent.replace(']', '')
-                sent = sent.replace('{', '')
-                sent = sent.replace('}', '')
+                sent = sent.replace("(", "")
+                sent = sent.replace(")", "")
+                sent = sent.replace("[", "")
+                sent = sent.replace("]", "")
+                sent = sent.replace("{", "")
+                sent = sent.replace("}", "")
                 tokens = sent.split()
 
-                text = ' '.join(tokens)
+                text = " ".join(tokens)
                 doc_out.append(text)
             else:
 
                 text = self.paren_pop(tokens)
                 doc_out.extend(text)
 
-        return '\n'.join(doc_out)
+        return "\n".join(doc_out)
 
     def paren_pop(self, parsed_tokens):
-        '''
+        """
         Args:
             parsed_tokens: a ParseResult object
         Returns:
             content: a list of string sentences
-        '''
+        """
 
         # must convert the ParseResult to a list, otherwise adding it to a list
         # causes weird results.
@@ -117,12 +120,12 @@ class separated_parenthesis(object):
         return content
 
     def paren_pop_helper(self, tokens):
-        '''
+        """
         Args:
             tokens: a list of string sentences and parenthetical content lists
         Returns:
             new_tokens: a list of string sentences
-        '''
+        """
 
         # Check if token list is empty
         if not tokens:
@@ -138,10 +141,10 @@ class separated_parenthesis(object):
 
         # If tokens don't include parenthetical content, return as string
         if len(token_words) == len(tokens) and len(token_words):
-            if token_words[-1] not in ['.', '!', '?']:
-                token_words.append('.')
+            if token_words[-1] not in [".", "!", "?"]:
+                token_words.append(".")
 
-            output = remove_trailing_space(' '.join(token_words))
+            output = remove_trailing_space(" ".join(token_words))
             return [output]
         else:
             token_parens = [x for x in tokens if isinstance(x, list)]
@@ -157,19 +160,19 @@ class separated_parenthesis(object):
                     # Only keep if the sentence is at least as long as the
                     # min_keep_length
                     n_tokens_sent = len(sent.split())
-                    if (self.min_keep_length is None or
-                            self.min_keep_length <= n_tokens_sent):
+                    if (
+                        self.min_keep_length is None
+                        or self.min_keep_length <= n_tokens_sent
+                    ):
 
-                        self.logger.info(
-                            'Expanded parenthetical content: %s' %
-                            sent)
+                        self.logger.info("Expanded parenthetical content: %s" % sent)
                         reorged_tokens.append(sent)
 
             # Bundles outer sentence with inner parenthetical content
             if token_words:
-                if token_words[-1] not in ['.', '!', '?']:
-                    token_words.append('.')
-                new_tokens.append(' '.join(token_words))
+                if token_words[-1] not in [".", "!", "?"]:
+                    token_words.append(".")
+                new_tokens.append(" ".join(token_words))
 
             new_tokens.extend(reorged_tokens)
 
@@ -180,21 +183,20 @@ class separated_parenthesis(object):
             # New tokens returns a list of strings
             return new_tokens
 
-def remove_trailing_space(s, punctuation='!?.,'):
-    ''' Removes a trailing space in a sentence eg. 
+
+def remove_trailing_space(s, punctuation="!?.,"):
+    """ Removes a trailing space in a sentence eg. 
         "I saw a foo ." to "I saw a foo."
-    '''
-    
+    """
+
     for punc in punctuation:
-        if len(s)<2:
+        if len(s) < 2:
             return s
-        if ' %s'%punc == s[-2:]:
+        if " %s" % punc == s[-2:]:
             s = s[:-2] + punc
 
     for punc in punctuation:
-        if '%s%s'%(punc, punc) == s[-2:]:
+        if "%s%s" % (punc, punc) == s[-2:]:
             s = s[:-1]
-            
 
-            
     return s

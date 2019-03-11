@@ -3,22 +3,23 @@ from nlpre import pos_tokenizer
 
 
 class POS_Tokenizer_Test:
-
     @classmethod
     def setup_class(cls):
 
-        POS_blacklist = set((
-            "connector",
-            "cardinal",
-            "pronoun",
-            "adverb",
-            "symbol",
-            "verb",
-            "adjective",
-            "punctuation",
-            "possessive",
-            "unknown",
-        ))
+        POS_blacklist = set(
+            (
+                "connector",
+                "cardinal",
+                "pronoun",
+                "adverb",
+                "symbol",
+                "verb",
+                "adjective",
+                "punctuation",
+                "possessive",
+                "unknown",
+            )
+        )
 
         cls.parser = pos_tokenizer(POS_blacklist)
 
@@ -30,45 +31,45 @@ class POS_Tokenizer_Test:
         assert_equal(doc_right, doc_new)
 
     def keep_nouns_test2(self):
-        doc = ''''So we beat on, boats against the current, 
-        borne back ceaselessly into the past'''
-        
+        doc = """'So we beat on, boats against the current, 
+        borne back ceaselessly into the past"""
+
         doc_right = "boat current past"
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)
 
     def keep_nouns_test3(self):
-        doc = ''' A screaming comes across the sky. 
-        It has happened before, but there is nothing to compare it to now. '''
+        doc = """ A screaming comes across the sky. 
+        It has happened before, but there is nothing to compare it to now. """
         doc_right = "screaming sky\nnothing"
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)
 
     def keep_nouns_test4(self):
-        doc = '''
+        doc = """
         Many years later, as he faced the firing squad, he was to remember 
         that distant afternoon when his father took him to discover ice.
-        '''
+        """
         doc_right = "year firing squad afternoon father ice"
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)
 
     def keep_nouns_test5(self):
-        doc = '''
+        doc = """
         The sky above the port was the color of television, 
-        tuned to a dead channel '''
+        tuned to a dead channel """
         doc_right = "sky port color television channel"
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)
 
     def keep_nouns_test6(self):
-        doc = '''
+        doc = """
         In my younger and more vulnerable years my father gave me some 
-        advice that I've been turning over in my mind ever since'''
+        advice that I've been turning over in my mind ever since"""
         doc_right = "year father advice mind"
         doc_new = self.parser(doc)
 
@@ -102,9 +103,8 @@ class POS_Tokenizer_Test:
 
         assert_equal(doc_right, doc_new)
 
-
     def symbol_test(self):
-        doc = '''I am #1.'''
+        doc = """I am #1."""
         doc_right = "i be 1 ."
         doc_new = pos_tokenizer(["symbol"])(doc)
 
@@ -116,7 +116,7 @@ class POS_Tokenizer_Test:
 
     def implied_verb_test(self):
         # snarfed is not a real word, but we are using like a verb
-        doc = 'The boy snarfed the ball into the yard'
-        doc_right = 'the boy the ball into the yard'
-        doc_new = pos_tokenizer(['verb'])(doc)
+        doc = "The boy snarfed the ball into the yard"
+        doc_right = "the boy the ball into the yard"
+        doc_new = pos_tokenizer(["verb"])(doc)
         assert_equal(doc_right, doc_new)

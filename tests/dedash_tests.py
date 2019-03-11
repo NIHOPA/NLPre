@@ -3,7 +3,6 @@ from nlpre.dedash import dedash
 
 
 class Dedash_Test:
-
     @classmethod
     def setup_class(cls):
         cls.parser = dedash()

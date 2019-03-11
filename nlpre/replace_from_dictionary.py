@@ -20,20 +20,20 @@ class replace_from_dictionary(object):
 
     f_MeSH = "dictionaries/MeSH_two_word_lexicon.csv"
 
-    def __init__(self, f_dict=None, prefix=''):
-        '''
+    def __init__(self, f_dict=None, prefix=""):
+        """
         Initialize the parser.
 
         Args:
             f_dict: filename, location of the replacement dictionary.
             prefix: string, text to prefix each replacement.
-        '''
+        """
         self.logger = logging.getLogger(__name__)
 
         if f_dict is None:
             local_path = os.path.dirname(__file__)
             f_dict = os.path.join(local_path, self.f_MeSH)
-            self.logger.debug('Using default dictionary: %s' % f_dict)
+            self.logger.debug("Using default dictionary: %s" % f_dict)
 
         if not os.path.exists(f_dict):
             msg = "Can't find dictionary {}".format(f_dict)
@@ -46,20 +46,20 @@ class replace_from_dictionary(object):
         with open(f_dict) as FIN:
             csvfile = csv.DictReader(FIN)
             for row in csvfile:
-                terms[row["replacement"]].append(row['term'])
+                terms[row["replacement"]].append(row["term"])
 
         self.FT = KeywordProcessor()
         self.FT.add_keywords_from_dict(terms)
 
     def __call__(self, doc):
-        '''
+        """
         Runs the parser.
 
         Args:
             text: a document string
         Returns:
             doc: a document string
-        '''
+        """
 
         keywords = self.FT.extract_keywords(doc, span_info=True)
 
@@ -71,5 +71,5 @@ class replace_from_dictionary(object):
                 tokens.append(doc[n:i])
             tokens.append(self.prefix + word)
             n = j
-        tokens.append(doc[n:len(doc)])
-        return ''.join(tokens)
+        tokens.append(doc[n : len(doc)])
+        return "".join(tokens)

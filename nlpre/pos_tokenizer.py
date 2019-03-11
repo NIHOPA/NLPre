@@ -5,32 +5,23 @@ from . import nlp
 class pos_tokenizer(object):
 
     """
-    #### DOCUMENTATION OUT OF DATE (USING SPACY NOW)
-    ...
     Removes all words that are of a designated part-of-speech (POS) from
     a document. For example, when processing medical text, it is useful to
     remove all words that are not nouns or adjectives. POS detection is
-    provided by the XXX module. Parts of speech:
+    provided the spaCy module. Parts of speech that can be added 
+    to the blacklist.
 
-    POS = {
-            "connector": ["CC", "IN", "DT", "TO", "UH", "PDT"],
-            "cardinal": ["CD", "LS"],
-            "adjective": ["JJ", "JJR", "JJS"],
-            "noun": ["NN", "NNS", "NNP", "NNPS"],
-            "pronoun": ["PRP", "PRP$", "PRO"],
-            "adverb": ["RB", "RBR", "RBS", "RP"],
-            "symbol": ["SYM", '$', '#'],
-            "punctuation": [".", ",", ":", ')', '('],
-            "modal_verb": ["MD"],
-            "verb": ["VB", "VBZ", "VBP", "VBD", "VBG", "VBN"],
-            "w_word": ["WDT", "WP", "WP$", "WRB", "EX"],
-            "quote": ['"', "'", "``", "''"],
-            "unknown": ["FW", "``"],
-        }
-
-    connectors -> conjunction, determiner, infinitival to,
-                  interjection, predeterminer
-    w_word     -> which, what, who, whose, when, where, there, that, ...
+        "noun": ["NOUN", "PROPN"],
+        "pronoun": ["PRON"],
+        "verb": ["VERB"],
+        "adjective": ["ADJ"],
+        "punctuation": ["PUNCT", ],
+        "possessive": ["PART", ],
+        "symbol": ["SYM", "SPACE"],
+        "cardinal": ["NUM"],
+        "connector": ["DET", "CONJ", "CCONJ", "ADP", "INTJ"],
+        "adverb": ["ADV", "PART"],
+        "unknown": ["X", ""],
 
     """
 
@@ -40,6 +31,20 @@ class pos_tokenizer(object):
 
         Args:
             POS_blacklist: A list of parts of speech to remove from the text.
+
+        Allowed forms of POS
+
+        "noun": ["NOUN", "PROPN"],
+        "pronoun": ["PRON"],
+        "verb": ["VERB"],
+        "adjective": ["ADJ"],
+        "punctuation": ["PUNCT", ],
+        "possessive": ["PART", ],
+        "symbol": ["SYM", "SPACE"],
+        "cardinal": ["NUM"],
+        "connector": ["DET", "CONJ", "CCONJ", "ADP", "INTJ"],
+        "adverb": ["ADV", "PART"],
+        "unknown": ["X", ""],
         """
         self.logger = logging.getLogger(__name__)
 
@@ -48,10 +53,8 @@ class pos_tokenizer(object):
             "pronoun": ["PRON"],
             "verb": ["VERB"],
             "adjective": ["ADJ"],
-
-            # PART == possessive ending
-            "punctuation": ["PUNCT", ],
-            "possessive": ["PART", ],
+            "punctuation": ["PUNCT"],
+            "possessive": ["PART"],
             "symbol": ["SYM", "SPACE"],
             "cardinal": ["NUM"],
             "connector": ["DET", "CONJ", "CCONJ", "ADP", "INTJ"],
@@ -63,8 +66,10 @@ class pos_tokenizer(object):
         self.POS_blacklist = set()
 
         for name in POS_blacklist:
-            msg = ("Part-of-speech %s unknown. " %name,
-                   "Use one of %s." % list(POS.keys()))
+            msg = (
+                "Part-of-speech %s unknown. " % name,
+                "Use one of %s." % list(POS.keys()),
+            )
 
             if name not in POS:
                 self.logger.error(msg)
@@ -78,10 +83,10 @@ class pos_tokenizer(object):
         shape = token.shape_
         if word_order == 0:
             shape = shape[1:]
-        return 'X' in shape
+        return "X" in shape
 
     def __call__(self, text, use_base=True):
-        '''
+        """
         Runs the parser.
 
         Args:
@@ -90,7 +95,7 @@ class pos_tokenizer(object):
                       the POS blacklist.
         Returns:
             results: A string document
-        '''
+        """
 
         text = text.strip()
         special_words = set(["PHRASE_", "MeSH_"])
@@ -111,9 +116,7 @@ class pos_tokenizer(object):
 
                 word = token.text
 
-                if (use_base and
-                    not self._keep_root(token, k) and
-                        token.pos_ != 'PRON'):
+                if use_base and not self._keep_root(token, k) and token.pos_ != "PRON":
 
                     word = token.lemma_
 
@@ -124,6 +127,6 @@ class pos_tokenizer(object):
 
                 sent_tokens.append(word)
 
-            doc.append(' '.join(sent_tokens))
-        doc = '\n'.join(doc)
+            doc.append(" ".join(sent_tokens))
+        doc = "\n".join(doc)
         return doc

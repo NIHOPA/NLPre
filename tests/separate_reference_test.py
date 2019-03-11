@@ -3,7 +3,6 @@ from nlpre.separate_reference import separate_reference
 
 
 class References_Test:
-
     @classmethod
     def setup_class(cls):
         cls.parser = separate_reference()
@@ -45,16 +44,16 @@ class References_Test:
         assert_equal(doc_right, doc_new)
 
     def reference_in_parenthesis_test(self):
-        doc = 'key feature in Drosophila3-5 and elegans(7).'
-        doc_right = 'key feature in Drosophila and elegans.'
+        doc = "key feature in Drosophila3-5 and elegans(7)."
+        doc_right = "key feature in Drosophila and elegans."
 
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)
 
     def parenthetical_reference_in_parenthesis_test(self):
-        doc = 'key feature in (Drosophila3-5 and elegans(7)).'
-        doc_right = 'key feature in (Drosophila and elegans).'
+        doc = "key feature in (Drosophila3-5 and elegans(7))."
+        doc_right = "key feature in (Drosophila and elegans)."
 
         doc_new = self.parser(doc)
 
@@ -62,67 +61,73 @@ class References_Test:
 
     def parenthetical_reference_in_parenthesis_tokens_test(self):
         # BROKEN
-        doc = 'key feature in (Drosophila3-5 and elegans(7)).'
-        doc_right = 'key feature in (Drosophila REF_3-5 and elegans REF_7).'
+        doc = "key feature in (Drosophila3-5 and elegans(7))."
+        doc_right = "key feature in (Drosophila REF_3-5 and elegans REF_7)."
         doc_new = self.parser_with_ref(doc)
 
         assert_equal(doc_right, doc_new)
 
     def standard_word_in_reference_in_parenthesis_test(self):
-        doc = 'key feature in Drosophila3-5 and trees(7).'
-        doc_right = 'key feature in Drosophila and trees.'
+        doc = "key feature in Drosophila3-5 and trees(7)."
+        doc_right = "key feature in Drosophila and trees."
 
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)
 
     def standard_word_in_reference_in_parenthesis_token_test(self):
-        doc = 'key feature in Drosophila3-5 and trees(7).'
-        doc_right = 'key feature in Drosophila REF_3-5 and trees REF_7.'
+        doc = "key feature in Drosophila3-5 and trees(7)."
+        doc_right = "key feature in Drosophila REF_3-5 and trees REF_7."
 
         doc_new = self.parser_with_ref(doc)
 
         assert_equal(doc_right, doc_new)
 
     def parenthesis_with_dashes_test(self):
-        doc = 'key feature in Drosophila3-5 and trees(7-11).'
-        doc_right = 'key feature in Drosophila and trees.'
+        doc = "key feature in Drosophila3-5 and trees(7-11)."
+        doc_right = "key feature in Drosophila and trees."
 
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)
 
     def parenthesis_with_dashes_period_test(self):
-        doc = 'key feature in Drosophila3-5 and trees.(7-11) its super helpful.'
-        doc_right = 'key feature in Drosophila and trees. its super helpful.'
+        doc = "key feature in Drosophila3-5 and trees.(7-11) its super helpful."
+        doc_right = "key feature in Drosophila and trees. its super helpful."
 
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)
 
     def parenthesis_with_dashes_period_token_test(self):
-        doc = 'key feature in Drosophila3-5 and trees.(7-11) its super helpful.'
-        doc_right = 'key feature in Drosophila REF_3-5 and trees REF_7-11. its super helpful.'
+        doc = "key feature in Drosophila3-5 and trees.(7-11) its super helpful."
+        doc_right = (
+            "key feature in Drosophila REF_3-5 and trees REF_7-11. its super helpful."
+        )
 
         doc_new = self.parser_with_ref(doc)
 
         assert_equal(doc_right, doc_new)
 
     def bracket_test(self):
-        doc = 'There are at least eight distinct types of modifications found' \
-              ' on histones (see the legend box on the top left of the ' \
-              'figure). Enzymes have been identified for acetylation,[2] ' \
-              'methylation,[3] demethylation,[4] phosphorylation,[5] ' \
-              'ubiquitination,[6] sumoylation,[7] ADP-ribosylation,[8] ' \
-              'deimination,[9][10] and proline isomerization.[11]'
+        doc = (
+            "There are at least eight distinct types of modifications found"
+            " on histones (see the legend box on the top left of the "
+            "figure). Enzymes have been identified for acetylation,[2] "
+            "methylation,[3] demethylation,[4] phosphorylation,[5] "
+            "ubiquitination,[6] sumoylation,[7] ADP-ribosylation,[8] "
+            "deimination,[9][10] and proline isomerization.[11]"
+        )
 
-        doc_right = 'There are at least eight distinct types of ' \
-                    'modifications found on histones (see the legend box on' \
-                    ' the top left of the figure). Enzymes have been ' \
-                    'identified for acetylation, methylation, ' \
-                    'demethylation, phosphorylation, ubiquitination, ' \
-                    'sumoylation, ADP-ribosylation, ' \
-                    'deimination, and proline isomerization.'
+        doc_right = (
+            "There are at least eight distinct types of "
+            "modifications found on histones (see the legend box on"
+            " the top left of the figure). Enzymes have been "
+            "identified for acetylation, methylation, "
+            "demethylation, phosphorylation, ubiquitination, "
+            "sumoylation, ADP-ribosylation, "
+            "deimination, and proline isomerization."
+        )
 
         doc_new = self.parser(doc)
 
@@ -267,4 +272,3 @@ class References_Test:
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)
-

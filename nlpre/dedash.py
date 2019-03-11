@@ -44,19 +44,20 @@ class dedash(object):
 
                 word = "{}{}".format(tokens[i][:-1], tokens[i + 1])
 
-                test_word = ''.join([x for x in word if x.isalpha()])
+                test_word = "".join([x for x in word if x.isalpha()])
 
                 # Only combine sensible english words
                 if test_word.lower() not in self.english_words:
                     continue
 
-                self.logger.info("Merging tokens %s %s %s"
-                                 % (tokens[i], tokens[i + 1], word))
+                self.logger.info(
+                    "Merging tokens %s %s %s" % (tokens[i], tokens[i + 1], word)
+                )
 
                 tokens[i] = word
-                tokens[i + 1] = ''
+                tokens[i + 1] = ""
 
-        doc = ' '.join((x for x in tokens if x))
+        doc = " ".join((x for x in tokens if x))
         return doc
 
 
@@ -75,11 +76,12 @@ def is_dash_word(s):
         return False
     if len(s) <= 1:
         return False
-    if s[-1] != '-':
+    if s[-1] != "-":
         return False
 
     # Require that at least one of the tokens is an alpha
     return any([x.isalpha() for x in s[:-1]])
+
 
 # if __name__ == "__main__":
 #    text = '''1.-

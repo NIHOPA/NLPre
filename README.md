@@ -4,7 +4,6 @@ DEV NOTES:
 
 + Suffix (instead of prefix _MesH)
 + Custom dictionaries
-+ Update POS documentation
 + Drop/test python 2 support?
 + Speed tests
 + Full release with zip

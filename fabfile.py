@@ -1,5 +1,7 @@
 from fabric.api import local
 
+exclude_command = '--exclude nlpre/spacy_models/'
+
 def test():
     #local("flake8 nlpre --builtins basestring")
     local("nosetests --with-coverage --cover-package nlpre --cover-html")
@@ -8,8 +10,8 @@ def test():
     #local("detox")
 
 def lint():
-    local("autopep8 nlpre/*.py -aaa --in-place")
-    #local("autopep8 tests/*.py --in-place")
+    local("black nlpre tests %s"%exclude_command)
+    local("flake8 nlpre --ignore=E501,E203 %s"%exclude_command)   
 
 def cover():
     local("xdg-open cover/index.html")

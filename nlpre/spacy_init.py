@@ -4,19 +4,16 @@ from spacy.matcher import Matcher
 
 # Hard code the model into NLPre
 f_spacey_init = os.path.join(
-    os.path.dirname(__file__), 'spacy_models', 'en_core_web_sm-2.0.0')
+    os.path.dirname(__file__), "spacy_models", "en_core_web_sm-2.0.0"
+)
 
 nlp = spacy.load(f_spacey_init)
 matcher = Matcher(nlp.vocab)
 
 # Add in the custom rule for joining dashed words
 # Seee https://spacy.io/usage/linguistic-features#rule-based-matching
-pattern = [
-    {'IS_ASCII': True},
-    {'ORTH': '-'},
-    {'IS_ASCII': True},
-]
-matcher.add('PRESERVE_DASHES', None, pattern)
+pattern = [{"IS_ASCII": True}, {"ORTH": "-"}, {"IS_ASCII": True}]
+matcher.add("PRESERVE_DASHES", None, pattern)
 
 
 def dash_merger(doc):

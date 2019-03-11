@@ -6,7 +6,6 @@ from nlpre import token_replacement
 
 
 class Token_Test:
-
     @classmethod
     def setup_class(cls):
         cls.parser = token_replacement()
@@ -103,7 +102,7 @@ class Token_Test:
         assert_equal(doc_new, doc_right)
 
     def doublequote_test(self):
-        doc = "\"hello\" he said"
+        doc = '"hello" he said'
         doc_new = self.parser(doc)
         doc_right = "hello he said"
         assert_equal(doc_new, doc_right)
