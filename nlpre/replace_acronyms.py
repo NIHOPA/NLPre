@@ -36,6 +36,7 @@ class replace_acronyms(object):
         self,
         counter,
         prefix=None,
+        suffix=None,
         underscore=True,
         preprocessed=False,
         use_most_common=False,
@@ -58,6 +59,7 @@ class replace_acronyms(object):
 
         self.counter = counter
         self.prefix = prefix
+        self.suffix = suffix
         self.underscore = underscore
         self.preprocessed = preprocessed
         self.use_most_common = use_most_common
@@ -238,6 +240,9 @@ class replace_acronyms(object):
                     if self.underscore and self.prefix:
                         highest_phrase.insert(0, self.prefix)
 
+                    if self.underscore and self.suffix:
+                        highest_phrase.append(self.suffix)
+
                     if self.underscore:
                         highest_phrase = "_".join(highest_phrase)
                         self.logger.info(
@@ -268,6 +273,10 @@ class replace_acronyms(object):
                     phrase = tokenized_phrase[0]
                     if self.prefix:
                         phrase = "_".join([self.prefix, phrase])
+
+                    if self.suffix:
+                        phrase = "_".join([phrase, self.suffix])
+
                     self.logger.info("Tokenizing phrase %s" % phrase)
                     new_sentence.append(phrase)
                     index += tokenized_phrase[1]

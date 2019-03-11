@@ -211,6 +211,24 @@ class Parens_Replace_Test:
 
         assert_equal(doc_right, doc_new)
 
+    def tokenize_phrase_suffix_test(self):
+        doc = (
+            "The Environmental Protection Agency (EPA) was created by "
+            "Nixon. The EPA helps the environment"
+        )
+        counter = self.parser(doc)
+
+        replacer = replace_acronyms(counter, suffix="ABBR", underscore=True)
+        doc_new = replacer(doc)
+        doc_right = (
+            "The Environmental_Protection_Agency_ABBR ( "
+            "Environmental_Protection_Agency_ABBR ) was created by "
+            "Nixon .\nThe Environmental_Protection_Agency_ABBR "
+            "helps the environment"
+        )
+
+        assert_equal(doc_right, doc_new)
+
     def dash_test(self):
         doc = (
             "It is not a great non-Hodgkins lymphoma (NHL), but it is "
