@@ -1,33 +1,19 @@
-import string
-import re
+from . import nlp
 
 
 class url_replacement(object):
 
     """
-        Removes (or replaces) URLs within a document. URLs must start with
-        either http, https, www, or ftp but can be contained within strings.
+        Removes (or replaces) URLs and emails within a document.
+        Uses spaCy to determine if like email or url.
     """
 
-    def __init__(self, prefix=""):
-        """ Initialize the parser. """
-        self.patterns = {}
-        for key in ["www", "ftp"]:
-            self.patterns[key] = self.compile_pattern(key)
-
-        self.prefix = prefix
-
-    def compile_pattern(self, header):
+    def __init__(self, email_replacement="", url_replacement=""):
         """
-        Source for regex pattern
-        https://stackoverflow.com/a/1986151/249341
+        Initialize the parser.
         """
-        pat = (
-            r"\b(([\w-]+://?|{header}[.])[^\s()<>]+(?:\([\w\d]+\)|"
-            r"([^%s\s]|/)))"
-        ).format(header=header)
-        pat = pat % re.sub(r"([-\\\]])", r"\\\1", string.punctuation)
-        return re.compile(pat)
+        self.email_replacement = email_replacement
+        self.url_replacement = url_replacement
 
     def __call__(self, text):
         """
@@ -36,9 +22,23 @@ class url_replacement(object):
         Args:
             text: A string document
         Returns:
-            text: The document with links remove or replaced with _prefix
+            text: The document with links removed or replaced
         """
 
-        for key, val in self.patterns.items():
-            text = re.sub(val, self.prefix, text)
-        return text
+        doc = []
+        for token in nlp(text):
+
+            if token.like_url:
+                if self.url_replacement:
+                    doc.append(self.url_replacement)
+                    doc.append(token.whitespace_)
+
+            elif token.like_email:
+                if self.email_replacement:
+                    doc.append(self.email_replacement)
+                    doc.append(token.whitespace_)
+
+            else:
+                doc.append(token.text_with_ws)
+
+        return "".join(doc)
