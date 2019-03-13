@@ -2,13 +2,14 @@
 
 DEV NOTES:
 
-+ Suffix (instead of prefix _MesH)
+
 + Custom dictionaries
-+ Speed tests
 + Full release with zip
 + Option for Remove symbols
-+ URL replacement use spaCy and now handles emails
 
++ Suffix (instead of prefix _MesH)
++ Speed tests (slower)
++ URL replacement use spaCy and now handles emails
 + Use BLACK for linting
 + Drop/test python 2 support?
 
