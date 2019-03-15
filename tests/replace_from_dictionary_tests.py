@@ -19,9 +19,18 @@ class Replace_From_Dictionary_Test:
         assert_raises(
             IOError,
             replace_from_dictionary,
-            "MeSH_two_word_lexicon1.csv",
+            "MeSH_two_word_lexicon_BAD.csv",
             path_to_meshdict,
         )
+
+    def custom_dictionary_test(self):
+        """ Use a custom dictionary. """
+        clf = replace_from_dictionary("tests/custom_dict.csv")
+        doc = "That person was two faced."
+        doc_right = "That person was two_faced."
+        doc_new = clf(doc)
+
+        assert_equal(doc_right, doc_new)
 
     def default_dictionary_test(self):
         """ Use the default dictionary if one is missing. """

@@ -71,7 +71,7 @@ class replace_from_dictionary(object):
         for word, i, j in keywords:
             if n < i:
                 tokens.append(doc[n:i])
-            tokens.append(''.join([self.prefix,word,self.suffix]))
+            tokens.append("".join([self.prefix, word, self.suffix]))
             n = j
         tokens.append(doc[n : len(doc)])
         return "".join(tokens)
