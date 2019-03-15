@@ -2,11 +2,10 @@
 
 DEV NOTES:
 
-
-+ Custom dictionaries
 + Full release with zip
-+ Option for Remove symbols
 
++ Option for Remove symbols
++ Custom dictionaries
 + Suffix (instead of prefix _MesH)
 + Speed tests (slower)
 + URL replacement use spaCy and now handles emails

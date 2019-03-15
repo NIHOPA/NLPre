@@ -22,6 +22,12 @@ class Token_Test:
         doc_right = "Working at 100 percent  efficiency"
         assert_equal(doc_new, doc_right)
 
+    def remove_test(self):
+        doc = "Working at 100% efficiency"
+        doc_new = token_replacement(remove=True)(doc)
+        doc_right = "Working at 100 efficiency"
+        assert_equal(doc_new, doc_right)
+
     def greater_test(self):
         doc = "dogs>cats"
         doc_new = self.parser(doc)
