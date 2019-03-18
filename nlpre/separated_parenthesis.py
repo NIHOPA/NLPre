@@ -1,5 +1,4 @@
 import pyparsing as pypar
-import six
 import logging
 from .Grammars import parenthesis_nester
 from . import nlp
@@ -139,7 +138,7 @@ class separated_parenthesis(object):
             tokens = tokens[0]
 
         new_tokens = []
-        token_words = [x for x in tokens if isinstance(x, six.string_types)]
+        token_words = [x for x in tokens if isinstance(x, str)]
 
         # If tokens don't include parenthetical content, return as string
         if len(token_words) == len(tokens) and len(token_words):

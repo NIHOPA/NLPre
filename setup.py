@@ -25,7 +25,6 @@ setuptools.setup(
         'unidecode',
         'pyparsing', 
         'flashtext',
-        'six',
 
         # See https://github.com/explosion/spaCy/issues/1099
         'spacy==2.1.0',

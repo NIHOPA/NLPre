@@ -2,8 +2,6 @@ import os
 from .Grammars import reference_patterns
 import logging
 import re
-from six import string_types
-from . import nlp
 
 __internal_wordlist = "dictionaries/english_wordlist.txt"
 __local_dir = os.path.dirname(os.path.abspath(__file__))
@@ -45,7 +43,6 @@ class separate_reference:
                 self.english_words.add(line.strip())
 
         self.reference_token = reference_token
-
         self.reference_pattern = reference_patterns()
 
     def __call__(self, text):
@@ -60,54 +57,45 @@ class separate_reference:
         """
 
         new_doc = []
-        for parsed_sentence in nlp(text).sents:
-            tokens = parsed_sentence.text.split()
+        tokens = text.strip().split()
 
-            new_sentence = []
-            for token in tokens:
-                # Check if word is of the form word4.
-                new_tokens = self.single_number_pattern(token)
-                if new_tokens:
-                    # self.logger.warning(f"Pattern word0 {token} {new_tokens}")
-                    new_sentence.extend(new_tokens)
-                    continue
+        new_sentence = []
+        for token in tokens:
+            # Check if word is of the form word4.
+            new_tokens = self.single_number_pattern(token)
+            if new_tokens:
+                new_sentence.extend(new_tokens)
+                continue
 
-                # Check if the word is of the form word(4)
-                new_tokens = self.identify_reference_punctuation_pattern(
-                    token,
-                    self.reference_pattern.single_number_parens,
-                    parens=True,
-                )
-                if new_tokens:
-                    # self.logger.warning(f"Pattern Single number parens word(0) {token} {new_tokens}")
-                    new_sentence.extend(new_tokens)
-                    continue
+            # Check if the word is of the form word(4)
+            new_tokens = self.identify_reference_punctuation_pattern(
+                token, self.reference_pattern.single_number_parens, parens=True
+            )
+            if new_tokens:
+                new_sentence.extend(new_tokens)
+                continue
 
-                # Check if the word is of the form word,2,3,4
-                new_tokens = self.identify_reference_punctuation_pattern(
-                    token,
-                    self.reference_pattern.punctuation_then_number,
-                    forward=3,
-                )
-                if new_tokens:
-                    # self.logger.warning(f"Pattern word,2,3,4 {token} {new_tokens}")
-                    new_sentence.extend(new_tokens)
-                    continue
+            # Check if the word is of the form word,2,3,4
+            new_tokens = self.identify_reference_punctuation_pattern(
+                token, self.reference_pattern.punctuation_then_number, forward=3
+            )
+            if new_tokens:
+                new_sentence.extend(new_tokens)
+                continue
 
-                # Check if the word is of the form word2,3,4
-                new_tokens = self.identify_reference_punctuation_pattern(
-                    token, self.reference_pattern.number_then_punctuation
-                )
-                if new_tokens:
-                    # self.logger.warning(f"Pattern word2,3,4 {token}")
-                    new_sentence.extend(new_tokens)
-                    continue
+            # Check if the word is of the form word2,3,4
+            new_tokens = self.identify_reference_punctuation_pattern(
+                token, self.reference_pattern.number_then_punctuation
+            )
+            if new_tokens:
+                new_sentence.extend(new_tokens)
+                continue
 
-                # if no reference detected, append word to the new sentence
-                new_sentence.append(token)
+            # if no reference detected, append word to the new sentence
+            new_sentence.append(token)
 
-            join_sentence = " ".join(new_sentence)
-            new_doc.append(join_sentence)
+        join_sentence = " ".join(new_sentence)
+        new_doc.append(join_sentence)
 
         return_doc = " ".join(new_doc)
         return return_doc
@@ -144,7 +132,6 @@ class separate_reference:
             reference = parse_return[1]
 
             output.append(word)
-            # self.logger.info('Removing references %s from token %s' % (reference, token))
 
             if self.reference_token:
                 output.append(REFERENCE_PREFIX + reference)
@@ -187,7 +174,6 @@ class separate_reference:
                 reference = token[len(word) :]
 
             output.append(word)
-            # self.logger.warning('Removing references %s from token %s' % (reference, token))
 
             if self.reference_token:
                 ref_token = (REFERENCE_PREFIX + reference).translate(
@@ -224,14 +210,14 @@ class separate_reference:
         return output
 
     def end_parens_match(
-        self, list, search=re.compile(r"[^)}\]]").search, parens=False
+        self, strlist, search=re.compile(r"[^)}\]]").search, parens=False
     ):
         """
         Check if the token ends in parenthesis, and thus needs to avoid
         removing them as part of the reference.
 
         Args:
-            list: a list of string subtokens, parsed from the given grammar
+            strlist: a list of string subtokens, parsed from the given grammar
             search: pattern to recognize. Defaults to ending parenthesis
             parens: boolean to flag whether the passed grammar is for
                 references with parenthesis in them.
@@ -245,14 +231,14 @@ class separate_reference:
         # this if the token ends with a parenthesis that holds a nested
         # reference
         if parens:
-            LP_Paran = sum(1 for a in list if a == "(")
-            RP_Paran = sum(1 for a in list if a == ")")
+            LP_Paran = sum(1 for a in strlist if a == "(")
+            RP_Paran = sum(1 for a in strlist if a == ")")
 
-            LP_Bracket = sum(1 for a in list if a == "[")
-            RP_Bracket = sum(1 for a in list if a == "]")
+            LP_Bracket = sum(1 for a in strlist if a == "[")
+            RP_Bracket = sum(1 for a in strlist if a == "]")
 
-            LP_Curl = sum(1 for a in list if a == "{")
-            RP_Curl = sum(1 for a in list if a == "}")
+            LP_Curl = sum(1 for a in strlist if a == "{")
+            RP_Curl = sum(1 for a in strlist if a == "}")
 
             # If the count of the left paren doesn't match the right, then
             # ignore all parenthesis
@@ -265,4 +251,4 @@ class separate_reference:
             if FLAG_valid:
                 return False
 
-        return isinstance(list[-1], string_types) and not bool(search(list[-1]))
+        return isinstance(strlist[-1], str) and not bool(search(strlist[-1]))

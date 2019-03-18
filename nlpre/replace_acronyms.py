@@ -1,7 +1,6 @@
 import nlpre.identify_parenthetical_phrases as IPP
 import collections
 import logging
-import six
 from . import nlp
 
 
@@ -66,7 +65,7 @@ class replace_acronyms(object):
         self.IPP = IPP.identify_parenthetical_phrases()
         self.acronym_dict = {}
 
-        for acronym_tuple, count in six.iteritems(self.counter):
+        for acronym_tuple, count in self.counter.items():
             if acronym_tuple[1] in self.acronym_dict:
                 self.acronym_dict[acronym_tuple[1]][acronym_tuple[0]] = count
             else:
@@ -85,7 +84,7 @@ class replace_acronyms(object):
             a boolean
         """
 
-        for acronym_tuple in six.iterkeys(doc_counter):
+        for acronym_tuple in doc_counter.keys():
             if acronym_tuple[1] == token:
                 highest_phrase = list(acronym_tuple[0])
                 return highest_phrase
@@ -106,7 +105,7 @@ class replace_acronyms(object):
         """
         for acronym_phrase in acronym_phrases:
 
-            if isinstance(word, six.string_types):
+            if isinstance(word, str):
                 wordlist = [word]
             else:
                 wordlist = list(word)
@@ -158,7 +157,7 @@ class replace_acronyms(object):
 
         acronym_phrases = []
 
-        for acronym_tuple in six.iterkeys(counter):
+        for acronym_tuple in counter.keys():
             acronym_phrases.append(list(acronym_tuple[0]))
 
         phrase = []

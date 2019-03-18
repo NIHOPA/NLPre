@@ -1,9 +1,7 @@
 import collections
-import six
 from .Grammars import parenthesis_nester
 import logging
 import string
-from six import string_types
 
 
 class identify_parenthetical_phrases(object):
@@ -55,7 +53,7 @@ class identify_parenthetical_phrases(object):
             word: the abbreviation, a string token
         """
 
-        if isinstance(item, six.string_types):
+        if isinstance(item, str):
             return False
         if len(item) != 1:
             return False
@@ -63,7 +61,7 @@ class identify_parenthetical_phrases(object):
         word = item[0]
 
         # Break if we are doubly nested
-        if not isinstance(word, six.string_types):
+        if not isinstance(word, str):
             return False
 
         # Check if there are any capital letters
@@ -98,7 +96,7 @@ class identify_parenthetical_phrases(object):
         #    return False
         subtokens = tokens[k - len(caps) : k]
         subtoken_let = [
-            let.upper()[0] for let in subtokens if isinstance(let, string_types)
+            let.upper()[0] for let in subtokens if isinstance(let, str)
         ]
 
         """
@@ -128,7 +126,7 @@ class identify_parenthetical_phrases(object):
                 if x < 0 or x < cutoff:
                     return False
                 token = tokens[x]
-                if isinstance(token, string_types):
+                if isinstance(token, str):
                     subtokens.insert(0, token)
                     subtoken_let = [
                         let.upper()[0]

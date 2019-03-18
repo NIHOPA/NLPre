@@ -109,8 +109,8 @@ class References_Test:
 
     def bracket_test(self):
         doc = (
-            "There are at least eight distinct types of modifications found"
-            " on histones (see the legend box on the top left of the "
+            "There are at least eight distinct types of modifications found "
+            "on histones (see the legend box on the top left of the "
             "figure). Enzymes have been identified for acetylation,[2] "
             "methylation,[3] demethylation,[4] phosphorylation,[5] "
             "ubiquitination,[6] sumoylation,[7] ADP-ribosylation,[8] "
@@ -119,8 +119,8 @@ class References_Test:
 
         doc_right = (
             "There are at least eight distinct types of "
-            "modifications found on histones (see the legend box on"
-            " the top left of the figure). Enzymes have been "
+            "modifications found on histones (see the legend box on "
+            "the top left of the figure). Enzymes have been "
             "identified for acetylation, methylation, "
             "demethylation, phosphorylation, ubiquitination, "
             "sumoylation, ADP-ribosylation, "
