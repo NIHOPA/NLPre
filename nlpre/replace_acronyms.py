@@ -202,6 +202,7 @@ class replace_acronyms(object):
         if self.preprocessed:
             parsed = document.split("\n")
         else:
+            document = " ".join(document.strip().split())
             parsed = [sent for sent in nlp(document).sents]
 
         new_doc = []

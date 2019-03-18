@@ -25,6 +25,8 @@ class url_replacement(object):
             text: The document with links removed or replaced
         """
 
+        text = " ".join(text.strip().split())
+
         doc = []
         for token in nlp(text):
 
