@@ -1,4 +1,19 @@
 ## Current speed test
+
+                                    time      frac
+    function                                          
+    unidecoder                      0.000002  0.000006
+    token_replacement               0.000024  0.000068
+    dedash                          0.000374  0.001047
+    replace_from_dictionary         0.000554  0.001551
+    identify_parenthetical_phrases  0.005569  0.015589
+    pos_tokenizer                   0.060254  0.168667
+    titlecaps                       0.062962  0.176247
+    decaps_text                     0.066120  0.185087
+    separated_parenthesis           0.073016  0.204391
+    replace_acronyms                0.088362  0.247349
+
+#### pattern.en speed test
  
     function                        time      frac
     unidecoder                      0.000008  0.000122

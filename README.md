@@ -1,22 +1,18 @@
 # Natural Language Preprocessing (NLPre)
 
-DEV NOTES:
-
-+ Full release with zip
-
-+ Option for Remove symbols
-+ Custom dictionaries
-+ Suffix (instead of prefix _MesH)
-+ Speed tests (slower)
-+ URL replacement use spaCy and now handles emails
-+ Use BLACK for linting
-+ Drop/test python 2 support?
-
-
 [![Build Status](https://travis-ci.org/NIHOPA/NLPre.svg?branch=master)](https://travis-ci.org/NIHOPA/NLPre)
 [![codecov](https://codecov.io/gh/NIHOPA/NLPre/branch/master/graph/badge.svg)](https://codecov.io/gh/NIHOPA/NLPre)
 [![PyPI](https://img.shields.io/pypi/v/nlpre.svg)](https://pypi.python.org/pypi/nlpre)
 [![PyVersion](https://img.shields.io/pypi/pyversions/nlpre.svg)](https://img.shields.io/pypi/pyversions/nlpre.svg)
+
+## Major version update! NLPre 2.0.0
+
++ Support for python 2 has been dropped
++ Backend NLP engine `pattern.en` has been replaced with `spaCy`
++ Support for custom dictionaries in `replace_from_dictionary`
++ Option for suffix to be used instead of prefix in `replace_from_dictionary`
++ URL replacement can now remove emails
++ `token_replacement` can remove symbols
 
 NLPre is a text (pre)-processing library that helps smooth some of the inconsistencies found in real-world data.
 Correcting for issues like random capitalization patterns, strange hyphenations, and abbreviations are essential parts of wrangling textual data but are often left to the user.
