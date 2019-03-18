@@ -5,6 +5,7 @@
 
 # Needed for testing
 coverage
-autopep8
-fabric
+flake8
 nose
+invoke
+black
