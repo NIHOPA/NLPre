@@ -27,7 +27,7 @@ setuptools.setup(
         'flashtext',
 
         # See https://github.com/explosion/spaCy/issues/1099
-        'spacy>=2.1.0',
+        'spacy==2.0.0',
 
         # Fix the version of mysqlclient due to windows problems
         "mysqlclient==1.3.12",
