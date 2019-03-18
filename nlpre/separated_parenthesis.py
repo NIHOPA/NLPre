@@ -51,6 +51,8 @@ class separated_parenthesis(object):
         # parenthetical content. So, the sentence "A A V (C D. A B) A." would
         # be split into sentences "A A V (C D." and " A B) A."
 
+        text = " ".join(text.strip().split())
+
         parsed = nlp(text)
 
         doc_out = []

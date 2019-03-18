@@ -97,7 +97,7 @@ class pos_tokenizer(object):
             results: A string document
         """
 
-        text = ' '.join(text.strip().split())
+        text = " ".join(text.strip().split())
         special_words = set(["PHRASE_", "MeSH_"])
 
         doc = []

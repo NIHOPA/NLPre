@@ -8,6 +8,6 @@ def sentence_tokenizer(text):
 
     # Remove extra whitespace, as we don't need to preserve it and
     # it confuses spaCy models sometimes.
-    text = ' '.join(text.split())
-    
+    text = " ".join(text.split())
+
     return [[x.text for x in sentence] for sentence in nlp(text).sents]

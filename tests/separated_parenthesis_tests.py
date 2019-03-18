@@ -30,22 +30,22 @@ class Separated_Parenthesis_Tests:
         assert_equals(doc_right, doc_new)
 
     def multiple_brackets_pair_test(self):
-        doc = "hello [hello [world1] world2] world3."
-        doc_right = "hello world3.\nhello world2.\nworld1."
+        doc = "Hello [and goodbye [no really]] everybody."
+        doc_right = "Hello everybody.\nand goodbye.\nno really."
         doc_new = self.parser(doc)
 
         assert_equals(doc_right, doc_new)
 
     def multiple_curly_pair_test(self):
-        doc = "hello {hello {world1} world2} world3."
-        doc_right = "hello world3.\nhello world2.\nworld1."
+        doc = "Hello {and goodbye {no really}} everybody."
+        doc_right = "Hello everybody.\nand goodbye.\nno really."
         doc_new = self.parser(doc)
 
         assert_equals(doc_right, doc_new)
 
     def multiple_parenthesis_pair_test(self):
-        doc = "hello (hello (world1) world2) world3."
-        doc_right = "hello world3.\nhello world2.\nworld1."
+        doc = "Hello (and goodbye (no really)) everybody."
+        doc_right = "Hello everybody.\nand goodbye.\nno really."
         doc_new = self.parser(doc)
 
         assert_equals(doc_right, doc_new)
@@ -66,8 +66,8 @@ class Separated_Parenthesis_Tests:
 
     # Code tests are not working at the moment
     def single_parenthesis_test(self):
-        doc = "hello (world1 (world2) one two."
-        doc_right = "hello world1 world2 one two."
+        doc = "hello (one two (three) four five."
+        doc_right = "hello one two three four five."
         doc_new = self.parser(doc)
 
         assert_equals(doc_right, doc_new)
@@ -87,8 +87,8 @@ class Separated_Parenthesis_Tests:
         assert_equals(doc_right, doc_new)
 
     def unbalanced_parenthesis_test(self):
-        doc = "hello (((world1) world2) world3."
-        doc_right = "hello world1 world2 world3."
+        doc = "hello (((one) two) three."
+        doc_right = "hello one two three."
         doc_new = self.parser(doc)
 
         assert_equals(doc_right, doc_new)
