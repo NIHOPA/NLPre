@@ -31,10 +31,10 @@ class POS_Tokenizer_Test:
         assert_equal(doc_right, doc_new)
 
     def keep_nouns_test2(self):
-        doc = """'So we beat on, boats against the current, 
-        borne back ceaselessly into the past"""
+        doc = """The haploid set of chromosomes in a gamete 
+        or microorganism, or in each cell of a multicellular organism."""
 
-        doc_right = "boat current past"
+        doc_right = "set chromosome microorganism cell organism"
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)

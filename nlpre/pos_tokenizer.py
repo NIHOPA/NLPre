@@ -97,12 +97,11 @@ class pos_tokenizer(object):
             results: A string document
         """
 
-        text = text.strip()
+        text = ' '.join(text.strip().split())
         special_words = set(["PHRASE_", "MeSH_"])
 
         doc = []
         for sent in nlp(text).sents:
-
             sent_tokens = []
             for k, token in enumerate(sent):
 
