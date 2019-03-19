@@ -1,7 +1,7 @@
 # One canonical source for the version number,
 # Versions should comply with PEP440.
 
-__version__ = "2.0.2"
+__version__ = "2.0.3"
 
 # 2.0.3 Add dictionaries to manifest for pypi
 # 2.0.2 Fix manifest for pypi
