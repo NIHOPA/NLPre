@@ -7,8 +7,8 @@
 
 ## Major version update! NLPre 2.0.0
 
++ Backend NLP engine `pattern.en` has been replaced with `spaCy` v 2.1.0. This is a major fix for some of the problems with `pattern.en` including poor lemmatization. (eg. cytokine -> cytocow)
 + Support for python 2 has been dropped
-+ Backend NLP engine `pattern.en` has been replaced with `spaCy` v 2.1.0
 + Support for custom dictionaries in `replace_from_dictionary`
 + Option for suffix to be used instead of prefix in `replace_from_dictionary`
 + URL replacement can now remove emails

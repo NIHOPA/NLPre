@@ -9,3 +9,4 @@ flake8
 nose
 invoke
 black
+tox
