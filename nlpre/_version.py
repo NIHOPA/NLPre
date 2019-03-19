@@ -3,6 +3,7 @@
 
 __version__ = "2.0.2"
 
+# 2.0.3 Add dictionaries to manifest for pypi
 # 2.0.2 Fix manifest for pypi
 # 2.0.1 Add the spaCy model to the manifest
 
