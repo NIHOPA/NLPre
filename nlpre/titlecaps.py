@@ -12,25 +12,25 @@ class titlecaps(object):
     """
 
     def __init__(self, min_length=4):
-        '''
+        """
         Initialize the parser.
 
         Args:
             min_length: Minimum sentence length, otherwise sentence is returned
                         untouched.
-        '''
+        """
         self.logger = logging.getLogger(__name__)
         self.min_length = min_length
 
     def __call__(self, text):
-        '''
+        """
         Runs the parser.
 
         Args:
             text: a string document
         Returns:
             doc2: a string document
-        '''
+        """
 
         sents = sentence_tokenizer(text)
 
@@ -39,12 +39,12 @@ class titlecaps(object):
             if not is_any_lowercase(sent):
 
                 if len(sent) > self.min_length:
-                    self.logger.info("DECAPING: '{}'".format(' '.join(sent)))
+                    self.logger.info("DECAPING: '{}'".format(" ".join(sent)))
                     sent = [x.lower() for x in sent]
 
-            doc2.append(' '.join(sent))
+            doc2.append(" ".join(sent))
 
-        doc2 = ' '.join(doc2)
+        doc2 = " ".join(doc2)
         return doc2
 
 

@@ -1,23 +1,20 @@
-title unmet need Lymphoma_Non-Hodgkin survivor korea prevalence correlate association ABBR_health_related_quality_of_life
-OBJECTIVE prevalence correlate unmet need ABBR_non_Hodgkin_lymphoma survivor korea association ABBR_health_related_quality_of_life
-ABBR_non_Hodgkin_lymphoma
+TITLE unmet need ABBR_non_hodgkin_lymphoma survivor korea prevalence correlate association ABBR_health_related_quality_of_life
+OBJECTIVE
+prevalence correlate unmet need ABBR_non_hodgkin_lymphoma
+survivor korea association ABBR_health_related_quality_of_life
+ABBR_non_hodgkin_lymphoma
 ABBR_health_related_quality_of_life
-METHOD participant ABBR_non_Hodgkin_lymphoma survivor hospital Republic_of_Korea least month
-mean year range year
-questionnaire need scale cancer patient follow-up korea EORTC QLQ-C30
-NS-C
-unmet need moderate high level unmet need NS-C response scale
-result domain unmet need prevalence percent percent
-domain unmet need treatment prognosi mind control
-percent
-percent
-individual unmet need prevention recurrence prevention metastasi self-confidence cancer
-percent
-percent
-percent
-multivariate logistic analysis younger age unmarried low monthly income unmet need multiple domain
-participant unmet need poorer ABBR_health_related_quality_of_life meaningful difference social function emotional function
-CONCLUSION ABBR_non_Hodgkin_lymphoma survivor substantial unmet need younger unmarried lower income
-supportive care program meet unmet need ABBR_health_related_quality_of_life
-copyright john wiley son ltd
-c
+METHODS
+participant ABBR_non_hodgkin_lymphoma survivor hospital Republic_of_Korea month
+year range year
+self-reported questionnaire need scale cancer patient follow-up care korea EORTC QLQ-C30
+NS-C. unmet need moderate high level unmet need NS-C response scale
+RESULTS domain unmet need prevalence
+domain unmet need treatment prognosis mind control
+individual unmet need prevention recurrence prevention metastasis self-confidence cancer
+multivariate logistic analysis young age unmarried low monthly income unmet need multiple domain
+participant unmet need poor ABBR_health_related_quality_of_life meaningful difference social function emotional function
+CONCLUSIONS korean ABBR_non_hodgkin_lymphoma survivor substantial unmet need young unmarried low income
+supportive care program unmet need ABBR_health_related_quality_of_life
+copyright john wiley son
+c.

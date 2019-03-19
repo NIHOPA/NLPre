@@ -3,7 +3,6 @@ from nlpre import decaps_text
 
 
 class Decaps_Text_Test:
-
     @classmethod
     def setup_class(cls):
         cls.parser = decaps_text()

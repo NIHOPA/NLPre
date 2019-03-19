@@ -1,1 +1,12 @@
 -e .
+
+# NLP model used (added to repo)
+# https://github.com/explosion/spacy-models/releases//tag/en_core_web_sm-2.0.0
+
+# Needed for testing
+coverage
+flake8
+nose
+invoke
+black
+tox

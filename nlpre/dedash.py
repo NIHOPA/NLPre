@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
-import os
 import logging
-
-__internal_wordlist = "dictionaries/english_wordlist.txt"
-__local_dir = os.path.dirname(os.path.abspath(__file__))
-_internal_wordlist = os.path.join(__local_dir, __internal_wordlist)
+from .dictionary import wordlist_english
 
 
 class dedash(object):
@@ -16,13 +12,17 @@ class dedash(object):
     the document with the words corrected.
     """
 
-    def __init__(self):
+    def __init__(self, f_wordlist=None):
         """ Initialize the parser. Preloads a fixed English dictionary. """
         self.logger = logging.getLogger(__name__)
-        self.logger.debug("Loading wordlist from %s" % _internal_wordlist)
+
+        if f_wordlist is None:
+            f_wordlist = wordlist_english
+
+        self.logger.debug(f"Loading wordlist from {f_wordlist}")
 
         self.english_words = set()
-        with open(_internal_wordlist) as FIN:
+        with open(f_wordlist) as FIN:
             for line in FIN:
                 self.english_words.add(line.strip())
 
@@ -44,19 +44,20 @@ class dedash(object):
 
                 word = "{}{}".format(tokens[i][:-1], tokens[i + 1])
 
-                test_word = ''.join([x for x in word if x.isalpha()])
+                test_word = "".join([x for x in word if x.isalpha()])
 
                 # Only combine sensible english words
                 if test_word.lower() not in self.english_words:
                     continue
 
-                self.logger.info("Merging tokens %s %s %s"
-                                 % (tokens[i], tokens[i + 1], word))
+                self.logger.info(
+                    "Merging tokens %s %s %s" % (tokens[i], tokens[i + 1], word)
+                )
 
                 tokens[i] = word
-                tokens[i + 1] = ''
+                tokens[i + 1] = ""
 
-        doc = ' '.join((x for x in tokens if x))
+        doc = " ".join((x for x in tokens if x))
         return doc
 
 
@@ -75,11 +76,12 @@ def is_dash_word(s):
         return False
     if len(s) <= 1:
         return False
-    if s[-1] != '-':
+    if s[-1] != "-":
         return False
 
     # Require that at least one of the tokens is an alpha
     return any([x.isalpha() for x in s[:-1]])
+
 
 # if __name__ == "__main__":
 #    text = '''1.-

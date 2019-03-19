@@ -17,16 +17,17 @@ class unidecoder(object):
         pass
 
     def __call__(self, unicode_text):
-        '''
+        """
         Runs the parser.
 
         Args:
             unicode_text: a unicode document
         Returns:
             text: An ascii equivalent of unicode_text
-        '''
+        """
 
         return unidecode.unidecode(unicode_text)
+
 
 # if __name__ == "__main__":
 #    text = u"α-Helix β-sheet Αα Νν Ββ Ξξ Γγ Οο"

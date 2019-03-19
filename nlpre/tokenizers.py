@@ -1,62 +1,13 @@
-import pattern.en
+from . import nlp
 
 
-def split_tokenizer(func):
-    ''' Splits a string from input as tokens, allows the function
-    to act over the tokens and return a string
-    '''
-    def wrapper(text):
-        # tokens = text.split()
-        return ' '.join(func(text))
-    return wrapper
+def sentence_tokenizer(text):
+    """
+    Uses spaCy to input text into a list sentences and word tokens.
+    """
 
+    # Remove extra whitespace, as we don't need to preserve it and
+    # it confuses spaCy models sometimes.
+    text = " ".join(text.split())
 
-def sentence_tokenizer(
-        raw,
-        punctuation=".,;:!?()[]{}`''\"@#$^&*+|=~_"
-):
-    '''
-    Uses pattern.en to split input text into a list of word tokens.
-    '''
-    return [sent.split() for sent in
-            pattern.en.tokenize(raw, punctuation=punctuation)]
-
-
-def word_tokenizer(raw):
-    '''
-    Uses pattern.en to split input text into a list of word tokens.
-    '''
-    if not raw:
-        return []
-
-    sentences = sentence_tokenizer(raw)
-
-    # Return a list of word tokens
-    tokens = [w for s in sentences for w in s]
-
-    return tokens
-
-
-class meta_text(object):
-
-    '''
-    Helper class to hold a unicode string with metadata.
-    '''
-
-    def __init__(self, text, **kwargs):
-        self.text = text
-        self.meta = kwargs
-    '''
-    Args:
-        text: a string
-        kwargs: other inputs
-    '''
-
-    def __unicode__(self):
-        # Remove reference to unicode for now, need a python 2/3 way to do it
-        # return unicode(self.text)
-        return self.text
-    '''
-    Returns:
-        self.text: a string
-    '''
+    return [[x.text for x in sentence] for sentence in nlp(text).sents]

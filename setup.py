@@ -26,11 +26,8 @@ setuptools.setup(
         'pyparsing', 
         'flashtext',
 
-        'pattern ; python_version<"3.0"',
-        'Pattern ; python_version>="3.0"',
-        
-        # For Python 2/3 compatibility
-        "six",
+        # See https://github.com/explosion/spaCy/issues/1099
+        'spacy==2.1.0',
 
         # Fix the version of mysqlclient due to windows problems
         "mysqlclient==1.3.12",
@@ -77,7 +74,7 @@ setuptools.setup(
 
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
-        'Programming Language :: Python :: 2.7',
+        #'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.6',
     ],
 

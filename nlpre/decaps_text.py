@@ -18,21 +18,21 @@ class decaps_text(object):
         self.logger = logging.getLogger(__name__)
 
     def modify_word(self, org):
-        '''
+        """
         Changes a word to lower case if it contains exactly one capital letter.
 
         Args:
             org: a string
         Returns:
             lower: the lowercase of org, a string
-        '''
+        """
 
         lower = org.lower()
 
         if self.diffn(org, lower) > 1:
             return org
         elif org != lower:
-            self.logger.info('Decapitalizing word %s to %s' % (org, lower))
+            self.logger.info("Decapitalizing word %s to %s" % (org, lower))
         return lower
 
     def __call__(self, text):
@@ -52,8 +52,8 @@ class decaps_text(object):
         for sent in sentences:
 
             sent = [self.modify_word(w) for w in sent]
-            doc2.append(' '.join(sent))
+            doc2.append(" ".join(sent))
 
-        doc2 = '\n'.join(doc2)
+        doc2 = "\n".join(doc2)
 
         return doc2

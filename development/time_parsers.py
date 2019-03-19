@@ -21,7 +21,7 @@ keys = [
 POS_Blacklist = ["connector","cardinal",
                  "pronoun","adverb",
                  "symbol","verb",
-                 "punctuation","modal_verb","w_word"]
+                 "punctuation",]
 
 ABR = nlpre.identify_parenthetical_phrases()(doc2)
 key0 = (('systemic', 'lupus', 'erythematosus'), 'SLE')
@@ -39,18 +39,18 @@ for key in keys:
         parser = getattr(nlpre, key)()
 
     if key=='unidecoder':
-        func = lambda : [parser(unicode(x)) for x in [doc2]]
+        func = lambda : [parser(x) for x in [doc2]]
     else:
         func = lambda : [parser(x) for x in [doc2]]
     cost = timeit.timeit(func, number=n) / n
     item = {'function':key, "time":cost}
-    print item
+    print (item)
     data.append(item)
 df = pd.DataFrame(data)
 df = df.set_index('function').sort_values('time')
 df["frac"] = df.time / df.time.sum()
 
-print df
+print (df)
 
 
 
