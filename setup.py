@@ -26,7 +26,8 @@ setuptools.setup(
         'pyparsing', 
         'flashtext',
 
-        # See https://github.com/explosion/spaCy/issues/1099
+        # See https://github.com/explosion/spaCy/issues/1099 for dataset
+        # Fix the minor version so model doesn't change
         'spacy==2.1.0',
 
         # Fix the version of mysqlclient due to windows problems
@@ -39,7 +40,7 @@ setuptools.setup(
 
     # The project's main homepage.
     url="https://github.com/NIHOPA/NLPre",
-    #download_url='https://github.com/NIHOPA/NLPre/archive/v1.2.0.tar.gz',
+    download_url='https://github.com/NIHOPA/NLPre/archive/v2.0.0.zip',
 
     # Author details
     author="Travis Hoppe",
@@ -74,7 +75,6 @@ setuptools.setup(
 
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
-        #'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.6',
     ],
 
