@@ -40,7 +40,7 @@ setuptools.setup(
 
     # The project's main homepage.
     url="https://github.com/NIHOPA/NLPre",
-    download_url='https://github.com/NIHOPA/NLPre/archive/v2.0.0.zip',
+    #download_url='https://github.com/NIHOPA/NLPre/archive/v2.0.0.zip',
 
     # Author details
     author="Travis Hoppe",

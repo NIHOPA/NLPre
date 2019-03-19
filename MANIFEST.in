@@ -1,3 +1,7 @@
 include README.md
 include nlpre/dictionaries/*
-include nlpre/spacy_models/en_core_web_sm-2.1.0/
+include nlpre/spacy_models/en_core_web_sm-2.1.0/*
+include nlpre/spacy_models/en_core_web_sm-2.1.0/ner/*
+include nlpre/spacy_models/en_core_web_sm-2.1.0/parser/*
+include nlpre/spacy_models/en_core_web_sm-2.1.0/tagger/*
+include nlpre/spacy_models/en_core_web_sm-2.1.0/vocab/*
