@@ -15,7 +15,6 @@ from .identify_parenthetical_phrases import identify_parenthetical_phrases
 from .separate_reference import separate_reference
 from .url_replacement import url_replacement
 
-
 __all__ = [
     "separated_parenthesis",
     "token_replacement",

@@ -1,11 +1,7 @@
-import os
 from .Grammars import reference_patterns
+from .dictionary import wordlist_english
 import logging
 import re
-
-__internal_wordlist = "dictionaries/english_wordlist.txt"
-__local_dir = os.path.dirname(os.path.abspath(__file__))
-_internal_wordlist = os.path.join(__local_dir, __internal_wordlist)
 
 REFERENCE_PREFIX = "REF_"
 strip_table = str.maketrans("", "", "(){}<>[]")
@@ -27,7 +23,7 @@ class separate_reference:
         output: 'How is the treatment going . Pretty well'
     """
 
-    def __init__(self, reference_token=False):
+    def __init__(self, reference_token=False, f_wordlist=None):
         """
         Initialize the parser
 
@@ -37,8 +33,11 @@ class separate_reference:
         """
         self.logger = logging.getLogger(__name__)
 
+        if f_wordlist is None:
+            f_wordlist = wordlist_english
+
         self.english_words = set()
-        with open(_internal_wordlist) as FIN:
+        with open(f_wordlist) as FIN:
             for line in FIN:
                 self.english_words.add(line.strip())
 

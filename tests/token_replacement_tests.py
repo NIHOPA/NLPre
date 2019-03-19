@@ -19,7 +19,7 @@ class Token_Test:
     def percent_test(self):
         doc = "Working at 100% efficiency"
         doc_new = self.parser(doc)
-        doc_right = "Working at 100 percent  efficiency"
+        doc_right = "Working at 100 percent efficiency"
         assert_equal(doc_new, doc_right)
 
     def remove_test(self):
@@ -49,37 +49,37 @@ class Token_Test:
     def pound_test(self):
         doc = "press the # key"
         doc_new = self.parser(doc)
-        doc_right = "press the   key"
+        doc_right = "press the key"
         assert_equal(doc_new, doc_right)
 
     def tilde_test(self):
         doc = "press the ~ key"
         doc_new = self.parser(doc)
-        doc_right = "press the   key"
+        doc_right = "press the key"
         assert_equal(doc_new, doc_right)
 
     def forwardslash_test(self):
         doc = "press the / key"
         doc_new = self.parser(doc)
-        doc_right = "press the   key"
+        doc_right = "press the key"
         assert_equal(doc_new, doc_right)
 
     def backslash_test(self):
         doc = "press the \\ key"
         doc_new = self.parser(doc)
-        doc_right = "press the   key"
+        doc_right = "press the key"
         assert_equal(doc_new, doc_right)
 
     def line_test(self):
         doc = "press the | key"
         doc_new = self.parser(doc)
-        doc_right = "press the   key"
+        doc_right = "press the key"
         assert_equal(doc_new, doc_right)
 
     def dollar_test(self):
         doc = "press the $ key"
         doc_new = self.parser(doc)
-        doc_right = "press the  key"
+        doc_right = "press the key"
         assert_equal(doc_new, doc_right)
 
     def colon_test(self):
@@ -91,7 +91,7 @@ class Token_Test:
     def doubledash_test(self):
         doc = "press the -- key"
         doc_new = self.parser(doc)
-        doc_right = "press the   key"
+        doc_right = "press the key"
         assert_equal(doc_new, doc_right)
 
     # I think the code on this one is wrong. it only replaces 's if it's surrounded by spaces

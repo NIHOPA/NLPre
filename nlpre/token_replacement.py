@@ -57,7 +57,7 @@ class token_replacement(object):
 
         if remove:
             for key in self.replace_dict:
-                self.replace_dict[key] = ""
+                self.replace_dict[key] = " "
 
     def __call__(self, text):
         """
@@ -72,4 +72,13 @@ class token_replacement(object):
         for key, val in self.replace_dict.items():
             text = text.replace(key, val)
 
-        return text
+        # Remove blank tokens, but keep line breaks
+        doc = [
+            " ".join([token for token in line.split()])
+            for line in text.split("\n")
+        ]
+
+        # Remove blank lines
+        doc = "\n".join(filter(None, doc))
+
+        return doc

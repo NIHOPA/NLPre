@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
-import os
 import logging
-
-__internal_wordlist = "dictionaries/english_wordlist.txt"
-__local_dir = os.path.dirname(os.path.abspath(__file__))
-_internal_wordlist = os.path.join(__local_dir, __internal_wordlist)
+from .dictionary import wordlist_english
 
 
 class dedash(object):
@@ -16,13 +12,17 @@ class dedash(object):
     the document with the words corrected.
     """
 
-    def __init__(self):
+    def __init__(self, f_wordlist=None):
         """ Initialize the parser. Preloads a fixed English dictionary. """
         self.logger = logging.getLogger(__name__)
-        self.logger.debug("Loading wordlist from %s" % _internal_wordlist)
+
+        if f_wordlist is None:
+            f_wordlist = wordlist_english
+
+        self.logger.debug(f"Loading wordlist from {f_wordlist}")
 
         self.english_words = set()
-        with open(_internal_wordlist) as FIN:
+        with open(f_wordlist) as FIN:
             for line in FIN:
                 self.english_words.add(line.strip())
 

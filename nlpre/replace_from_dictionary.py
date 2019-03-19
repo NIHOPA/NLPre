@@ -3,6 +3,7 @@ import csv
 import os
 import logging
 from flashtext import KeywordProcessor
+from .dictionary import MeSH as f_MeSH
 
 
 class replace_from_dictionary(object):
@@ -18,8 +19,6 @@ class replace_from_dictionary(object):
         output: 'MeSH_Butylated_Hydroxyanisole is great'
     """
 
-    f_MeSH = "dictionaries/MeSH_two_word_lexicon.csv"
-
     def __init__(self, f_dict=None, prefix="", suffix=""):
         """
         Initialize the parser.
@@ -33,7 +32,7 @@ class replace_from_dictionary(object):
 
         if f_dict is None:
             local_path = os.path.dirname(__file__)
-            f_dict = os.path.join(local_path, self.f_MeSH)
+            f_dict = os.path.join(local_path, f_MeSH)
             self.logger.debug("Using default dictionary: %s" % f_dict)
 
         if not os.path.exists(f_dict):

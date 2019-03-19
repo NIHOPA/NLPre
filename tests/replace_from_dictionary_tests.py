@@ -1,27 +1,17 @@
 from nose.tools import *
+from nlpre.dictionary import MeSH as f_MeSH
 from nlpre import replace_from_dictionary
-import os
 
 
 class Replace_From_Dictionary_Test:
     @classmethod
     def setup_class(cls):
-        MeSH_dict = "dictionaries/"
-        local_dir = os.path.dirname(os.path.abspath("nlpre/dictionaries"))
-        f_MeSH = os.path.join(local_dir, MeSH_dict, "MeSH_two_word_lexicon.csv")
         cls.replace_MeSH = replace_from_dictionary(f_MeSH, prefix="MeSH_")
 
     def bad_dictionary_test(self):
-        mesh_dict = "dictionaries/"
-        local_dir = os.path.dirname(os.path.abspath("nlpre/dictionaries"))
-        path_to_meshdict = os.path.join(local_dir, mesh_dict)
+        bad_f_MeSH = f_MeSH + "_UNKNOWN"
 
-        assert_raises(
-            IOError,
-            replace_from_dictionary,
-            "MeSH_two_word_lexicon_BAD.csv",
-            path_to_meshdict,
-        )
+        assert_raises(IOError, replace_from_dictionary, bad_f_MeSH)
 
     def custom_dictionary_test(self):
         """ Use a custom dictionary. """

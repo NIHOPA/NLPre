@@ -1,18 +1,17 @@
-TITLE serious infection british patient systematic lupus erythematosus HOSPITALISATIONS MORTALITY
-Retrospective_Studies prevalence nature hospitalisation secondary HRQOL infection mortality infection our large british cohort patient ABBR_systemic_lupus_erythematosus
+title serious infection british patient systematic lupus erythematosus hospitalisation mortality
+Retrospective_Studies prevalence nature hospitalisation secondary HRQOL infection mortality infection large british cohort patient ABBR_systemic_lupus_erythematosus
 ABBR_systemic_lupus_erythematosus
-casenote database information consecutive patient UCLH ABBR_systemic_lupus_erythematosus clinic number hospitalisation infection clinical serological feature patient
+information consecutive patient UCLH ABBR_systemic_lupus_erythematosus clinic number hospitalisation due infection clinical serological feature affected patient
 cohort mortality datum death secondary Communicable_Diseases
-infection serious hospitalisation percent patient sample our whole cohort
-patient more admission infection pneumonia frequent
+infection serious hospitalisation patient sample whole cohort
+patient more admission due infection pneumonia frequent
 typical bacterial pathogen
-significant association admission infection nephritis use high dose prednisolone other immunosuppressant risk infection hospitalisation our study
-death our ABBR_systemic_lupus_erythematosus cohort patient infection
-less-than chi-square
-greater-than chi-square
-percent
-patient who infectious cause likely previous renal disease who non-infectious cause
-less-than chi-square
-majority who infection high dose prednisolone other immunosuppressive agent active disease
+significant association admission infection nephritis use high dose prednisolone other immunosuppressant risk infection hospitalisation study
+chi-square
+chi-square
+death ABBR_systemic_lupus_erythematosus cohort patient infection
+patient infectious cause likely previous renal disease non-infectious cause
+chi-square
+majority infection high dose prednisolone other immunosuppressive agent active disease
 study significant problem infection british patient ABBR_systemic_lupus_erythematosus
 early recognition treatment Communicable_Diseases patient use immunosuppressant medication vaccination impact complication
