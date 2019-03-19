@@ -8,7 +8,7 @@
 ## Major version update! NLPre 2.0.0
 
 + Support for python 2 has been dropped
-+ Backend NLP engine `pattern.en` has been replaced with `spaCy`
++ Backend NLP engine `pattern.en` has been replaced with `spaCy` v 2.1.0
 + Support for custom dictionaries in `replace_from_dictionary`
 + Option for suffix to be used instead of prefix in `replace_from_dictionary`
 + URL replacement can now remove emails
