@@ -1,2 +1,3 @@
 include README.md
 include nlpre/dictionaries/*
+include nlpre/spacy_models/en_core_web_sm-2.1.0/

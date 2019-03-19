@@ -1,7 +1,9 @@
 # One canonical source for the version number,
 # Versions should comply with PEP440.
 
-__version__ = "2.0.0"
+__version__ = "2.0.1"
+
+# 2.0.1 Add the spaCy model to the manifest
 
 # 2.0.0 Major update, breaking changes! pattern.en replaced with spaCy.
 # + Most spaces before terminal punc removed.
