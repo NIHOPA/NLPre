@@ -8,6 +8,19 @@ class Parens_Replace_Test:
     def setup_class(cls):
         cls.parser = identify_parenthetical_phrases()
 
+    def acronym_without_counter_test(self):
+        doc = (
+            "The Environmental Protection Agency (EPA) was created by "
+            "Nixon. The EPA helps the environment"
+        )
+        replacer = replace_acronyms(underscore=False)
+        doc_new = replacer(doc)
+        doc_right = (
+            "The Environmental Protection Agency ( Environmental "
+            "Protection Agency ) was created by Nixon .\n"
+            "The Environmental Protection Agency helps the environment"
+        )
+
     def acronym_in_same_doc_test(self):
         doc = (
             "The Environmental Protection Agency (EPA) was created by "

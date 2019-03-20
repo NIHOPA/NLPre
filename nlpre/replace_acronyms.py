@@ -33,7 +33,7 @@ class replace_acronyms(object):
 
     def __init__(
         self,
-        counter,
+        counter=None,
         prefix=None,
         suffix=None,
         underscore=True,
@@ -56,7 +56,6 @@ class replace_acronyms(object):
         """
         self.logger = logging.getLogger(__name__)
 
-        self.counter = counter
         self.prefix = prefix
         self.suffix = suffix
         self.underscore = underscore
@@ -65,7 +64,15 @@ class replace_acronyms(object):
         self.IPP = IPP.identify_parenthetical_phrases()
         self.acronym_dict = {}
 
-        for acronym_tuple, count in self.counter.items():
+        self.counter = counter
+        self._build_acronym_dict(counter)
+
+    def _build_acronym_dict(self, counter):
+
+        if counter is None:
+            return
+
+        for acronym_tuple, count in counter.items():
             if acronym_tuple[1] in self.acronym_dict:
                 self.acronym_dict[acronym_tuple[1]][acronym_tuple[0]] = count
             else:
@@ -130,10 +137,7 @@ class replace_acronyms(object):
         if token.lower() == token:
             return False
 
-        if token in self.acronym_dict:
-            return True
-        else:
-            return False
+        return token in self.acronym_dict
 
     def check_phrase(self, token, pos, tokens, counter):
         """
@@ -198,6 +202,7 @@ class replace_acronyms(object):
 
         if doc_counter is None:
             doc_counter = self.IPP(document)
+            self._build_acronym_dict(doc_counter)
 
         if self.preprocessed:
             parsed = document.split("\n")
