@@ -30,14 +30,14 @@ class Dedash_Test:
 
     def multiple_caps_test(self):
         doc = "How is the TReat- ment going"
-        doc_right = "How is the TReat- ment going"
+        doc_right = "How is the TReatment going"
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)
 
     def multiple_caps_second_word_test(self):
         doc = "How is the treat- MEnt going"
-        doc_right = "How is the treat- MEnt going"
+        doc_right = "How is the treatMEnt going"
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)

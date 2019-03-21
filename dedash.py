@@ -108,7 +108,7 @@ class dedash:
         self.nlp = nlp
 
     def __call__(self, text):
-        return self.nlp(text)
+        return self.nlp(text).text
 
 
 if __name__ == "__main__":

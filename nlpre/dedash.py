@@ -1,92 +1,119 @@
 # -*- coding: utf-8 -*-
-import logging
-from .dictionary import wordlist_english
+import nlpre
+import spacy
+from spacy.matcher import Matcher
+from spacy.tokens import Token, Doc
 
 
-class dedash(object):
-
-    """
+"""
     When importing documents, words are occasionally split apart and
     separated by a dash. For instance, "treatment" might be imported as
     "treat- ment". This class detects these splits and returns a version of
     the document with the words corrected.
-    """
+"""
 
-    def __init__(self, f_wordlist=None):
-        """ Initialize the parser. Preloads a fixed English dictionary. """
-        self.logger = logging.getLogger(__name__)
 
-        if f_wordlist is None:
-            f_wordlist = wordlist_english
+class identify_dedash_tokens:
 
-        self.logger.debug(f"Loading wordlist from {f_wordlist}")
+    name = "identify_dedash_tokens"
 
-        self.english_words = set()
+    def __init__(self, nlp):
+
+        # Match to a word split with a dash. Like ex- ample.
+        pattern = [
+            {"TEXT": {"REGEX": r"^[a-zA-Z]+[\-]$"}},
+            {"IS_SPACE": True, "OP": "*"},
+            {"TEXT": {"REGEX": "^[a-zA-Z]+$"}},
+        ]
+
+        # Add the pattern to parser
+        Doc.set_extension("requires_merge", getter=self.requires_merge)
+        Token.set_extension("merge_dash", default=False)
+
+        self.matcher = Matcher(nlp.vocab)
+        self.matcher.add("dedash", None, pattern)
+
+        self.load_vocab()
+
+    def load_vocab(self):
+        # Load a set of english words
+        f_wordlist = nlpre.dictionary.wordlist_english
+        self.vocab = set()
+
         with open(f_wordlist) as FIN:
-            for line in FIN:
-                self.english_words.add(line.strip())
+            for word in FIN:
+                self.vocab.add(word.strip().lower())
 
-    def __call__(self, text):
-        """ Runs the parser, takes and returns a string. """
+    def requires_merge(self, tokens):
+        # Checks if the document will require a merge
+        return any([x._.merge_dash for x in tokens])
 
-        tokens = text.split()
+    def __call__(self, doc):
 
-        for i in range(len(tokens) - 1):
-            if is_dash_word(tokens[i]):
+        matches = self.matcher(doc)
+        spans = []
 
-                # Require the first character of the next word is an alpha
-                if not tokens[i + 1][0].isalpha():
-                    continue
+        for _, start, end in matches:
+            phrase = doc[start:end]
 
-                # Skip words with more than 2 caps
-                if len([x for x in tokens[i + 1] if x == x.upper()]) >= 2:
-                    continue
+            # Examine the lowercase word w/o the dash
+            word = phrase[0].text.lower().strip()[:-1]
+            word += phrase[-1].text.lower().strip()
 
-                word = "{}{}".format(tokens[i][:-1], tokens[i + 1])
+            # If the word doesn't match our wordlist, move on
+            if word not in self.vocab:
+                continue
 
-                test_word = "".join([x for x in word if x.isalpha()])
+            for token in phrase:
+                token._.set("merge_dash", True)
 
-                # Only combine sensible english words
-                if test_word.lower() not in self.english_words:
-                    continue
+            spans.append(phrase)
 
-                self.logger.info(
-                    "Merging tokens %s %s %s" % (tokens[i], tokens[i + 1], word)
-                )
+        for span in spans:
+            span.merge()
 
-                tokens[i] = word
-                tokens[i + 1] = ""
-
-        doc = " ".join((x for x in tokens if x))
         return doc
 
 
-def is_dash_word(s):
+class merge_dedash_tokens:
+
+    name = "merge_dedash_tokens"
+
+    def __init__(self, nlp):
+        self.blank_nlp = spacy.blank("en")
+
+    def __call__(self, doc):
+
+        if not doc._.requires_merge:
+            return doc
+
+        doc_new = []
+        for token in doc:
+
+            text = token.text_with_ws
+            if token._.merge_dash:
+                left, right = text.split()
+                text = left[:-1] + right + token.whitespace_
+            doc_new.append(text)
+
+        doc_new = self.blank_nlp("".join(doc_new))
+        return doc_new
+
+
+class dedash:
     """
-    Determines if a token might be the first portion of a dashed word
-
-    Args:
-        s: a string
-    Return:
-        A boolean indicating whether the token is potentially a dash word
+    Standalone dedasher.
     """
 
-    # Skip words with more than 2 caps
-    if len([x for x in s if x == x.upper() and x.isalpha()]) >= 2:
-        return False
-    if len(s) <= 1:
-        return False
-    if s[-1] != "-":
-        return False
+    def __init__(self):
+        # Build an empty tokenizer
+        nlp = spacy.blank("en")
 
-    # Require that at least one of the tokens is an alpha
-    return any([x.isalpha() for x in s[:-1]])
+        # Add the custom pipes
+        nlp.add_pipe(identify_dedash_tokens(nlp), first=True)
+        nlp.add_pipe(merge_dedash_tokens(nlp), after="identify_dedash_tokens")
 
+        self.nlp = nlp
 
-# if __name__ == "__main__":
-#    text = '''1.-
-# One of the major obstacles to such studies is the lack of safe
-# and effective treat- ment for fever in the critically ill. Ex- and
-# post- ante.'''
-#    D = dedash()
-#    print(D(text))
+    def __call__(self, text):
+        return self.nlp(text).text
