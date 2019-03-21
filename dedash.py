@@ -2,28 +2,28 @@ import nlpre
 import spacy
 from spacy.matcher import Matcher
 from spacy.tokens import Span, Token, Doc
+from tqdm import tqdm
 
 
-class dedash:
+class identify_dedash_tokens:
 
-    def __init__(self):
+    name = "identify_dedash_tokens"
 
-        # Build an empty tokenizer
-        self.nlp = spacy.blank('en')
+    def __init__(self, nlp):
 
         # Match to a word split with a dash. Like ex- ample.
         pattern = [
             {"TEXT": {"REGEX": "^[a-zA-Z]+[\-]$"}},
-            {"SPACE": True, "OP": "*"},
-            {"TEXT": {"REGEX": "^[a-zA-Z]+"}},
+            {"IS_SPACE": True, "OP": "*"},
+            {"TEXT": {"REGEX": "^[a-zA-Z]+$"}},
         ]
 
         # Add the pattern to parser
-        Token.set_extension('merge_dash', default=False)
-        Doc.set_extension('requires_merge', getter=self.requires_merge)
-        
-        self.matcher = Matcher(self.nlp.vocab)
-        self.matcher.add("dedash", self.match_event, pattern)
+        Doc.set_extension("requires_merge", getter=self.requires_merge)
+        Token.set_extension("merge_dash", default=False)
+
+        self.matcher = Matcher(nlp.vocab)
+        self.matcher.add("dedash", None, pattern)
 
         self.load_vocab()
 
@@ -31,64 +31,93 @@ class dedash:
         # Load a set of english words
         f_wordlist = nlpre.dictionary.wordlist_english
         self.vocab = set()
-        
+
         with open(f_wordlist) as FIN:
             for word in FIN:
                 self.vocab.add(word.strip().lower())
-
-    
-    def match_event(self, matcher, doc, i, matches):
-        # NOTE TO SELF, have to MERGE THEM AT ONCE
-        # otherwise indices go a kilter
-        
-        # Extract the phrase we matched to
-        match_id, start, end = matches[i]
-
-        print("MATCHING", [x for x in doc], start, end)
-        #print(doc[start:end])
-        #exit()
-        phrase = Span(doc, start, end)
-
-        # Examine the lowercase word w/o the dash
-        word  = phrase[0].text.lower().strip()[:-1]
-        word += phrase[-1].text.lower().strip()
-
-        # If the word doesn't match our wordlist, move on
-        if word not in self.vocab:
-            return
-
-        # If so, tag the word as a custom attribute
-        with doc.retokenize() as retokenizer:
-            attrs = {"_": {'merge_dash': True}}
-            retokenizer.merge(phrase, attrs=attrs)
 
     def requires_merge(self, tokens):
         # Checks if the document will require a merge
         return any([x._.merge_dash for x in tokens])
 
-    def __call__(self, text):
-        doc = self.nlp(text)
-        self.matcher(doc)
+    def __call__(self, doc):
 
-        #if not doc._.requires_merge:
-        #    return text
+        matches = self.matcher(doc)
+        spans = []
+
+        for _, start, end in matches:
+            phrase = doc[start:end]
+
+            # Examine the lowercase word w/o the dash
+            word = phrase[0].text.lower().strip()[:-1]
+            word += phrase[-1].text.lower().strip()
+
+            # If the word doesn't match our wordlist, move on
+            if word not in self.vocab:
+                continue
+
+            for token in phrase:
+                token._.set("merge_dash", True)
+
+            spans.append(phrase)
+
+        for span in spans:
+            span.merge()
+
+        return doc
+
+
+class merge_dedash_tokens:
+
+    name = "merge_dedash_tokens"
+
+    def __init__(self, nlp):
+        self.blank_nlp = spacy.blank("en")
+
+    def __call__(self, doc):
+
+        if not doc._.requires_merge:
+            return doc
 
         doc_new = []
         for token in doc:
-                        
+
             text = token.text_with_ws
             if token._.merge_dash:
                 left, right = text.split()
-                text = left[:-1] + right
+                text = left[:-1] + right + token.whitespace_
             doc_new.append(text)
 
-        doc_new = ''.join(doc_new)
+        doc_new = self.blank_nlp("".join(doc_new))
         return doc_new
 
+
+class dedash:
+    """
+    Standalone dedasher.
+    """
+
+    def __init__(self):
+        # Build an empty tokenizer
+        nlp = spacy.blank("en")
+
+        # Add the custom pipes
+        nlp.add_pipe(identify_dedash_tokens(nlp), first=True)
+        nlp.add_pipe(merge_dedash_tokens(nlp), after="identify_dedash_tokens")
+
+        self.nlp = nlp
+
+    def __call__(self, text):
+        return self.nlp(text)
+
+
 if __name__ == "__main__":
-    text = "This is a SEN-  tence. And we should simply merge it!"
-    #text = "This is a SEN-  tence."
+
     clf = dedash()
-    print(text)
-    print(clf(text))
-    
+    text1 = "This is a SEN-  tence. And we should simp- ly merge it!"
+    text2 = "Nothing to see here."
+
+    # print(text)
+    for n in tqdm(range(10000)):
+        clf(text1)
+        clf(text2)
