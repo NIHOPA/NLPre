@@ -5,7 +5,29 @@ from spacy.matcher import Matcher
 from spacy.tokens import Token, Doc
 
 
-class identify_dedash_tokens:
+class dedash:
+    """
+    When importing documents, words are occasionally split apart and
+    separated by a dash. For instance, "treatment" might be imported as
+    "treat- ment". This class detects these splits and returns a version of
+    the document with the words corrected.
+
+    Standalone dedasher.
+    """
+
+    def __init__(self):
+        # Build an empty tokenizer
+        self.nlp = spacy.blank("en")
+
+        # Add the custom pipe
+        parser = dedash_spaCy(self.nlp)
+        self.nlp.add_pipe(parser)
+
+    def __call__(self, text):
+        return self.nlp(text).text
+
+
+class dedash_spaCy:
 
     name = "identify_dedash_tokens"
 
@@ -18,9 +40,13 @@ class identify_dedash_tokens:
             {"TEXT": {"REGEX": "^[a-zA-Z]+$"}},
         ]
 
+        self.blank_nlp = spacy.blank("en")
+
         # Add the pattern to parser
-        Doc.set_extension("requires_merge", getter=self.requires_merge)
-        Token.set_extension("merge_dash", default=False)
+        Doc.set_extension(
+            "requires_merge", getter=self.requires_merge, force=True
+        )
+        Token.set_extension("merge_dash", default=False, force=True)
 
         self.matcher = Matcher(nlp.vocab)
         self.matcher.add("dedash", None, pattern)
@@ -61,56 +87,25 @@ class identify_dedash_tokens:
 
             spans.append(phrase)
 
+        # If we didn't find anything, return the document
+        if not spans:
+            return doc
+
+        # Merge the tokens together
         for span in spans:
             span.merge()
 
-        return doc
-
-
-class merge_dedash_tokens:
-
-    name = "merge_dedash_tokens"
-
-    def __init__(self, nlp):
-        self.blank_nlp = spacy.blank("en")
-
-    def __call__(self, doc):
-
-        if not doc._.requires_merge:
-            return doc
-
-        doc_new = []
+        # Build a new document after merging
+        text_new = []
         for token in doc:
 
             text = token.text_with_ws
             if token._.merge_dash:
                 left, right = text.split()
                 text = left[:-1] + right + token.whitespace_
-            doc_new.append(text)
+            text_new.append(text)
 
-        doc_new = self.blank_nlp("".join(doc_new))
-        return doc_new
+        # Retokenize the document, but skip the identify step
+        doc = self.blank_nlp("".join(text_new))
 
-
-class dedash:
-    """
-    When importing documents, words are occasionally split apart and
-    separated by a dash. For instance, "treatment" might be imported as
-    "treat- ment". This class detects these splits and returns a version of
-    the document with the words corrected.
-
-    Standalone dedasher.
-    """
-
-    def __init__(self):
-        # Build an empty tokenizer
-        nlp = spacy.blank("en")
-
-        # Add the custom pipes
-        nlp.add_pipe(identify_dedash_tokens(nlp), first=True)
-        nlp.add_pipe(merge_dedash_tokens(nlp), after="identify_dedash_tokens")
-
-        self.nlp = nlp
-
-    def __call__(self, text):
-        return self.nlp(text).text
+        return doc
