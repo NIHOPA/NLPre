@@ -2,7 +2,7 @@
 import nlpre
 import spacy
 from spacy.matcher import Matcher
-from spacy.tokens import Token, Doc
+from spacy.tokens import Token
 
 
 class dedash:
@@ -43,9 +43,6 @@ class dedash_spaCy:
         self.blank_nlp = spacy.blank("en")
 
         # Add the pattern to parser
-        Doc.set_extension(
-            "requires_merge", getter=self.requires_merge, force=True
-        )
         Token.set_extension("merge_dash", default=False, force=True)
 
         self.matcher = Matcher(nlp.vocab)
