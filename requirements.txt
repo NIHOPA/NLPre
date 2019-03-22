@@ -7,6 +7,6 @@
 coverage
 flake8
 nose
-invoke
+Fabric3
 black
 tox
