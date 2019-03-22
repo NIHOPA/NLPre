@@ -30,7 +30,7 @@ class Decaps_Text_Test:
 
     def capital_multiple_sentence_test(self):
         doc = "Hello world. Goodnight world"
-        doc_right = "hello world .\ngoodnight world"
+        doc_right = "hello world. goodnight world"
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)
