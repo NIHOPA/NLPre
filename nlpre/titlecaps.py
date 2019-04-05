@@ -1,5 +1,5 @@
-from .tokenizers import sentence_tokenizer
 import logging
+from . import nlp
 
 
 class titlecaps(object):
@@ -32,25 +32,28 @@ class titlecaps(object):
             doc2: a string document
         """
 
-        sents = sentence_tokenizer(text)
+        # Need to keep the parser for sentence detection
+        sents = nlp(text, disable=["tagger"]).sents
 
         doc2 = []
         for sent in sents:
-            if not is_any_lowercase(sent):
 
-                if len(sent) > self.min_length:
-                    self.logger.info("DECAPING: '{}'".format(" ".join(sent)))
-                    sent = [x.lower() for x in sent]
+            line = sent.text
 
-            doc2.append(" ".join(sent))
+            if not is_any_lowercase(line):
 
-        doc2 = " ".join(doc2)
+                if len(line) > self.min_length:
+                    line = line.lower()
+
+            doc2.append(line + sent[-1].whitespace_)
+
+        doc2 = "".join(doc2)
         return doc2
 
 
-def is_any_lowercase(tokens):
+def is_any_lowercase(sentence):
     """
-    Checks if any letter in a token is lowercase, return False if there
+    Checks if any letter in a sentence is lowercase, return False if there
     are no alpha characters.
 
     Args:
@@ -59,18 +62,7 @@ def is_any_lowercase(tokens):
         boolean: True if any letter in any token is lowercase
     """
 
-    any_alpha = False
-    for x in tokens:
-        for letter in x:
-            if letter.isalpha():
-                any_alpha = True
-                if letter == letter.lower():
-                    return True
-    if any_alpha:
-        return False
-    else:
+    if any(x.isalpha() & (x == x.lower()) for x in sentence):
         return True
 
-
-# if __name__ == "__main__":
-#    pass
+    return not any(x.isalpha() for x in sentence)

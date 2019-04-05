@@ -1,5 +1,5 @@
-from .tokenizers import sentence_tokenizer
 import logging
+from . import nlp
 
 
 class decaps_text(object):
@@ -9,13 +9,13 @@ class decaps_text(object):
     will be converted into lower case.
     """
 
-    def diffn(self, s1, s2):
-        """ Returns the number of different characters between two strings."""
-        return len([a for a, b in zip(s1, s2) if a != b])
-
     def __init__(self):
         """ Initialize the parser. """
         self.logger = logging.getLogger(__name__)
+
+    def diffn(self, s1, s2):
+        """ Returns the number of different characters between two strings."""
+        return len([a for a, b in zip(s1, s2) if a != b])
 
     def modify_word(self, org):
         """
@@ -45,15 +45,12 @@ class decaps_text(object):
             doc2: a string document
         """
 
-        sentences = sentence_tokenizer(text)
-
         doc2 = []
 
-        for sent in sentences:
+        for token in nlp(text, disable=["parser", "tagger"]):
+            new_token = self.modify_word(token.text)
+            doc2.append(new_token)
+            doc2.append(token.whitespace_)
 
-            sent = [self.modify_word(w) for w in sent]
-            doc2.append(" ".join(sent))
-
-        doc2 = "\n".join(doc2)
-
+        doc2 = "".join(doc2)
         return doc2

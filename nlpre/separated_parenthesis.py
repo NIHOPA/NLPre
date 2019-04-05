@@ -52,7 +52,7 @@ class separated_parenthesis(object):
 
         text = " ".join(text.strip().split())
 
-        parsed = nlp(text)
+        parsed = nlp(text, disable=["tagger"])
 
         doc_out = []
 

@@ -7,10 +7,10 @@ f_spacey_init = os.path.join(
     os.path.dirname(__file__), "spacy_models", "en_core_web_sm-2.1.0"
 )
 
-nlp = spacy.load(f_spacey_init)
+nlp = spacy.load(f_spacey_init, disable=["ner"])
 matcher = Matcher(nlp.vocab)
 
-# Add in the custom rule for joining dashed words
+# Add in the custom rule for joining dashed words as a single entity
 # Seee https://spacy.io/usage/linguistic-features#rule-based-matching
 pattern = [{"IS_ASCII": True}, {"ORTH": "-"}, {"IS_ASCII": True}]
 matcher.add("PRESERVE_DASHES", None, pattern)

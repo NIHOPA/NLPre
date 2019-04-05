@@ -14,6 +14,13 @@ class Dedash_Test:
 
         assert_equal(doc_right, doc_new)
 
+    def single_word_multi_space_dash_test(self):
+        doc = "How is the treat-    \nment going"
+        doc_right = "How is the treatment going"
+        doc_new = self.parser(doc)
+
+        assert_equal(doc_right, doc_new)
+
     def dash_not_word_test(self):
         doc = "Hello world- it feels like a good day"
         doc_right = "Hello world- it feels like a good day"
@@ -30,14 +37,14 @@ class Dedash_Test:
 
     def multiple_caps_test(self):
         doc = "How is the TReat- ment going"
-        doc_right = "How is the TReat- ment going"
+        doc_right = "How is the TReatment going"
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)
 
     def multiple_caps_second_word_test(self):
         doc = "How is the treat- MEnt going"
-        doc_right = "How is the treat- MEnt going"
+        doc_right = "How is the treatMEnt going"
         doc_new = self.parser(doc)
 
         assert_equal(doc_right, doc_new)
