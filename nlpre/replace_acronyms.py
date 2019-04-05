@@ -208,7 +208,7 @@ class replace_acronyms(object):
             parsed = document.split("\n")
         else:
             document = " ".join(document.strip().split())
-            parsed = [sent for sent in nlp(document).sents]
+            parsed = [sent for sent in nlp(document, disable=["tagger"]).sents]
 
         new_doc = []
 
