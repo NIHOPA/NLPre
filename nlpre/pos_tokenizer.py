@@ -98,7 +98,7 @@ class pos_tokenizer(object):
         """
 
         text = " ".join(text.strip().split())
-        special_words = set(["PHRASE_", "MeSH_"])
+        special_words = set(["_"])
 
         doc = []
         for sent in nlp(text).sents:

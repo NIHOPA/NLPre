@@ -1,8 +1,11 @@
 from fabric.api import local
+
 exclude_command = "--exclude nlpre/spacy_models/"
+
 
 def test():
     local("nosetests --with-coverage --cover-package nlpre --cover-html")
+
 
 def lint():
     local(f"black -l 80 nlpre tests *.py {exclude_command}")
