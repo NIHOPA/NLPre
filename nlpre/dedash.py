@@ -16,6 +16,8 @@ class dedash:
     """
 
     def __init__(self):
+        print("INIT dedash")
+
         # Build an empty tokenizer
         self.nlp = spacy.blank("en")
 

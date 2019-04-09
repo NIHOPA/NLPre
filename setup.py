@@ -28,7 +28,6 @@ setuptools.setup(
         "spacy==2.1.0",
         # Fix the version of mysqlclient due to windows problems
         # "mysqlclient==1.3.12",
-
         # For parallel processing
         "joblib",
     ],

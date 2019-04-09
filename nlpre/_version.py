@@ -1,8 +1,9 @@
 # One canonical source for the version number,
 # Versions should comply with PEP440.
 
-__version__ = "2.0.4"
+__version__ = "2.1.0"
 
+# 2.1.0 Add presets: Grants
 # 2.0.4 Removed older dependencies (mysqlclient)
 # 2.0.3 Add dictionaries to manifest for pypi
 # 2.0.2 Fix manifest for pypi

@@ -13,7 +13,7 @@ class Generic_Preprocessing_Pipeline:
     pipeline = []
 
     def __call__(self, text):
-        
+
         for clf in self.pipeline:
             text = clf(text)
 
@@ -25,7 +25,7 @@ class Generic_Preprocessing_Pipeline:
         with joblib.Parallel(self.n_cores) as MP:
             output = MP(func(text) for text in text_list)
 
-        print(output[1])
+        return output
 
 
 class Grants(Generic_Preprocessing_Pipeline):
@@ -48,11 +48,11 @@ class Grants(Generic_Preprocessing_Pipeline):
         self.pipeline = [
             unidecoder(),
             dedash(),
-            titlecaps(),
-            replace_acronyms(suffix="ABBR"),
-            separated_parenthesis(min_keep_length=10),
-            replace_from_dictionary(dictionary.MeSH, suffix="_MeSH"),
-            token_replacement(remove=True),
-            decaps_text(),
-            pos_tokenizer(POS_BLACKLIST),
+            # titlecaps(),
+            # replace_acronyms(suffix="ABBR"),
+            # separated_parenthesis(min_keep_length=10),
+            # replace_from_dictionary(dictionary.MeSH, suffix="_MeSH"),
+            # token_replacement(remove=True),
+            # decaps_text(),
+            # pos_tokenizer(POS_BLACKLIST),
         ]
