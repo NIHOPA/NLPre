@@ -3,6 +3,7 @@
 
 __version__ = "2.1.0"
 
+# 2.1.1 Fixed non-functional Grants preset
 # 2.1.0 Add presets: Grants
 # 2.0.4 Removed older dependencies (mysqlclient)
 # 2.0.3 Add dictionaries to manifest for pypi

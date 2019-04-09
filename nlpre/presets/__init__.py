@@ -48,11 +48,11 @@ class Grants(Generic_Preprocessing_Pipeline):
         self.pipeline = [
             unidecoder(),
             dedash(),
-            # titlecaps(),
-            # replace_acronyms(suffix="ABBR"),
-            # separated_parenthesis(min_keep_length=10),
-            # replace_from_dictionary(dictionary.MeSH, suffix="_MeSH"),
-            # token_replacement(remove=True),
-            # decaps_text(),
-            # pos_tokenizer(POS_BLACKLIST),
+            titlecaps(),
+            replace_acronyms(suffix="ABBR"),
+            separated_parenthesis(min_keep_length=10),
+            replace_from_dictionary(dictionary.MeSH, suffix="_MeSH"),
+            token_replacement(remove=True),
+            decaps_text(),
+            pos_tokenizer(POS_BLACKLIST),
         ]
