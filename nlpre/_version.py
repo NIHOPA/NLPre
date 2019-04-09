@@ -1,7 +1,7 @@
 # One canonical source for the version number,
 # Versions should comply with PEP440.
 
-__version__ = "2.1.0"
+__version__ = "2.1.1"
 
 # 2.1.1 Fixed non-functional Grants preset
 # 2.1.0 Add presets: Grants
