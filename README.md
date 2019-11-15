@@ -82,23 +82,6 @@ nlpre.logger.setLevel(logging.INFO)
 | [**separate_reference**](nlpre/separate_reference.py) | Separates and optionally removes references that have been concatenated onto words. <br> `Key feature of interleukin-1 in Drosophila3-5 and elegans(7).`<br>`Key feature of interleukin-1 in Drosophila and elegans .` |
 | [**url_replacement**](nlpre/url_replacement.py) | Removes or replaces URLs <br> `The source code is [here](www.github.com/NIHOPA/NLPre/).`<br>`The source code is [here](LINK).` |
 
-### Parallel processing
-
-To run NLPre in parallel, simply create a small pipeline function and pass it to either multiprocessing or [`joblib`](https://github.com/joblib/joblib). For example, continuing from the example from above:
-
-```python
-from joblib import Parallel, delayed
-
-def pipeline(x):
-    for f in parsers:
-        x = f(x)
-    return x
-
-docs = [text,]*500
-with Parallel(-1) as MP:
-    print MP(delayed(pipeline)(x) for x in docs)
-```
-
 
 ## Citations and Acknowledgments
 
