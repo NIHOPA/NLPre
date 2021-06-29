@@ -85,6 +85,8 @@ nlpre.logger.setLevel(logging.INFO)
 
 ## Citations and Acknowledgments
 
++ Schimmel, Seth. [The Public Innovations Explorer: A Geo-Spatial & Linked-Data Visualization Platform For Publicly Funded Innovation Research In The United States.](https://academicworks.cuny.edu/gc_etds/4409/) Master's Thesis (2021) CUNY Academic Works. [Project page](https://github.com/sethsch/innovations-explorer)
+
 + He, Jian and Chaomei Chen. [Predictive Effects of Novelty Measured by Temporal Embeddings on the Growth of Scientific Literature.](https://www.frontiersin.org/articles/10.3389/frma.2018.00009/full) Frontiers in Research Metrics and Analytics, 3, 9. (2018).
 
 + He, Jian and Chaomei Chen. [Temporal Representations of Citations for Understanding the Changing Roles of Scientific Publications.](https://www.frontiersin.org/articles/10.3389/frma.2018.00027) Front. Res. Metr. Anal. (2018).
